@@ -9,7 +9,7 @@ jobs:
       # specify the version you desire here
       - image: circleci/openjdk:11-jdk
       
-    working_directory: ~/repo/backend
+    working_directory: ~/repo
 
     environment:
       # Customize the JVM maximum heap limit
@@ -18,6 +18,8 @@ jobs:
 
     steps:
       - checkout
+      
+      - run: cd backend
       
       - run: pwd
       
