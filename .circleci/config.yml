@@ -36,10 +36,6 @@ jobs:
       - checkout:
           path: ~/repo
       
-      - run: pwd
-      
-      - run: ls -ltr
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -56,17 +52,42 @@ jobs:
 
       # run tests!
       - run: gradle test
+      
+  build-backend:
+    docker:
+      # specify the version you desire here
+      - image: circleci/openjdk:11-jdk
+      
+    working_directory: ~/repo/backend
+
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
+    steps:
+    
+      - checkout:
+          path: ~/repo
+
+      # Build
+      - run: gradle build
 
 workflows:
  version: 2
- test-build-deploy:
+ checkout-test-build-deploy:
    jobs:
-     - checkout:
+    - checkout:
+       filters:
+         branches:
+           only:
+             - master
+     - test-backend:
          filters:
            branches:
              only:
                - master
-     - test-backend:
+     - build-backend:
          filters:
            branches:
              only:
