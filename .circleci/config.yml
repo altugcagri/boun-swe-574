@@ -32,6 +32,9 @@ jobs:
       TERM: dumb
 
     steps:
+    
+      - checkout:
+        path: ~/repo
       
       - run: pwd
       
