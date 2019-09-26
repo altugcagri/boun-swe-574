@@ -18,6 +18,10 @@ jobs:
 
     steps:
       - checkout
+      
+      - run: pwd
+      
+      - run: ls -ltr
 
       # Download and cache dependencies
       - restore_cache:
