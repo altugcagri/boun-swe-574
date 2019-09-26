@@ -19,7 +19,7 @@ jobs:
     steps:
       - checkout
       
-      - run: cd backend
+      - run: cd ./backend
       
       - run: pwd
       
