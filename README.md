@@ -1,4 +1,4 @@
-# boun-swe-574
+# Bogazici University SWE-574
 
 [![CircleCI](https://circleci.com/gh/altugcagri/boun-swe-574/tree/master.svg?style=svg)](https://circleci.com/gh/altugcagri/boun-swe-574/tree/master)
 
