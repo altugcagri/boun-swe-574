@@ -34,7 +34,7 @@ jobs:
     steps:
     
       - checkout:
-        path: ~/repo
+          path: ~/repo
       
       - run: pwd
       
