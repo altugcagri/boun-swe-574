@@ -77,11 +77,11 @@ workflows:
  version: 2
  checkout-test-build-deploy:
    jobs:
-    - checkout:
-       filters:
-         branches:
-           only:
-             - master
+     - checkout:
+         filters:
+           branches:
+             only:
+               - master
      - test-backend:
          filters:
            branches:
