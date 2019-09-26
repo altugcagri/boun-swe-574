@@ -61,11 +61,15 @@ workflows:
              only:
                - master
      - test-backend:
+         requires:
+           - checkout
          filters:
            branches:
              only:
                - master
      - build-backend:
+         requires:
+           - test-backend
          filters:
            branches:
              only:
