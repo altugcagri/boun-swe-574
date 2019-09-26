@@ -4,12 +4,12 @@
 #
 version: 2
 jobs:
-  build:
+  test-backend:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:11-jdk
       
-    working_directory: ~/repo
+    working_directory: ~/repo/backend
 
     environment:
       # Customize the JVM maximum heap limit
@@ -35,3 +35,13 @@ jobs:
 
       # run tests!
       - run: gradle test
+
+workflows:
+ version: 2
+ test-build-deploy:
+   jobs:
+     - test-backend:
+         filters:
+           branches:
+             only:
+               - master
