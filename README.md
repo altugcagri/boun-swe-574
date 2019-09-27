@@ -2,6 +2,8 @@
 
 [![CircleCI](https://circleci.com/gh/altugcagri/boun-swe-574/tree/master.svg?style=svg)](https://circleci.com/gh/altugcagri/boun-swe-574/tree/master)
 
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=altugcagri_boun-swe-574)](https://sonarcloud.io/dashboard?id=altugcagri_boun-swe-574)
+
 
 # Bespoke
                                       Boğaziçi University Software Engineering Department
