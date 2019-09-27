@@ -54,6 +54,22 @@ jobs:
       # Build
       - run: gradle build
 
+      - run:
+          name: Build image
+          command: |
+            docker build -t bespokeimage .
+            
+      - run:
+          name: Save image to an archive
+          command: |
+            mkdir docker-image
+            docker save -o docker-image/image.tar bespokeimage
+            
+      - persist_to_workspace:
+          root: .
+          paths:
+            - docker-image
+
 workflows:
  version: 2
  checkout-test-build-deploy:
