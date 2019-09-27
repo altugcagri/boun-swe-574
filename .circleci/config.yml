@@ -42,7 +42,6 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
       # run tests!
       - run: gradle test
-
       # send sonar!
       - run: gradle test sonarqube -Dsonar.analysis.mode=publish -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.organization=${SONAR_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=${SONAR_LOGIN}
       
@@ -55,18 +54,15 @@ jobs:
           docker_layer_caching: true
       # Build
       - run: gradle build
-
       - run:
           name: Build image
           command: |
-            docker build -t bespokeimage .
-            
+            docker build -t bespokeimage .    
       - run:
           name: Save image to an archive
           command: |
             mkdir docker-image
-            docker save -o docker-image/image.tar bespokeimage
-            
+            docker save -o docker-image/image.tar bespokeimage     
       - persist_to_workspace:
           root: .
           paths:
