@@ -1,0 +1,57 @@
+{
+  "name": "bespoke",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "axios": "^0.19.0",
+    "body-scroll-lock": "^2.6.4",
+    "html-react-parser": "^0.7.0",
+    "js-cookie": "^2.2.0",
+    "lodash": "^4.17.15",
+    "node-sass": "^4.11.0",
+    "query-string": "^6.5.0",
+    "bootstrap": "^4.3.1",
+    "formik": "^1.5.3",
+    "react-bootstrap": "^1.0.0-beta.6",
+    "wikidata-sdk": "^6.4.0",
+    "wow.js": "^1.2.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.17",
+    "@fortawesome/free-solid-svg-icons": "^5.8.1",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "react": "^16.8.6",
+    "react-avatar-editor": "^11.0.7",
+    "react-cookie-consent": "^2.3.2",
+    "react-dom": "^16.8.6",
+    "react-dropzone": "^10.1.5",
+    "react-facebook-login": "^4.1.1",
+    "react-google-login": "^5.0.4",
+    "react-inlinesvg": "^0.8.4",
+    "react-input-mask": "^2.0.4",
+    "react-redux": "^7.0.2",
+    "react-remove-scroll": "^2.0.4",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "2.1.8",
+    "react-scrollbars-custom": "^4.0.12",
+    "react-select": "^2.4.3",
+    "redux": "^4.0.1",
+    "sitemap": "^3.2.2",
+    "swiper": "^4.5.0",
+    "urijs": "^1.19.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

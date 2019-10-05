@@ -1,0 +1,248 @@
+.modal-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 50;
+
+	.modal-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba($color-black,.6);
+		opacity: 0;
+		transition: opacity 300ms ease 200ms;
+		z-index: 1;
+	}
+
+	.modal-outerwrap {
+		position: absolute;
+		z-index: 2;
+		top: 0;
+		left: 0;
+		overflow: auto;
+		overflow-x: hidden;
+		overflow-y: auto;
+		width: 100%;
+		height: 100%;
+		-webkit-backface-visibility: hidden;
+	}
+
+	.modal-content {
+		position: relative;
+		margin: 10vh auto 5rem;
+		background-color: $color-white;
+		border-radius: $radius-general;
+		max-width: calc(100% - 10rem);
+		width: 90rem;
+		box-shadow: $shadow-general;
+		opacity: 0;
+		z-index: 2;
+		transform: translateY(-1.5rem);
+		transition: opacity $transition-anim ease, transform $transition-anim-fast ease;
+		-webkit-backface-visibility: hidden;
+
+		@include media {
+			margin: 5vh auto 5rem;
+			max-width: calc(100% - 3rem);
+		}
+	}
+
+	.modal-innercontent {
+		padding: 2.6rem 2rem 2rem;
+
+		@include media {
+			//padding: 2 1rem;	
+		}
+	}
+	
+	.modal-closebtn {
+		position: absolute;
+		z-index: 50;
+		top: 1.4rem;
+		right: 1.4rem;
+		color: $color-text-negative;
+		background-color: $color-text;
+		width: 2.4rem;
+		height: 2.4rem;
+		border-radius: 50%;
+		font-size: .8rem;
+		transition: color $transition-hover ease, background-color $transition-hover ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		@include media {
+			font-size: 1.5rem;
+		}
+
+		&:hover, &:active {
+			color: $color-text;
+			background-color: $color-gray-light;
+		}
+	}
+
+	/*.modal-loader {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 40;
+		background-color: $color-gray-light;
+		opacity: 0;
+		transition: opacity $transition-hover ease;
+		border-radius: $radius-general;
+
+		i {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: $color-gray;
+			font-size: 3rem;
+		}
+
+		&.show {
+			opacity: 1;
+		}
+	}*/
+
+	&.show {
+		.modal-overlay {
+			opacity: 1;
+			transition: opacity $transition-anim-fast ease;
+		}
+
+		.modal-content {
+			opacity: 1;
+			transform: translateY(0);
+			transition: opacity $transition-anim-fast ease $transition-hover, transform $transition-anim-fast ease $transition-hover;
+		}
+	}
+
+	&.narrow {
+		.modal-content {
+			width: 50rem;
+		}
+	}
+}
+
+.modalHeadContent{
+	position: relative;
+	height: 60px;
+	img{
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	div{
+		position: absolute;
+		top: 13px;	
+		right: 0;
+		font-size: 20px;
+		font-weight: 600;
+		font-style: normal;
+	}
+	&:after{
+		content: "";
+		clear:both;
+	}
+}
+.modal-innercontent{
+	p{
+		font-size: 16px;
+		color: #161d4c;
+	}
+	.form-submitbtn.full-width{
+		width: 100%;
+	}
+	.info-credit-results{
+		background-color: $color-gray-light;
+		border-radius: $radius-general;
+		border: solid 1px #ebebf3;
+		margin-top: 1.2rem;
+		margin-bottom: 3.7rem;
+		.tablePad{
+			padding-right: 15px; 
+			padding-left: 15px; 
+			border-right: 1px solid #d5d5e3; 
+			border-left: 1px solid #d5d5e3;
+		}
+		.tablePadLeft{
+			padding-right: 15px; 
+			padding-left: 15px; 
+			border-left: 1px solid #d5d5e3;
+		}
+		
+		th{
+			background-color: #ebebf3 !important;
+			&:nth-child(1){
+				width: 16rem; 
+				padding-right: 0.5rem;
+			}
+			&:nth-child(2){
+				width: 8rem;
+				padding-right: 0.5rem; 
+				padding-left: 0.5rem;
+			}
+			&:nth-child(3){
+				padding-right: 0.5rem; 
+				padding-left: 1rem;
+			}
+			&:nth-child(4){
+				padding-right: 0.5rem; 
+				padding-left: 1rem;
+			}
+		}
+		td{
+			&:nth-child(1){
+				min-width: 10rem;
+				@include media{
+					min-width: 11rem;
+				}
+				padding-top: 20px;
+				padding-bottom: 20px;
+				padding-right: 0.5rem;
+			}
+			&:nth-child(2){
+				padding-top: 20px;
+				padding-bottom: 20px;
+				width: 10rem; 
+				padding-right: 0.5rem; 
+				padding-left: 0.5rem;
+			}
+			&:nth-child(3){
+				padding-top: 20px;
+				padding-bottom: 20px;
+				padding-right: 0.5rem; 
+				padding-left: 1rem;
+			}
+			&:nth-child(4){
+				padding-top: 20px;
+				padding-bottom: 20px;
+				padding-right: 0.5rem; 
+				padding-left: 1rem;
+			}
+			button{
+				padding: 11px 11px;
+				@include media{
+					span.btn-content{
+						font-size: 1.8rem;
+					}
+				}	
+			}
+		}
+		
+	}
+}
+.modal-innercontent.left-align{
+	text-align: left;
+}
+
+.form-field.small-font{
+	font-size: 14px;
+}

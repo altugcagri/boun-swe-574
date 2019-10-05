@@ -1,0 +1,433 @@
+.inputwrap {
+	display: block;
+	position: relative;
+	touch-action: manipulation;
+
+	input[type='file'] + label,
+	select + label,
+	> input,
+	textarea,
+	.input-uploadlabel {
+		@include font-main;
+		@include font-medium;
+		border: 0.1rem solid $color-ice;
+		color: $color-text;
+		border-radius: $radius-general;
+		padding: 10px 10px;
+		
+		
+		width: 100%;
+		min-width: 100%;
+		max-width: 100%;
+		display: block;
+		transition: color $transition-hover ease, border-color $transition-hover ease;
+		background-color: $color-white;
+		touch-action: manipulation;
+
+		&:focus {
+			border-color: $color-blue;
+		}
+
+		@include placeholder() {
+			color: rgba($color-text, .5);
+			transition: color $transition-hover ease;
+		}
+	}
+
+	// States
+
+	&.error {
+		> input[type='text'],
+		input[type='password'],
+		input[type='email'],
+		input[type='file'] + label,
+		textarea {
+			border-color: $color-error;
+		}
+
+		.minoto-select{
+			.minoto-select__control{
+				border-color: $color-error;
+			}
+		}
+	}
+
+	&.disabled {
+		opacity: .6;
+	}
+
+	&.input-full {
+
+		&.pop-label {
+			.input-label {
+				opacity: 1;
+				transform: translate3d(0, 0, 0);
+				pointer-events: auto;
+			}
+		}
+	}
+
+	&.no-select {
+		.checkwrap{
+			input {
+				+ label {
+					user-select: none;
+				}
+			}
+		}
+	}
+
+	&.pop-label {
+		.input-label {
+			position: absolute;
+			z-index: 2;
+			display: inline-block;
+			left: 0.7rem;
+			bottom: calc(100% - 1rem);
+			
+			
+			background-color: $color-white;
+			padding: 0.2rem 0.8rem;
+			margin-bottom: 0;
+			border-radius: $radius-general;
+			opacity: 0;
+			pointer-events: none;
+			transform: translate3d(0, 0.3rem, 0);
+			transition: transform $transition-hover ease, opacity $transition-hover ease;
+			touch-action: manipulation;
+		}
+	}
+
+	.input-label {
+		@include font-regular;
+		display: block;
+		
+		
+		margin-bottom: 0rem;
+		color: $color-text-light;
+	}
+
+	.input-error {
+		@include font-regular;
+		
+		
+		margin-top: 0.5rem;
+		color: $color-error;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		text-align: left;
+		//padding-bottom: .9rem;
+	}
+
+	.input-icon {
+		position: absolute;
+		
+		color: rgba($color-text, .4);
+		top: 2.3rem;
+		left: 1.7rem;
+		transform: translateY(-50%);
+		pointer-events: none;
+	}
+
+	.input-info {
+		position: absolute;
+		top: 2.3rem;
+		right: 1.1rem;
+		color: rgba($color-text, .5);
+		transform: translate3d(0, -50%, 0);
+		
+		
+
+		.popinfo-content {
+			min-width: 20rem;
+		}
+	}
+
+
+
+	&.type-file {
+		input + label {
+			cursor: pointer;
+			color: $color-gray;
+			cursor: pointer;
+			text-overflow: ellipsis;
+			overflow: hidden;
+
+			padding-left: 5.7rem;
+		}
+
+		&.input-full {
+			input + label {
+				color: $color-blue;
+			}
+
+			.input-icon {
+				color: $color-blue;
+			}
+		}
+
+		input[type='file'] {
+			pointer-events: none;
+			touch-action: manipulation;
+			opacity: 0;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 2rem;
+			height: 2rem;
+		}
+
+		.input-icon {
+			left: 1.5rem;
+			
+			color: $color-gray;
+		}
+	}
+
+	&.type-date {
+		input {
+			padding-right: 5rem;
+			touch-action: manipulation;
+		}
+
+		.input-icon {
+			right: 2rem;
+		}
+	}
+
+	&.type-checkbox {
+		.checkwrap {
+			@include font-medium;
+			position: relative;
+
+			input {
+				opacity: 0;
+				position: absolute;
+				left: 0;
+				top: 0;
+				pointer-events: none;
+
+				&:checked {
+					+ label{
+						color: $color-primary;
+
+						> span{
+							background-color: $color-primary;
+							border-color: $color-primary;
+							&:before {
+								opacity: 1;
+							}
+						}
+					}
+				}
+
+				+ label {
+					display: inline-block;
+					position: relative;
+					
+					letter-spacing: -0.015em;
+					padding: .2rem 0 .4rem 2.8rem;
+					
+					cursor: pointer;
+					transition: color $transition-hover ease;
+
+					> span {
+						position: absolute;
+						top: 50%;
+						left: 0;
+						width: 1.8rem;
+						height: 1.8rem;
+						display: inline-block;
+						border: 0.1rem solid $color-text;
+						vertical-align: middle;
+						cursor: pointer;
+						transform: translate3d(0, -50%, 0);
+						transition: border-color $transition-hover ease, background-color $transition-hover ease;
+
+						&:before {
+							@include icon('check');
+							display: block;
+							
+							position: absolute;
+							top: 55%;
+							left: 53%;
+							transform: translate(-50%, -50%);
+							color: $color-text-negative;
+							opacity: 0;
+							transition: opacity $transition-hover ease;
+						}
+					}
+
+					.check-link {
+						color: $color-primary;
+					}
+
+				}
+			}
+		}
+	}
+
+	&.type-image {
+		.input-uploadlabel {
+			/*display: block;
+			width: 100%;*/
+			position: relative;
+			color: $color-text-light;
+			cursor: pointer;
+			border-style: dashed;
+			
+
+			> input {
+				opacity: 0;
+				position: absolute;
+				top: 0;
+				left: 0;
+				pointer-events: none;
+			}
+		}
+
+
+
+			.editorwrap-previewwrap {
+				position: relative;
+				width: 100%;
+				padding-bottom: 100%;
+				background-color: $color-gray;
+			}
+
+			.editorwrap-preview {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%!important;
+				height: 100%!important;
+				display: block;
+			}
+
+			.editorwrap-zoom {
+				width: 100%;
+				margin: 2rem 0;
+				display: block;
+			}
+	}
+
+	/// Styles
+	&.dark {
+		input[type='file'] + label, select + label, input, textarea{
+			background-color: $color-gray-light;
+		}
+
+		.minoto-select{
+			.minoto-select__control {
+				background-color: $color-gray-light;
+				border-color: $color-gray-light;
+			}
+		}
+	}
+
+	&.high {
+		input[type='file'] + label,
+		select + label,
+		> input,
+		textarea{
+			padding-top: 1.5rem;
+			padding-bottom: 1.5rem;
+		}
+
+		.input-icon {
+			top: 2.5rem;
+		}
+
+		.input-info {
+			top: 2.5rem;
+		}
+	}
+
+	&.has-icon {
+		input[type='text'],
+		input[type='password'],
+		input[type='email'],
+		input[type='file'] + label,
+		textarea {
+			padding-left: 5.2rem;
+		}
+	}
+}
+
+.fileContainer {
+    overflow: hidden;
+	position: relative;
+	border: 1px dashed #cdcdcd;
+	padding: 20px;
+	color: #cdcdcd;
+}
+
+.fileContainer [type=file] {
+    cursor: pointer;
+    display: block;
+    filter: alpha(opacity=0);
+    min-height: 100%;
+    min-width: 100%;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+	text-align: right;
+    top: 0;
+}
+/*
+@include media() {
+	.inputwrap {
+		input[type='file'] + label,
+		select + label,
+		input,
+		textarea {
+			
+			padding: 1.4rem 1.8rem;
+			
+			border-radius: $radius-general-mobile;
+		}
+
+		.input-icon {
+			top: 2.2rem;
+			
+		}
+
+		// Types
+
+		&.type-file {
+			input + label {
+				padding-left: 5rem;
+			}
+
+			.input-icon {
+				left: 1.8rem;
+				
+			}
+		}
+
+		&.type-select{
+			select{
+				height: 4.7rem;
+				
+				+ label {
+					&:before{
+						
+					}
+				}
+			}
+		}
+
+		&.type-date {
+			.input-icon {
+				right: 1.8rem;
+			}
+		}
+
+		&.textwrap{
+			padding: 1.5rem 0;
+			
+			
+		}
+	}
+}*/

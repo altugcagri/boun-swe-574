@@ -1,0 +1,19 @@
+.modal-container.modal-login{
+
+	.modal-closebtn {
+		background-color: transparent;
+		color: $color-text-light;
+	}
+
+	.modal-content {
+		width: 42rem;
+	}
+
+	.modal-innercontent {
+		padding: 3.9rem 3rem 3rem;
+
+		@include media {
+			padding: 3rem 2rem;
+		}
+	}
+}

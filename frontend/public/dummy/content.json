@@ -1,0 +1,40 @@
+{
+    "status": "ok",
+    "id": 1,
+    "text": "<p>CSS üçe ayrılır:</p>↵<p><br></p>↵<ul>↵  <li>C</li>↵  <li>C</li>↵  <li>S</li>↵</ul>",
+    "title": "CSS'e Giriş",
+    "topicId": 1,
+    "topicTitle": "CSS ile kodlama",
+    "questions": [
+        {
+            "createdAt": "2019-05-15T10:21:36.104Z",
+            "createdBy": 1,
+            "id": 1,
+            "text": "CSS Kaça Ayrılır?",
+            "updatedAt": "2019-05-15T10:21:36.104Z",
+            "choiceList": [
+                {
+                    "createdAt": "2019-05-15T10:21:41.944Z",
+                    "createdBy": 1,
+                    "id": 1,
+                    "isCorrect": false,
+                    "text": "C"
+                },
+                {
+                    "createdAt": "2019-05-15T10:21:41.944Z",
+                    "createdBy": 1,
+                    "id": 1,
+                    "isCorrect": false,
+                    "text": "C"
+                },
+                {
+                    "createdAt": "2019-05-15T10:21:41.944Z",
+                    "createdBy": 1,
+                    "id": 1,
+                    "isCorrect": true,
+                    "text": "S"
+                }
+            ]
+        }
+    ]
+}

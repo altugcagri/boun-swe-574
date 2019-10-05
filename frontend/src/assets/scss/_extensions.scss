@@ -1,0 +1,64 @@
+%absolute {
+	position: absolute;
+}
+
+%relative {
+	position: relative;
+}
+
+%static {
+	position: static;
+}
+
+%fixed {
+	position: fixed;
+}
+
+%float-left {
+	float: left;
+}
+
+%float-right {
+	float: right;
+}
+
+%float-none {
+	float: none;
+}
+
+%pseudo{
+	content: ' ';
+	overflow: hidden;
+	display: block;
+}
+
+@mixin pseudo{
+	content: ' ';
+	overflow: hidden;
+	display: block;
+}
+
+// Public Extensions
+.clear {
+	&:after {
+		content: '';
+		display: block;
+		clear: both;
+		height: 0;
+		overflow: hidden;
+	}
+}
+
+.only-mobile{
+	display: none;
+}
+
+@include media {
+	.only-web{
+		display: none;
+	}
+
+	.only-mobile{
+		display: block;
+	}
+}
