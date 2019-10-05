@@ -36,6 +36,13 @@ module.exports = {
 			linkTitle: "FAQ",
 			title: "FAQ",
 		},
+		explore: {
+			path: '/explore',
+			component: "Glossary",
+			exact: true,
+			linkTitle: "Explore",
+			title: "Explore",
+		},
 		notfound: {
 			path: false,
 			component: "NotFound",

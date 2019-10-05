@@ -47,7 +47,7 @@ export default class Home extends React.Component {
 					<div className="container">
 						<div className="row align-items-center">
 							<div className="col-md-6">
-								<h4 className="mt-5 mb-5 wow fadeIn" data-wow-delay="0.2s">Find your <strong className="strong">passion</strong></h4>
+								<h4 className="mt-5 mb-5 wow serif font-30 fadeIn" data-wow-delay="0.2s">Find your <strong className="strong">passion</strong></h4>
 								<p className="wow fadeIn" data-wow-delay="0.4s">
 									Bespkoe is a free-to-use knowledge sharing platform. Find your path and start learning. Do not worry about the achievements or your grades, just learn for yourself.
                                 <br /><br />
@@ -70,7 +70,7 @@ export default class Home extends React.Component {
 							</div>
 							<div className="col-md-1"></div>
 							<div className="col-md-6">
-								<h4 className="mt-5 mb-5 wow fadeIn" data-wow-delay="0.2s">Polish & share your <strong className="strong">knowledge</strong></h4>
+								<h4 className="mt-5 mb-5 wow serif font-30 fadeIn" data-wow-delay="0.2s">Polish & share your <strong className="strong">knowledge</strong></h4>
 								<p className="wow fadeIn" data-wow-delay="0.4s">
 									Be the mentor you once needed. Learn from others, explore new worlds. And vice versa; tell what's on your mind, help others to polish their knowledge.
                                     <br /><br />
@@ -84,16 +84,16 @@ export default class Home extends React.Component {
 				<div className="sectionPadding preFooter">
 					<div className="container">
 						<div className="row">
-							<div className="col-md-12 text-center">
+							<div className="col-md-10 offset-md-1 text-center">
 
-								<h3 className="serif wow fadeIn" data-wow-delay="0.7s" style={{ fontSize: '34px' }}>About</h3>
+								<h3 className="serif wow fadeIn" data-wow-delay="0.7s" style={{ fontSize: '34px' }}>About Bespoke</h3>
 								<br />
 								<p className="wow fadeIn" data-wow-delay="0.9s">Bespoke is an open source project built in Bogazici University in 2019.
                                 <br />
 									Here in Bespoke, we believe in knowledge. We also know how frustrating it is to follow online videos,
                                     toggle between many different e-learning platforms, etc.
                                     <br /><br />
-									That's why Bespoke is not just an e-learning platform, but a self-larning platform.
+									That's why Bespoke is not just an e-learning platform, but a <strong>self-learning</strong> platform.
                                     <br /><br />
 								</p>
 							</div>

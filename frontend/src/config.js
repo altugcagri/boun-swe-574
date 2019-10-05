@@ -1,3 +1,14 @@
+export const API_BASE_URL = 'http://52.58.234.135:8080/api';
+//export const API_BASE_URL = 'http://192.168.1.40:8080/api';
+export const ACCESS_TOKEN = 'accessToken';
+
+export const REQUEST_HEADERS = {
+	headers: {
+		'content-type': 'application/json',
+		'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)
+	}
+}
+
 let domain = window.location.hostname
 
 let endpoint = process.env.REACT_APP_API_ENDPOINT ? process.env.REACT_APP_API_ENDPOINT : false;

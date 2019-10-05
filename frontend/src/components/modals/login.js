@@ -3,8 +3,6 @@ import React from 'react'
 // Partials
 import LoginForm from 'components/partials/form-login'
 
-// Deps
-
 export default class LoginModal extends React.Component {
 	render() {
 		let vm = this;

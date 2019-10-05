@@ -8,13 +8,11 @@ import { closeModal } from 'functions/modals'
 import parse from 'html-react-parser'
 import extend from 'lodash/extend'
 
-// Assets
-
 export default class OptionsModal extends React.Component {
 	optionClick(opt) {
-		if(opt.onClick){
+		if (opt.onClick) {
 			opt.onClick();
-			if(opt.closeOnClick){
+			if (opt.closeOnClick) {
 				closeModal();
 			}
 		}
@@ -28,24 +26,24 @@ export default class OptionsModal extends React.Component {
 		return (
 			<div className={vm.props.className}>
 				<div className="modal-innercontent">
-					{vm.props.title && 
+					{vm.props.title &&
 						<h1 className="options-title">{vm.props.title}</h1>
-					}{vm.props.question && 
+					}{vm.props.question &&
 						<div className={"options-question" + (vm.props.wysiwyg ? ' wysiwyg' : '')}>{parse(vm.props.question.replace(/(?:\r\n|\r|\n)/g, '<br />'))}</div>
 					}
 
 					<div className="options-opts">
-					{vm.props.opts.map((opt, nth) => {
-						let optDefaults = {
-							onClick: false,
-							className: 'dark',
-							closeOnClick: true,
-						}
-						opt = extend({}, optDefaults, opt);
-						return (
-							<Btn key={nth} className={'opts-item ' + opt.className} onClick={() => {vm.optionClick(opt)}}>{opt.text}</Btn>
-						)
-					})}
+						{vm.props.opts.map((opt, nth) => {
+							let optDefaults = {
+								onClick: false,
+								className: 'dark',
+								closeOnClick: true,
+							}
+							opt = extend({}, optDefaults, opt);
+							return (
+								<Btn key={nth} className={'opts-item ' + opt.className} onClick={() => { vm.optionClick(opt) }}>{opt.text}</Btn>
+							)
+						})}
 					</div>
 				</div>
 			</div>

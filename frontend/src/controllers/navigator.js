@@ -15,6 +15,7 @@ import ModalsWrap from 'controllers/modals-wrap'
 // Deps
 import { Route, matchPath, Switch, Redirect } from 'react-router-dom'
 import history from 'controllers/history'
+import 'toasted-notes/src/styles.css';
 import { setTitle, setMeta, setHead, setDescription } from 'controllers/head'
 import routes from 'data/routes'
 import store from "data/store";
@@ -25,6 +26,7 @@ import { connect } from "react-redux";
 
 // Pages
 import Home from 'pages/home'
+import Glossary from 'pages/glossary'
 import Faq from 'pages/faq'
 import NotFound from 'pages/notfound'
 
@@ -32,6 +34,7 @@ const pageRegistry = {
 	Home: Home,
 	NotFound: NotFound,
 	Faq: Faq,
+	Glossary: Glossary
 }
 
 const mapStateToProps = state => {

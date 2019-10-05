@@ -1,18 +1,14 @@
 import React from 'react'
 
-// Partials
-
 // Deps
 import { closeModal } from 'functions/modals'
 import parse from 'html-react-parser'
 
-// Assets
-
 export default class TextModal extends React.Component {
 	optionClick(opt) {
-		if(opt.onClick){
+		if (opt.onClick) {
 			opt.onClick();
-			if(opt.closeOnClick){
+			if (opt.closeOnClick) {
 				closeModal();
 			}
 		}

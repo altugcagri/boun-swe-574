@@ -13,8 +13,9 @@
     margin-bottom: 0;
 }
 .preFooter{
-    border-top: 1px solid #f2f2f2;
-    background-color: #faeece;
+    border-top: 1px solid #ececec;
+    background-color: rgba($color-bg-alt, 1);
+    
 }
 .myFooter svg{
     display: inline-block;

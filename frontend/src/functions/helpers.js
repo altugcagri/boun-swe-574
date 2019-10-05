@@ -1,6 +1,47 @@
 import extend from "lodash/extend"
-import { storagePath, apiBase } from "../config"
+import { storagePath, apiBase, API_BASE_URL } from "../config"
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
+import endpoints from "./endpoints.json";
+
+export function formatDate(dateString) {
+	const date = new Date(dateString);
+
+	const monthNames = [
+		"January", "February", "March",
+		"April", "May", "June", "July",
+		"August", "September", "October",
+		"November", "December"
+	];
+
+	const monthIndex = date.getMonth();
+	const year = date.getFullYear();
+
+	return monthNames[monthIndex] + ' ' + year;
+}
+
+export function formatDateTime(dateTimeString) {
+	const date = new Date(dateTimeString);
+
+	const monthNames = [
+		"Jan", "Feb", "Mar", "Apr",
+		"May", "Jun", "Jul", "Aug",
+		"Sep", "Oct", "Nov", "Dec"
+	];
+
+	const monthIndex = date.getMonth();
+	const year = date.getFullYear();
+
+	return date.getDate() + ' ' + monthNames[monthIndex] + ' ' + year + ' - ' + date.getHours() + ':' + date.getMinutes();
+}
+
+export function resolveEndpoint(key, slugs = {}) {
+	let finalUrl = endpoints[key];
+	if (slugs.length) {
+		for (let i = 0; i < slugs.length; i++)
+			finalUrl = finalUrl.replace(`[slug${i + 1}]`, slugs[i][`slug${i + 1}`])
+	}
+	return API_BASE_URL + `${finalUrl}`;;
+}
 
 export function scrollTo(inputOpts, endFunction = false) {
 	let defaultOpts = {
@@ -258,7 +299,7 @@ export function storageSpace(folder, file) {
 	if (file === '' || file === null) {
 		return false;
 	}
-	if (storagePath === 'https://res.cloudinary.com/minoto/image/upload/') {
+	if (storagePath === 'https://res.cloudinary.com') {
 		return `${storagePath}${folder}/${file}${file.substring(file.length - 4)}`;
 	}
 	return `${storagePath}${folder}/${file}`;
@@ -316,41 +357,3 @@ export function seoFriendlyUrl(string) {
 	return string.trimRight('-').toLowerCase();
 
 }
-
-export function nextRandomPage(count, alreadyUsed) {
-	let pageCount = 1;
-	if (count > 24) {
-		pageCount = Math.floor(count / 24) + 1;
-	}
-
-	let pickedPage = Math.ceil(Math.random() * pageCount);
-
-	if (pickedPage === 0) pickedPage = 1
-
-	if (alreadyUsed.indexOf(pickedPage) > -1 && pageCount > alreadyUsed.length) {
-		return nextRandomPage(count, alreadyUsed);
-	} else if (alreadyUsed.indexOf(pickedPage) > -1) {
-		return false;
-	} else {
-		alreadyUsed.push(pickedPage);
-
-		return { alreadyUsed: alreadyUsed, pickedPage: pickedPage }
-	}
-
-}
-
-export function turkishSort(a, b) {
-	var atitle = a.title;
-	var btitle = b.title;
-	var alfabe = "AaBbCcÇçDdEeFfGgĞğHhIıİiJjKkLlMmNnOoÖöPpQqRrSsŞşTtUuÜüVvWwXxYyZz0123456789";
-	if (atitle.length === 0 || btitle.length === 0) {
-		return atitle.length - btitle.length;
-	}
-	for (var i = 0; i < atitle.length && i < btitle.length; i++) {
-		var ai = alfabe.indexOf(atitle[i]);
-		var bi = alfabe.indexOf(btitle[i]);
-		if (ai !== bi) {
-			return ai - bi;
-		}
-	}
-} 

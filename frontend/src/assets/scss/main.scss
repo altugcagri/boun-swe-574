@@ -95,7 +95,7 @@
 
 
 .bg-alt{
-    background: #f8fbfe;
+    background: $color-bg-alt;
 }
 
 .sectionPadding{
@@ -427,6 +427,7 @@ a.text-orange:hover, a.text-orange:active, a.text-orange:focus{
     left: 0;
     right: 0;
     padding: 100px 0;
+    height: 100vh;
 }
 
 .font-white-important{

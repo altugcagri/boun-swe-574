@@ -3,6 +3,7 @@ import store from "data/store"
 import request from 'controllers/request'
 import { serializeArray } from 'functions/helpers'
 import { redirect } from 'controllers/navigator'
+import { ACCESS_TOKEN } from '../config';
 
 const initialState = {
 	token: false,
@@ -46,12 +47,6 @@ function setToken(data) {
 	};
 }
 
-function setUnreadMessageCount(data) {
-	return {
-		type: 'SET_UNREAD_MESSAGE_COUNT',
-		payload: data
-	};
-}
 
 // Functions
 export function checkLoginStatus(endFunction = false) {
@@ -96,7 +91,7 @@ export function login(form, finalFunction = false) {
 	request.post('user/login', serializeArray(form), function (payload) {
 		if (payload && payload.success) {
 			updateUserData(payload);
-
+			localStorage.setItem(ACCESS_TOKEN, payload.accessToken);
 			if (finalFunction) {
 				finalFunction(extend({}, payload, { message: "Giriş Başarılı" }));
 			}
@@ -110,23 +105,6 @@ export function login(form, finalFunction = false) {
 	})
 }
 
-export function socialLogin(form, type, finalFunction = false) {
-	request.post(`user/social-login/${type}`, form, function (payload) {
-		if (payload && payload.success) {
-			updateUserData(payload);
-
-			if (finalFunction) {
-				finalFunction(extend({}, payload, { message: "Giriş Başarılı" }));
-			}
-		}
-		else {
-			logout(true);
-			if (finalFunction) {
-				finalFunction(payload);
-			}
-		}
-	})
-}
 
 export function register(form, finalFunction = false) {
 	request.post('user/register', serializeArray(form), function (payload) {
@@ -179,23 +157,17 @@ export function updateUserToken(token) {
 	if (localStorage["appState"]) {
 		let appState = JSON.parse(localStorage["appState"]);
 
-		if(appState.isLoggedIn){
+		if (appState.isLoggedIn) {
 			appState.authToken = token;
 
 			store.dispatch(setToken(token));
 			localStorage["appState"] = JSON.stringify(appState);
 
-			checkLoginStatus(function(data){
-				if(!data){
+			checkLoginStatus(function (data) {
+				if (!data) {
 					logout(true);
 				}
 			});
 		}
 	}
-}
-
-export function getUnreadMessageCount(getData) {
-	request.get('messages/check-messages', null, function (payload, status, data) {
-		store.dispatch(setUnreadMessageCount(payload ? payload.length : 0));
-	});
 }
