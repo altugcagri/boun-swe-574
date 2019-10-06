@@ -4,9 +4,49 @@ import image_2 from 'assets/images/improve2.jpg'
 import { Link } from "react-router-dom";
 import page_banner from "assets/images/banner_1.jpg"
 import bespoke_seperator from "assets/images/bespoke-icon.png"
+import activityStream from "activitystrea.ms"
 
 export default class Home extends React.Component {
+	componentDidMount() {
+		/* activityStream.object()
+			.name('baz')
+			.content(activityStream.langmap().set('en', 'bar').set('fr', 'foo'))
+			.publishedNow()
+			.prettyWrite((err, doc) => {
+				if (err) throw err;
+				console.log(doc);
+			}); */
 
+		activityStream.add()
+			.summary("Martin added an article to his blog")
+			.actor(
+				activityStream.person()
+					.set('name', 'Martin Smith')
+					.set('url', 'http://example.org/martin')
+					.image(
+						activityStream.link()
+							.set('href', 'http://example.org/martin/image.jpg')
+							.set('mediaType', 'image/jpeg')
+					)
+					.id("http://www.test.example/martin")
+			)
+			.object(
+				activityStream.article()
+					.id("http://www.test.example/blog/abc123/xyz")
+					.set('name', 'Why I love Activity Streams')
+					.set("url", "http://example.org/blog/2011/02/entry")
+			)
+			.set('url', 'http://example.org/blog/2011/02/entry')
+			.target(
+				activityStream.orderedCollection()
+					.set("name", "Martin's Blog")
+			)
+			.publishedNow()
+			.prettyWrite((err, doc) => {
+				if (err) throw err;
+				console.log(doc);
+			});
+	}
 	render() {
 		return (
 			<React.Fragment>
