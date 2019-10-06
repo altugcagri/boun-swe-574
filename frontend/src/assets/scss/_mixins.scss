@@ -1,0 +1,56 @@
+@mixin font-face($name, $directory, $weight: 400, $style: normal) {
+	@font-face {
+		font-family: '#{$name}';
+		src: url('#{$directory}.eot');
+		src: url('#{$directory}.eot?#iefix') format('embedded-opentype'),
+		url('#{$directory}.woff2') format('woff2'),
+		url('#{$directory}.woff') format('woff'),
+		url('#{$directory}.ttf') format('truetype'),
+		url('#{$directory}.svg##{$name}') format('svg');
+		font-weight: $weight;
+		font-style: $style;
+		font-stretch: normal;
+		font-display: fallback;
+		unicode-range: U+0020-017E;
+	}
+}
+
+@mixin placeholder(){
+	&::placeholder { opacity: 1; @content; }
+	&:-ms-input-placeholder { @content; }
+	&::-ms-input-placeholder { @content; }
+}
+
+@mixin media($width : 960){
+	$wpx: ($width * 1px);
+
+	@media (max-width: $wpx){
+		@content;
+	}
+}
+
+@mixin mediaLandscape($width : 960, $height : 960){
+	$wpx: ($width * 1px);
+	$wpy: ($height * 1px);
+
+	@media screen and (orientation: landscape) and (max-height: $wpy) and (max-width: $wpx){
+		@content;
+	}
+}
+
+@mixin mediaMin($width : 960){
+	$wpx: ($width * 1px);
+
+	@media (min-width: $wpx){
+		@content;
+	}
+}
+
+@mixin calcFontSize($screenWidth, $horizontal: false){
+	$unit: if($horizontal, 1vh, 1vw);
+	font-size: (1000/$screenWidth) * $unit;
+}
+
+@mixin spin($speed: 3s){
+	animation: spin $speed infinite linear;
+}

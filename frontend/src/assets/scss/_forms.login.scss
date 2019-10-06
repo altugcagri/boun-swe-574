@@ -1,0 +1,149 @@
+.section.loginform {
+
+	.loginform-title {
+		@include font-regular;
+		line-height: 2.6rem;
+		color: $color-black;
+		text-align: center;
+		font-size: 1.6rem;
+		margin-bottom: 2rem;
+	}
+
+	button.form-field{
+		background: $color-green;
+		color: $color-white;
+		width: 100%;
+		padding: 10px;
+	}
+		.form-field {
+			+ .form-field {
+				margin-top: 1.7rem;
+				
+			}
+			
+			&.type-checkbox {
+				color: $color-text-light;
+
+				.checkwrap {
+					@include font-regular;
+				}
+			}
+
+			.field-link {
+				@include font-semibold;
+			}
+		}
+
+		.form-fakeerror {
+			margin-bottom: 2rem;
+		}
+
+	.loginform-nav {
+		@include font-medium;
+		color: $color-text-light;
+		margin-top: .9rem;
+		font-size: 1rem;
+		display: flex;
+		justify-content: space-between;
+
+		@include media {
+			margin-top: 2.8rem;
+		}
+
+		&.center {
+			justify-content: center;
+			margin-top: 3rem;
+
+			.nav-btn {
+				margin: 0 1rem;
+			}
+		}
+
+		.nav-btn {
+			display: inline-block;
+			color: $color-black;
+			text-decoration: underline;
+
+			+ .nav-btn {
+				margin-left: 1rem;
+			}
+
+			i {
+				margin-right: .4rem;
+			}
+		}
+	}
+
+	.loginform-message {
+		text-align: center;
+		padding: 1.5rem 2rem;
+
+		background-color: $color-gray-light;
+		border-color: $color-ice;
+		border-radius: $radius-general;
+		margin-bottom: 2rem;
+
+		&.success {
+			background-color: $color-success;
+			border-color: darken($color-success, 10%);
+			color: $color-white;
+		}
+
+		&.error {
+			background-color: $color-error;
+			border-color: darken($color-error, 10%);
+			color: $color-white;
+		}
+	}
+
+	.loginform-others {
+		margin-top: 1.7rem;
+	}
+
+		.others-seperator {
+			@include font-regular;
+			color: $color-text-light;
+			text-align: center;
+			margin-bottom: 2.2rem;
+			position: relative;
+			font-size: 1.4rem;
+
+			&:before {
+				@include pseudo;
+				position: absolute;
+				top: 50%;
+				left: 0;
+				width: 100%;
+				z-index: 1;
+				height: .1rem;
+				background-color: $color-ice;
+			}
+
+			span {
+				display: inline-block;
+				position: relative;
+				z-index: 2;
+				background-color: $color-white;
+				padding: 0 1.5rem;
+			}
+		}
+
+		.others-opt {
+			+ .others-opt {
+				margin-top: 2rem;
+			}
+		}
+
+	&.type-self {
+		.loginform-title {
+			@include font-semibold;
+			font-size: 3.2rem;
+			text-align: left;
+
+			@include media {
+				font-size: 1.8rem;
+				margin-bottom: 2.2rem;
+			}
+		}
+	}
+}

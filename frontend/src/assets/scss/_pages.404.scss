@@ -1,0 +1,17 @@
+.page {
+	&.notfound {
+		height: 90vh;
+		text-align: center;
+		padding: 6rem 0;
+
+		h1 {
+			@include font-light;
+			font-size: 7rem;
+			margin-bottom: .2em;
+			margin-top: 6rem;
+		}
+		p{
+			font-size: 2rem;
+		}
+	}
+}

@@ -1,0 +1,16 @@
+.modal-container.modal-text{
+	.modal-innercontent {
+		padding: 8rem 6rem;
+	}
+
+		.text-title {
+			@include font-regular;
+			font-size: 4rem;
+			color: $color-primary;
+			margin-bottom: 3rem;
+		}
+		.text-content {
+			font-size: 1.6rem;
+			line-height: 1.3em;
+		}
+}

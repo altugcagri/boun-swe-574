@@ -1,0 +1,73 @@
+$color-white: #fff;
+$color-black: #000;
+$color-green: #2CCA73;
+$color-bg-alt: #f8fbfe;
+
+
+$color-text: #161d4c;
+$color-text-light: #8688a2;
+$color-text-negative: $color-white;
+$color-text-negative-light: #8a92a6;
+
+$color-gray-light: #f7f7fa;
+$color-gray: #e3e4e2;
+
+$color-ice: #eaebf3;
+
+$color-blue: #f44336;
+$color-turquoise: #16d2d3;
+
+$color-red: #ff2757;
+$color-red-light: #ff5a60;
+
+$color-yellow: #ffcb00;
+
+$color-facebook: #3b5998;
+$color-twitter: #55acee;
+$color-whatsapp: #3ace01;
+$color-google: #d44638;
+
+$color-error: #ca320d;
+$color-success: $color-turquoise;
+$color-warning: $color-yellow;
+$color-primary: $color-blue;
+
+// Font Weighting
+$weight-extralight: 200;
+$weight-light: 300;
+$weight-regular: 400;
+$weight-medium: 500;
+$weight-semibold: 600;
+$weight-bold: 700;
+
+$fontweight-heading: $weight-semibold;
+$fontweight-bold: $weight-semibold;
+
+$darken-ratio: 7%;
+
+//transition
+$transition-superfast: 40ms;
+$transition-fast: 180ms;
+$transition-hover: 200ms;
+$transition-anim-fast: 300ms;
+$transition-anim: 400ms;
+$transition-long: 600ms;
+
+//radiusses
+$radius-general: .3rem;
+$radius-general-mobile: .6rem;
+$radius-big: .6rem;
+$radius-big-mobile: 1.2rem;
+
+//easing
+$ease-1: "cubic-bezier(0.32, 0.28, 0, 0.97)";
+
+//shadows
+$shadow-general: #{"0rem .3rem 2.0rem 0rem rgba(0, 0, 0, 0.22)"};
+$shadow-shallow: #{"0rem .1rem 1.0rem 0rem rgba(0, 0, 0, 0.02); "};
+
+//wrapper widths
+$wrapper-regular: 160rem;
+$wrapper-medium: 130rem;
+$wrapper-narrow: 117rem;
+$wrapper-narrower: 77rem;

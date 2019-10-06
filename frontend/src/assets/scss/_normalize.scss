@@ -1,0 +1,24 @@
+*:focus {outline:0 none;}
+html {-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-tap-highlight-color:transparent;}
+body {margin:0;padding:0;line-height:1;}
+iframe {border: 0;}
+h1, h2, h3, h4, h5, h6, p, ul, ol, figure, button, table {margin:0;padding:0;}
+h1, h2, h3, h4, h5, h6 {font-weight:$fontweight-heading;}
+strong {font-weight:$fontweight-bold;}
+sup {position: relative;top:-.5em;font-size:65%;line-height:0;vertical-align:baseline;}
+a, button {color:inherit;cursor:pointer;}
+a {text-decoration:none;}
+button {overflow:visible;border:0;font:inherit;letter-spacing:inherit;background:none;-webkit-font-smoothing:inherit;}
+img {max-width:100%;height:auto;border:0;display:block;outline:none;}
+ul {list-style-type:none;}
+i {font-style:normal;}
+select {box-sizing:border-box;max-width:100%;}
+address {font-style: normal;}
+input{border-radius:0;box-shadow:none;border:none;font-size:inherit;}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance: none;margin: 0;}
+input[type=number]{-moz-appearance:textfield;}
+//input{.placeholder({opacity: 1;})}
+::-moz-focus-inner {padding: 0;border: 0;}
+hr{border:none;border-bottom:1px solid #000;height:0;background:transparent;}
+*{box-sizing:border-box;}

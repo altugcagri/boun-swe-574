@@ -1,0 +1,24 @@
+.myFooter{
+    border-top: 1px solid #cdcdcd;
+    padding: 50px 0;
+    font-weight: 300;
+    font-size: 13px;
+    color: white;
+    background: black;
+    
+}
+.myFooter hr{
+    border-color: #cdcdcd;
+    margin-top: 50px;
+    margin-bottom: 0;
+}
+.preFooter{
+    border-top: 1px solid #ececec;
+    background-color: rgba($color-bg-alt, 1);
+    
+}
+.myFooter svg{
+    display: inline-block;
+    margin-right: 5px;
+    margin-left: 5px;
+}
