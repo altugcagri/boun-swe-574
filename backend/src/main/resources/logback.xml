@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+  <property name="CONSOLE_LOG_PATTERN"
+    value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%32X{X-B3-TraceId}] [%7.7thread{7}] [%50.-50logger{50}:%line]: %replace(%msg){'[\r\n]', ''}%n"/>
+
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+  <logger level="INFO" name="com.fellas.bespoke"/>
+
+</configuration>
