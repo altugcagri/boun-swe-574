@@ -13,7 +13,7 @@ import {
     faCogs
 } from "@fortawesome/free-solid-svg-icons";
 import PageHeader from "../../components/PageHeader";
-import { PathNavigator, PathTabs } from "../../components/LearningPath";
+import { PathNavigator, PathTabs } from "../../components/learning-path";
 import { resolveEndpoint } from "../../util/Helpers";
 import Loading from "../../components/loading";
 import { WikiLabels } from "../../components/wiki";
