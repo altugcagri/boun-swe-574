@@ -1,62 +1,92 @@
-
 /************************* 
     APP HEADER
 *************************/
 .dropdown-menu {
     min-width: 6rem;
-    left: -40px;
+    left: 0;
+    right: 0;
 }
 
 .dropdown-item {
-    padding: 0.25rem 1rem;
+    padding: 0.5rem 1.5rem;
 }
 
-.myNavbar{
-    padding-right:40px !important;
-    padding-left: 40px!important;
+.myNavbar {
+    padding-right: 40px !important;
+    padding-left: 40px !important;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     z-index: 99;
+    border-bottom: 1px solid #cdcdcd;
 }
 
-.navbar-dark .navbar-nav .nav-link{
+.navbar-dark .navbar-nav > .nav-link {
     color: #212529;
     font-size: 0.9rem;
     line-height: 24px;
     margin-left: 3rem !important;
 }
-.navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:active, .navbar-dark .navbar-nav .nav-link:focus{
-    color: #212529 !important;
-}
-.nav-link.btn{
+
+.nav-link.btn {
     color: white !important;
 }
+.dropdown .nav-link {
+    color: #212529 !important;
+}
 
-.navbar-dark .navbar-nav .nav-link.btn, .navbar-dark .navbar-nav .nav-link.btn, .navbar-dark .navbar-nav .nav-link.btn,
-.navbar-dark .navbar-nav .nav-link.btn:hover, .navbar-dark .navbar-nav .nav-link.btn:active, .navbar-dark .navbar-nav .nav-link.btn:focus{
+.navbar-dark .navbar-nav .dropdown.nav-item {
+    margin-left: 3rem !important;
+    border-color: $color-green !important;
+    background-color: $color-green;
+    .nav-link {
+        color: white !important;
+    }
+    &:hover,
+    &:active,
+    &:focus {
+        color: white !important;
+        .nav-link {
+            color: white !important;
+        }
+        background-color: $color-green !important;
+    }
+}
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:active,
+.navbar-dark .navbar-nav .nav-link:focus {
+    color: #fff;
+}
+.navbar-dark .navbar-nav .nav-link.btn,
+.navbar-dark .navbar-nav .nav-link.btn,
+.navbar-dark .navbar-nav .nav-link.btn,
+.navbar-dark .navbar-nav .nav-link.btn:hover,
+.navbar-dark .navbar-nav .nav-link.btn:active,
+.navbar-dark .navbar-nav .nav-link.btn:focus {
     color: #fff !important;
     background: $color-green !important;
     border-color: $color-green !important;
-    padding-right: 20px;
-    padding-left: 20px;
+
     border-radius: 4px !important;
     box-shadow: none !important;
     outline: 0 important;
 }
-.navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:active{
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus,
+.navbar-dark .navbar-nav .nav-link:active {
     color: black;
-    font-size: 0.9rem;
-
 }
 
-.dropdown.nav-item{
+.dropdown.nav-item {
     margin-left: 10px;
     padding-left: 10px;
 }
 
-a:hover{
+a:hover {
     text-decoration: none !important;
+}
 
+.collapse {
+    overflow: visible;
 }
