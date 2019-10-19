@@ -7,6 +7,8 @@ import Footer from "components/sections/footer";
 // Modals
 import LoginModal from "components/modals/login";
 import RegisterModal from "components/modals/register";
+import AnnotationModal from "components/modals/annotation";
+import AnnotationWidget from "components/annotation-widget";
 
 // Controllers
 import ResponsiveWatcher from "controllers/responsive-watcher";
@@ -53,10 +55,48 @@ class Navigator extends React.Component {
         super(props);
 
         changePage();
+
+        this.state = {
+            annotatedText: false,
+            cssSelector: false
+        };
+
+        this.getParents = this.getParents.bind(this);
     }
 
     componentDidMount() {
         window.dynamicHistory = history;
+
+        let dummyAnnotation = [
+            {
+                annotatedText: "might already have an answer",
+                comment: "Merhaba",
+                page: "http://localhost:3000/faq",
+                selector:
+                    "html > body > div > div.site-content > div.router-wrap > div.pageHeader.text-left > div.container > div.row > div.col-md-6 > p.wow.fadeIn ",
+                author: "Serhat Uzunçavdar",
+                date: "14 Mar 2019"
+            }
+        ];
+
+        let actualText = document.querySelector(dummyAnnotation[0].selector);
+        if (actualText) {
+            let newHtml = actualText.innerText.replace(
+                dummyAnnotation[0].annotatedText,
+                "<mark class='mark-annotation' data-comment='" +
+                    dummyAnnotation[0].comment +
+                    "'>" +
+                    dummyAnnotation[0].annotatedText +
+                    "<span><em>At " +
+                    dummyAnnotation[0].date +
+                    " " +
+                    dummyAnnotation[0].author +
+                    " wrote:</em>" +
+                    dummyAnnotation[0].comment +
+                    "</span></mark>"
+            );
+            actualText.innerHTML = newHtml;
+        }
 
         history.listen(function(e) {
             store.dispatch(setPageNotFound(false));
@@ -64,6 +104,73 @@ class Navigator extends React.Component {
 			changePage(route[0], route[1]);*/
             changePage();
         });
+
+        let vm = this;
+        // onselectionchange version
+        document.onselectionchange = () => {
+            let selection = document.getSelection();
+            if (selection.focusNode && selection.focusNode.data) {
+                let selectedText = selection.focusNode.data.substring(
+                    selection.anchorOffset,
+                    selection.focusOffset
+                );
+                let selectedTag = selection.focusNode.parentNode.localName;
+                let classList = selection.focusNode.parentNode.className.split(
+                    " "
+                );
+                let classString = "";
+                if (classList.length) {
+                    for (let i = 0; i < classList.length; i++) {
+                        classString = classString + "." + classList[i];
+                    }
+                }
+                if (classString === ".") {
+                    classString = "";
+                }
+
+                let elem = document.querySelector(selectedTag + classString);
+                setTimeout(function() {
+                    vm.setState({
+                        annotatedText: selectedText,
+                        cssSelector: vm.getParents(elem)
+                    });
+                }, 500);
+            } else {
+                setTimeout(function() {
+                    vm.setState({ annotatedText: false });
+                }, 300);
+            }
+        };
+    }
+
+    getParents(elem) {
+        // Set up a parent array
+        var parents = [];
+        var parentString = "";
+
+        // Push each parent element to the array
+        for (; elem && elem !== document; elem = elem.parentNode) {
+            parents.push(elem);
+        }
+
+        for (let i = 0; i < parents.length; i++) {
+            let classList = parents[i].className.split(" ");
+            let classString = "";
+            if (classList.length) {
+                for (let j = 0; j < classList.length; j++) {
+                    classString = classString + "." + classList[j];
+                }
+            }
+            if (classString === ".") {
+                classString = "";
+            }
+
+            parentString =
+                parents[i].localName + classString + " > " + parentString;
+        }
+
+        // Return css selector string
+        return parentString.substring(0, parentString.length - 2);
     }
 
     render() {
@@ -77,7 +184,14 @@ class Navigator extends React.Component {
                 <ModalsWrap>
                     <LoginModal />
                     <RegisterModal />
+                    <AnnotationModal />
                 </ModalsWrap>
+                {this.state.annotatedText && (
+                    <AnnotationWidget
+                        selectedText={this.state.annotatedText}
+                        cssSelector={this.state.cssSelector}
+                    />
+                )}
             </div>
         );
     }

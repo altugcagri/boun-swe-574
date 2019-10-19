@@ -57,7 +57,7 @@ class Home extends React.Component {
             .publishedNow()
             .prettyWrite((err, doc) => {
                 if (err) throw err;
-                console.log(doc);
+                //console.log(doc);
             });
     }
     render() {
