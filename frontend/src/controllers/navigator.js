@@ -1,344 +1,481 @@
-import React from 'react'
+import React from "react";
 
 // Sections
-import Header from 'components/sections/header'
-import Footer from 'components/sections/footer'
+import Header from "components/sections/header";
+import Footer from "components/sections/footer";
 
 // Modals
-import LoginModal from 'components/modals/login'
-import RegisterModal from 'components/modals/register'
+import LoginModal from "components/modals/login";
+import RegisterModal from "components/modals/register";
+import AnnotationModal from "components/modals/annotation";
+import AnnotationWidget from "components/annotation-widget";
 
 // Controllers
-import ResponsiveWatcher from 'controllers/responsive-watcher'
-import ModalsWrap from 'controllers/modals-wrap'
+import ResponsiveWatcher from "controllers/responsive-watcher";
+import ModalsWrap from "controllers/modals-wrap";
 
 // Deps
-import { Route, matchPath, Switch, Redirect } from 'react-router-dom'
-import history from 'controllers/history'
-import 'toasted-notes/src/styles.css';
-import { setTitle, setMeta, setHead, setDescription } from 'controllers/head'
-import routes from 'data/routes'
+import { Route, matchPath, Switch, Redirect } from "react-router-dom";
+import history from "controllers/history";
+import "toasted-notes/src/styles.css";
+import { setTitle, setMeta, setHead, setDescription } from "controllers/head";
+import routes from "data/routes";
 import store from "data/store";
 import { setPage, setPageNotFound } from "data/store.generic";
 import extend from "lodash/extend";
 import { connect } from "react-redux";
 
-
 // Pages
-import Home from 'pages/home'
-import Glossary from 'pages/glossary'
-import Faq from 'pages/faq'
-import NotFound from 'pages/notfound'
+import Home from "pages/home";
+import Glossary from "pages/glossary";
+import UserCreatedTopicList from "pages/topic/user-topic-list";
+import CreateTopic from "pages/topic/create-topic";
+import TopicDetail from "pages/topic/topic";
+import Faq from "pages/faq";
+import NotFound from "pages/notfound";
 
 const pageRegistry = {
-	Home: Home,
-	NotFound: NotFound,
-	Faq: Faq,
-	Glossary: Glossary
-}
+    Home: Home,
+    NotFound: NotFound,
+    Faq: Faq,
+    Glossary: Glossary,
+    UserCreatedTopicList: UserCreatedTopicList,
+    CreateTopic: CreateTopic,
+    TopicDetail: TopicDetail
+};
 
 const mapStateToProps = state => {
-	return {
-		pageNotFound: state.generic.pageNotFound,
-	};
+    return {
+        pageNotFound: state.generic.pageNotFound
+    };
 };
 
 class Navigator extends React.Component {
-	constructor(props) {
-		super(props);
+    constructor(props) {
+        super(props);
 
-		changePage();
-	}
+        changePage();
 
-	componentDidMount() {
-		window.dynamicHistory = history;
+        this.state = {
+            annotatedText: false,
+            cssSelector: false
+        };
 
-		history.listen(function (e) {
-			store.dispatch(setPageNotFound(false));
-			/*let route = getRouteFromUrl(e.pathname, false, true);
+        this.getParents = this.getParents.bind(this);
+    }
+
+    componentDidMount() {
+        window.dynamicHistory = history;
+
+        let dummyAnnotation = [
+            {
+                annotatedText: "might already have an answer",
+                comment: "Merhaba",
+                page: "http://localhost:3000/faq",
+                selector:
+                    "html > body > div > div.site-content > div.router-wrap > div.pageHeader.text-left > div.container > div.row > div.col-md-6 > p.wow.fadeIn ",
+                author: "Serhat Uzunçavdar",
+                date: "14 Mar 2019"
+            }
+        ];
+
+        let actualText = document.querySelector(dummyAnnotation[0].selector);
+        if (actualText) {
+            let newHtml = actualText.innerText.replace(
+                dummyAnnotation[0].annotatedText,
+                "<mark class='mark-annotation' data-comment='" +
+                    dummyAnnotation[0].comment +
+                    "'>" +
+                    dummyAnnotation[0].annotatedText +
+                    "<span><em>At " +
+                    dummyAnnotation[0].date +
+                    " " +
+                    dummyAnnotation[0].author +
+                    " wrote:</em>" +
+                    dummyAnnotation[0].comment +
+                    "</span></mark>"
+            );
+            actualText.innerHTML = newHtml;
+        }
+
+        history.listen(function(e) {
+            store.dispatch(setPageNotFound(false));
+            /*let route = getRouteFromUrl(e.pathname, false, true);
 			changePage(route[0], route[1]);*/
-			changePage();
-		});
+            changePage();
+        });
 
+        let vm = this;
+        // onselectionchange version
+        document.onselectionchange = () => {
+            let selection = document.getSelection();
+            if (selection.focusNode && selection.focusNode.data) {
+                let selectedText = selection.focusNode.data.substring(
+                    selection.anchorOffset,
+                    selection.focusOffset
+                );
+                let selectedTag = selection.focusNode.parentNode.localName;
+                let classList = selection.focusNode.parentNode.className.split(
+                    " "
+                );
+                let classString = "";
+                if (classList.length) {
+                    for (let i = 0; i < classList.length; i++) {
+                        classString = classString + "." + classList[i];
+                    }
+                }
+                if (classString === ".") {
+                    classString = "";
+                }
 
-	}
+                let elem = document.querySelector(selectedTag + classString);
+                setTimeout(function() {
+                    vm.setState({
+                        annotatedText: selectedText,
+                        cssSelector: vm.getParents(elem)
+                    });
+                }, 500);
+            } else {
+                setTimeout(function() {
+                    vm.setState({ annotatedText: false });
+                }, 300);
+            }
+        };
+    }
 
-	render() {
-		let routeData = this.props.pageNotFound ? <NotFound /> : renderRoutes();
-		return (
-			<div className="site-content">
-				<ResponsiveWatcher />
-				<Header />
-				<div className="router-wrap">
-					{routeData}
-				</div>
-				<Footer />
-				<ModalsWrap>
-					<LoginModal />
-					<RegisterModal />
-				</ModalsWrap>
-			</div>
-		)
-	}
+    getParents(elem) {
+        // Set up a parent array
+        var parents = [];
+        var parentString = "";
+
+        // Push each parent element to the array
+        for (; elem && elem !== document; elem = elem.parentNode) {
+            parents.push(elem);
+        }
+
+        for (let i = 0; i < parents.length; i++) {
+            let classList = parents[i].className.split(" ");
+            let classString = "";
+            if (classList.length) {
+                for (let j = 0; j < classList.length; j++) {
+                    classString = classString + "." + classList[j];
+                }
+            }
+            if (classString === ".") {
+                classString = "";
+            }
+
+            parentString =
+                parents[i].localName + classString + " > " + parentString;
+        }
+
+        // Return css selector string
+        return parentString.substring(0, parentString.length - 2);
+    }
+
+    render() {
+        let routeData = this.props.pageNotFound ? <NotFound /> : renderRoutes();
+        return (
+            <div className="site-content">
+                <ResponsiveWatcher />
+                <Header />
+                <div className="router-wrap">{routeData}</div>
+                <Footer />
+                <ModalsWrap>
+                    <LoginModal />
+                    <RegisterModal />
+                    <AnnotationModal />
+                </ModalsWrap>
+                {this.state.annotatedText && (
+                    <AnnotationWidget
+                        selectedText={this.state.annotatedText}
+                        cssSelector={this.state.cssSelector}
+                    />
+                )}
+            </div>
+        );
+    }
 }
 
 export default connect(mapStateToProps)(Navigator);
 
 export function ListingLink(params) {
-	return '/arama/?' + params.map(function (param, nth) {
-		return param.key + '=' + param.val;
-	});
+    return (
+        "/arama/?" +
+        params.map(function(param, nth) {
+            return param.key + "=" + param.val;
+        })
+    );
 }
 
 export function redirect(opts, params = false, getParams = false) {
-	const defaultOpts = {
-		type: 'push'
-	}
+    const defaultOpts = {
+        type: "push"
+    };
 
-	opts = (Object.prototype.toString.call(opts) === "[object String]" ? extend({}, defaultOpts, { to: opts }) : extend({}, defaultOpts, opts));
+    opts =
+        Object.prototype.toString.call(opts) === "[object String]"
+            ? extend({}, defaultOpts, { to: opts })
+            : extend({}, defaultOpts, opts);
 
-	let route = getRoute(opts.to).path;
+    let route = getRoute(opts.to).path;
 
-	if (params) {
-		for (let k = 0; k < Object.keys(params).length; k++) {
-			let key = Object.keys(params)[k];
-			route = route.replace(':' + key + '?', params[key]).replace(':' + key, params[key]);
-		}
-	}
+    if (params) {
+        for (let k = 0; k < Object.keys(params).length; k++) {
+            let key = Object.keys(params)[k];
+            route = route
+                .replace(":" + key + "?", params[key])
+                .replace(":" + key, params[key]);
+        }
+    }
 
-	let getString = "";
-	if (getParams) {
-		for (let p = 0; p < Object.keys(getParams).length; p++) {
-			let key = Object.keys(getParams)[p];
+    let getString = "";
+    if (getParams) {
+        for (let p = 0; p < Object.keys(getParams).length; p++) {
+            let key = Object.keys(getParams)[p];
 
-			if (getString !== "") {
-				getString += "&";
-			}
-			getString += key + "=" + encodeURIComponent(getParams[key]);
-		}
-	}
+            if (getString !== "") {
+                getString += "&";
+            }
+            getString += key + "=" + encodeURIComponent(getParams[key]);
+        }
+    }
 
-	if (route) {
-		route = route.split('/:')[0];
-		if (getString !== "") { route = route + "?" + getString }
-		switch (opts.type) {
-			case "replace":
-				history.replace(route);
-				break;
-			default:
-				history.push(route);
-				break;
-		}
-		changePage();
-		return true;
-	}
-	else {
-		return false;
-	}
+    if (route) {
+        route = route.split("/:")[0];
+        if (getString !== "") {
+            route = route + "?" + getString;
+        }
+        switch (opts.type) {
+            case "replace":
+                history.replace(route);
+                break;
+            default:
+                history.push(route);
+                break;
+        }
+        changePage();
+        return true;
+    } else {
+        return false;
+    }
 }
 
-export function getRoute(key = false, group = 'pages') {
-	let routeGroup = group;
-	if (key) {
-		let keyParts = key.split('.');
-		if (keyParts.length === 2) {
-			routeGroup = keyParts[0];
-			key = keyParts[1];
-		}
-	}
+export function getRoute(key = false, group = "pages") {
+    let routeGroup = group;
+    if (key) {
+        let keyParts = key.split(".");
+        if (keyParts.length === 2) {
+            routeGroup = keyParts[0];
+            key = keyParts[1];
+        }
+    }
 
-	let target = routes[routeGroup][key];
-	return (target ? target : false);
+    let target = routes[routeGroup][key];
+    return target ? target : false;
 }
 
-export function getRouteFromUrl(url = false, getObject = false, includeCatch = false) {
-	if (url === false) { url = window.location.pathname.replace(/\/$/, ''); }
-	let returnRoute = false;
-	let returnRouteRaw = false;
-	let catchRoute = false;
-	Object.keys(routes).forEach((groupKey, index) => {
-		let group = routes[groupKey];
+export function getRouteFromUrl(
+    url = false,
+    getObject = false,
+    includeCatch = false
+) {
+    if (url === false) {
+        url = window.location.pathname.replace(/\/$/, "");
+    }
+    let returnRoute = false;
+    let returnRouteRaw = false;
+    let catchRoute = false;
+    Object.keys(routes).forEach((groupKey, index) => {
+        let group = routes[groupKey];
 
-		Object.keys(group).forEach((key, index) => {
-			let route = routes[groupKey][key];
-			if (route.path) {
-				if (!returnRoute) {
-					let match = matchPath(url, route.path);
-					if (match && match.isExact) {
-						returnRouteRaw = route;
-						returnRouteRaw.key = key;
-						returnRouteRaw.groupKey = groupKey;
-						if (getObject) {
-							returnRoute = returnRouteRaw;
-						}
-						else {
-							returnRoute = [key, groupKey];
-						}
-					}
-				}
-			}
-			else if (includeCatch) {
-				catchRoute = (getObject ? route : [key, groupKey]);
-			}
-		});
-	});
+        Object.keys(group).forEach((key, index) => {
+            let route = routes[groupKey][key];
+            if (route.path) {
+                if (!returnRoute) {
+                    let match = matchPath(url, route.path);
+                    if (match && match.isExact) {
+                        returnRouteRaw = route;
+                        returnRouteRaw.key = key;
+                        returnRouteRaw.groupKey = groupKey;
+                        if (getObject) {
+                            returnRoute = returnRouteRaw;
+                        } else {
+                            returnRoute = [key, groupKey];
+                        }
+                    }
+                }
+            } else if (includeCatch) {
+                catchRoute = getObject ? route : [key, groupKey];
+            }
+        });
+    });
 
-	function checkSubRoutes() {
-		if (returnRouteRaw && returnRouteRaw.childRoutes) {
-			let subRouteRaw = false;
-			let subRoute = false;
-			let groupKey = returnRouteRaw.childRoutes
-			Object.keys(routes[groupKey]).forEach((key, index) => {
-				let route = routes[groupKey][key];
-				if (route.path) {
-					if (!subRoute) {
-						let match = matchPath(url, route.path);
-						if (match && match.isExact) {
-							subRouteRaw = route;
-							subRouteRaw.key = key;
-							subRouteRaw.groupKey = groupKey;
+    function checkSubRoutes() {
+        if (returnRouteRaw && returnRouteRaw.childRoutes) {
+            let subRouteRaw = false;
+            let subRoute = false;
+            let groupKey = returnRouteRaw.childRoutes;
+            Object.keys(routes[groupKey]).forEach((key, index) => {
+                let route = routes[groupKey][key];
+                if (route.path) {
+                    if (!subRoute) {
+                        let match = matchPath(url, route.path);
+                        if (match && match.isExact) {
+                            subRouteRaw = route;
+                            subRouteRaw.key = key;
+                            subRouteRaw.groupKey = groupKey;
 
-							if (getObject) {
-								subRoute = subRouteRaw;
-							}
-							else {
-								subRoute = [key, groupKey];
-							}
-						}
-					}
-				}
-			});
+                            if (getObject) {
+                                subRoute = subRouteRaw;
+                            } else {
+                                subRoute = [key, groupKey];
+                            }
+                        }
+                    }
+                }
+            });
 
-			if (subRouteRaw && subRouteRaw.key !== returnRouteRaw.key) {
-				returnRoute = subRoute;
-				returnRouteRaw = subRouteRaw;
+            if (subRouteRaw && subRouteRaw.key !== returnRouteRaw.key) {
+                returnRoute = subRoute;
+                returnRouteRaw = subRouteRaw;
 
-				checkSubRoutes();
-			}
-		}
-	}
+                checkSubRoutes();
+            }
+        }
+    }
 
-	checkSubRoutes();
+    checkSubRoutes();
 
-	return (returnRoute ? returnRoute : catchRoute);
+    return returnRoute ? returnRoute : catchRoute;
 }
 
 export function getCurrentRoute(url = false, includeCatch = true) {
-	return getRouteFromUrl(false, true, true);
+    return getRouteFromUrl(false, true, true);
 }
 
-export function changeURLParam(value, param, route = false, noMismatch = false) {
-	let routeObject = (route === false ? getCurrentRoute() : routes[route]);
-	let data = false;
+export function changeURLParam(
+    value,
+    param,
+    route = false,
+    noMismatch = false
+) {
+    let routeObject = route === false ? getCurrentRoute() : routes[route];
+    let data = false;
 
-	if (routeObject) {
-		data = routeObject.path.replace(':' + param + '?', value).replace(':' + param, value);
-		if (noMismatch && data === routeObject.path) {
-			data = false;
-		}
-	}
+    if (routeObject) {
+        data = routeObject.path
+            .replace(":" + param + "?", value)
+            .replace(":" + param, value);
+        if (noMismatch && data === routeObject.path) {
+            data = false;
+        }
+    }
 
-	return data;
+    return data;
 }
 
-export function changePage(key = false, group = 'pages') {
-	let route = (key ? routes[group][key] : getRouteFromUrl(false, true, true));
+export function changePage(key = false, group = "pages") {
+    let route = key ? routes[group][key] : getRouteFromUrl(false, true, true);
 
-	if (route) {
-		if (route.key) {
-			key = route.key;
-			group = route.groupKey;
+    if (route) {
+        if (route.key) {
+            key = route.key;
+            group = route.groupKey;
+        }
 
-		}
+        if (key === "notfound") {
+            store.dispatch(setPageNotFound(true));
+        }
 
-		if (key === 'notfound') {
-			store.dispatch(setPageNotFound(true));
-		}
+        let pageData = {
+            key: key,
+            group: group,
+            fullKey: group + "." + key,
+            data: route
+        };
 
-		let pageData = {
-			key: key,
-			group: group,
-			fullKey: group + "." + key,
-			data: route
-		}
+        if (store.getState().generic.currentPage.key !== key) {
+            window.scroll(0, 0);
+            store.dispatch(setPage(pageData));
 
-		if (store.getState().generic.currentPage.key !== key) {
-			window.scroll(0, 0);
-			store.dispatch(setPage(pageData));
+            if (window.location.hash) {
+                setTimeout(function() {
+                    let hashTarget = document.querySelector(
+                        window.location.hash
+                    );
+                    if (hashTarget) {
+                        hashTarget.scrollIntoView();
+                    }
+                }, 500);
+            }
+        }
 
-			if (window.location.hash) {
-				setTimeout(function () {
-					let hashTarget = document.querySelector(window.location.hash)
-					if (hashTarget) {
-						hashTarget.scrollIntoView();
-					}
-				}, 500);
-			}
-		}
+        setMeta(route.meta ? route.meta : false, true);
+        setHead(route.head ? route.head : false, true);
 
-		setMeta((route.meta ? route.meta : false), true);
-		setHead((route.head ? route.head : false), true);
+        setTitle(route.title, route.postTitle);
 
-		setTitle(route.title, route.postTitle);
+        if (route.description) {
+            setDescription(route.description);
+        }
 
-		if (route.description) {
-			setDescription(route.description);
-		}
-
-		setHead([
-			{
-				key: "link",
-				props: {
-					rel: "canonical",
-					href: window.location.href,
-				}
-			},
-			{
-				key: "meta",
-				props: {
-					property: "og:url",
-					content: window.location.href,
-				}
-			}
-		]);
-	}
-	else {
-		console.log('Change page error. Route not found: ' + key)
-	}
+        setHead([
+            {
+                key: "link",
+                props: {
+                    rel: "canonical",
+                    href: window.location.href
+                }
+            },
+            {
+                key: "meta",
+                props: {
+                    property: "og:url",
+                    content: window.location.href
+                }
+            }
+        ]);
+    } else {
+        console.log("Change page error. Route not found: " + key);
+    }
 }
 
 export function renderRoutes(opts = {}) {
-	const defaultOpts = {
-		registry: pageRegistry,
-		group: 'pages',
-		catchRedirect: false,
-	}
-	opts = extend({}, defaultOpts, opts);
-	let routeData = Object.keys(routes[opts.group]).map((key, index) => {
-		let route = routes[opts.group][key]
-		let routeProps = {
-			key: index,
-			exact: route.exact,
-			component: opts.registry[route.component],
-			name: route.component
-		}
+    const defaultOpts = {
+        registry: pageRegistry,
+        group: "pages",
+        catchRedirect: false
+    };
+    opts = extend({}, defaultOpts, opts);
+    let routeData = Object.keys(routes[opts.group]).map((key, index) => {
+        let route = routes[opts.group][key];
+        let routeProps = {
+            key: index,
+            exact: route.exact,
+            component: opts.registry[route.component],
+            name: route.component
+        };
 
-		if (route.path) {
-			routeProps.path = route.path
-		}
+        if (route.path) {
+            routeProps.path = route.path;
+        }
 
-		return <Route {...routeProps} />
-	});
+        return <Route {...routeProps} />;
+    });
 
-	if (opts.catchRedirect) {
-		let catchOpts = opts.catchRedirect.split('.');
-		let to = routes[(catchOpts.length > 1 ? catchOpts[0] : 'pages')][catchOpts[catchOpts.length - 1]].path;
-		routeData.push(<Redirect to={to} key="redir" />)
-	}
+    if (opts.catchRedirect) {
+        let catchOpts = opts.catchRedirect.split(".");
+        let to =
+            routes[catchOpts.length > 1 ? catchOpts[0] : "pages"][
+                catchOpts[catchOpts.length - 1]
+            ].path;
+        routeData.push(<Redirect to={to} key="redir" />);
+    }
 
-	return <Switch>{routeData}</Switch>;
+    return <Switch>{routeData}</Switch>;
 }
 
 export function set404() {
-	changePage('notfound');
+    changePage("notfound");
 }
