@@ -12,5 +12,6 @@ public class JwtAuthenticationResponse {
 
     private String accessToken;
     private static String tokenType = "Bearer";
+    private String usernameOrEmail;
 
 }
