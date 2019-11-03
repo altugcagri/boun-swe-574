@@ -17,6 +17,8 @@ public class ConverterConfig {
         final TopicRequestToTopic topicRequestToTopic = new TopicRequestToTopic();
         final TopicToTopicResponse topicToTopicResponse = new TopicToTopicResponse();
         final ContentToContentResponse contentToContentResponse = new ContentToContentResponse();
+        final ActivityRequestToActivity activityRequestToActivity = new ActivityRequestToActivity();
+        final ActivityToActivityResponse activityToActivityResponse = new ActivityToActivityResponse();
         final ConfigurableConversionService conversionService = new GenericConversionService();
         conversionService.addConverter(contentRequestToContent);
         conversionService.addConverter(questionRequestToQuestion);
@@ -24,6 +26,8 @@ public class ConverterConfig {
         conversionService.addConverter(topicRequestToTopic);
         conversionService.addConverter(topicToTopicResponse);
         conversionService.addConverter(contentToContentResponse);
+        conversionService.addConverter(activityRequestToActivity);
+        conversionService.addConverter(activityToActivityResponse);
         return conversionService;
     }
 }
