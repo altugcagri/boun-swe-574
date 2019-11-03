@@ -7,6 +7,8 @@ import activityStream from "activitystrea.ms";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
+import axios from "axios";
+import toast from "toasted-notes";
 
 const mapStateToProps = state => {
     return {
@@ -17,7 +19,43 @@ const mapStateToProps = state => {
 };
 
 class Home extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            activities: [],
+            latestTopics: [],
+            interestTopics: [],
+            continueTopic: false,
+            loading: true
+        };
+        this.loadHomepage = this.loadHomepage.bind(this);
+    }
+
+    loadHomepage() {
+        //let url = resolveEndpoint('getActivities', []);
+        let url = "dummy/homepage.json";
+
+        axios
+            .get(url)
+            .then(res => {
+                this.setState({
+                    activities: res.data.activities,
+                    latestTopics: res.data.latestTopics,
+                    interestTopics: res.data.interestTopics,
+                    continueTopic: res.data.continueTopic,
+                    loading: false
+                });
+            })
+            .catch(err => {
+                toast.notify("Something went wrong!", {
+                    position: "top-right"
+                });
+                console.log(err);
+            });
+    }
+
     componentDidMount() {
+        this.loadHomepage();
         /* activityStream.object()
 			.name('baz')
 			.content(activityStream.langmap().set('en', 'bar').set('fr', 'foo'))
@@ -61,7 +99,12 @@ class Home extends React.Component {
             });
     }
     render() {
-        let lookupService = [0, 1, 2];
+        let {
+            activities,
+            latestTopics,
+            interestTopics,
+            continueTopic
+        } = this.state;
         let user = this.props.user;
         return (
             <React.Fragment>
@@ -93,8 +136,8 @@ class Home extends React.Component {
                         <div className="col-md-8 mt-5 mb-5">
                             <h2 className="serif font-30">Latest.</h2>
                             <hr />
-                            {lookupService &&
-                                lookupService.map((service, idx) => {
+                            {latestTopics &&
+                                latestTopics.map((latestTopic, idx) => {
                                     return (
                                         <React.Fragment key={idx}>
                                             {" "}
@@ -108,9 +151,13 @@ class Home extends React.Component {
                                                         <div className="col-md-4">
                                                             <div className="clear pt-4 pr-4 pl-3">
                                                                 <img
-                                                                    src="assets/library.jpeg"
+                                                                    src={
+                                                                        latestTopic.image
+                                                                    }
                                                                     className="img-fluid fullWidth mb-4"
-                                                                    alt="My Topic"
+                                                                    alt={
+                                                                        latestTopic.title
+                                                                    }
                                                                 />
                                                             </div>
                                                         </div>
@@ -118,34 +165,34 @@ class Home extends React.Component {
                                                             <div className="card-body text-left">
                                                                 <h5 className="card-title text-info serif font-24 text-justify mb-1">
                                                                     <Link
-                                                                        to={`/topic/preview/1`}
+                                                                        to={`/topic/preview/${latestTopic.id}`}
                                                                     >
-                                                                        My Topic{" "}
+                                                                        {
+                                                                            latestTopic.title
+                                                                        }
                                                                     </Link>
                                                                 </h5>
                                                                 <small className="text-right">
+                                                                    {
+                                                                        latestTopic.date
+                                                                    }
                                                                     <strong>
-                                                                        by{" "}
+                                                                        {" "}
+                                                                        - by -{" "}
                                                                     </strong>{" "}
-                                                                    @Serhat{" "}
+                                                                    {
+                                                                        latestTopic.author
+                                                                    }
                                                                 </small>
                                                                 <p>
-                                                                    Lorem ipsum
-                                                                    dolor sit
-                                                                    amet
-                                                                    consectetur
-                                                                    adipisicing
-                                                                    elit.
+                                                                    {
+                                                                        latestTopic.caption
+                                                                    }
                                                                 </p>
                                                                 <WikiLabels
-                                                                    wikis={[
-                                                                        {
-                                                                            conceptUri:
-                                                                                "asd",
-                                                                            label:
-                                                                                "dsa"
-                                                                        }
-                                                                    ]}
+                                                                    wikis={
+                                                                        latestTopic.wikis
+                                                                    }
                                                                 />
                                                             </div>
                                                         </div>
@@ -166,8 +213,8 @@ class Home extends React.Component {
                                 You might be interested.
                             </h2>
                             <hr />
-                            {lookupService &&
-                                lookupService.map((service, idx) => {
+                            {interestTopics &&
+                                interestTopics.map((interestTopic, idx) => {
                                     return (
                                         <React.Fragment key={idx}>
                                             {" "}
@@ -181,9 +228,13 @@ class Home extends React.Component {
                                                         <div className="col-md-4">
                                                             <div className="clear pt-4 pr-4 pl-3">
                                                                 <img
-                                                                    src="assets/library.jpeg"
+                                                                    src={
+                                                                        interestTopic.image
+                                                                    }
                                                                     className="img-fluid fullWidth mb-4"
-                                                                    alt="My Topic"
+                                                                    alt={
+                                                                        interestTopic.title
+                                                                    }
                                                                 />
                                                             </div>
                                                         </div>
@@ -191,34 +242,33 @@ class Home extends React.Component {
                                                             <div className="card-body text-left">
                                                                 <h5 className="card-title text-info serif font-24 text-justify mb-1">
                                                                     <Link
-                                                                        to={`/topic/preview/1`}
+                                                                        to={`/topic/preview/${interestTopic.id}`}
                                                                     >
-                                                                        My Topic{" "}
+                                                                        {
+                                                                            interestTopic.title
+                                                                        }
                                                                     </Link>
                                                                 </h5>
                                                                 <small className="text-right">
+                                                                    {
+                                                                        interestTopic.date
+                                                                    }
                                                                     <strong>
-                                                                        by{" "}
-                                                                    </strong>{" "}
-                                                                    @Serhat{" "}
+                                                                        - by -
+                                                                    </strong>
+                                                                    {
+                                                                        interestTopic.author
+                                                                    }
                                                                 </small>
                                                                 <p>
-                                                                    Lorem ipsum
-                                                                    dolor sit
-                                                                    amet
-                                                                    consectetur
-                                                                    adipisicing
-                                                                    elit.
+                                                                    {
+                                                                        interestTopic.caption
+                                                                    }
                                                                 </p>
                                                                 <WikiLabels
-                                                                    wikis={[
-                                                                        {
-                                                                            conceptUri:
-                                                                                "asd",
-                                                                            label:
-                                                                                "dsa"
-                                                                        }
-                                                                    ]}
+                                                                    wikis={
+                                                                        interestTopic.wikis
+                                                                    }
                                                                 />
                                                             </div>
                                                         </div>
@@ -230,7 +280,7 @@ class Home extends React.Component {
                                 })}
                         </div>
                         <div className="col-md-4 mt-5 mb-5">
-                            {user && (
+                            {user && continueTopic && (
                                 <React.Fragment>
                                     <h2 className="serif font-30">
                                         Continue learning.
@@ -238,29 +288,25 @@ class Home extends React.Component {
                                     <hr />
                                     <div className="sidebar clear">
                                         <img
-                                            src="assets/library.jpeg"
+                                            src={continueTopic.image}
                                             className="img-fluid fullWidth mb-4"
-                                            alt="My Topic"
+                                            alt={continueTopic.title}
                                         />
                                         <h5 className="card-title text-info serif font-24 text-justify mb-1">
-                                            <Link to={`/topic/preview/1`}>
-                                                My Topic{" "}
+                                            <Link
+                                                to={`/topic/preview/${continueTopic.id}`}
+                                            >
+                                                {continueTopic.title}{" "}
                                             </Link>
                                         </h5>
                                         <small className="text-right">
-                                            <strong>by </strong> @Serhat{" "}
+                                            {continueTopic.date}{" "}
+                                            <strong>by </strong>{" "}
+                                            {continueTopic.author}{" "}
                                         </small>
-                                        <p>
-                                            Lorem ipsum dolor sit amet
-                                            consectetur adipisicing elit.
-                                        </p>
+                                        <p>{continueTopic.caption}</p>
                                         <WikiLabels
-                                            wikis={[
-                                                {
-                                                    conceptUri: "asd",
-                                                    label: "dsa"
-                                                }
-                                            ]}
+                                            wikis={continueTopic.wikis}
                                         />
                                     </div>
                                     <div className="mt-5">
@@ -270,9 +316,9 @@ class Home extends React.Component {
                                         <hr />
                                         <div className="sidebar clear">
                                             <ul>
-                                                {lookupService &&
-                                                    lookupService.map(
-                                                        (service, idx) => {
+                                                {activities &&
+                                                    activities.map(
+                                                        (activity, idx) => {
                                                             return (
                                                                 <React.Fragment
                                                                     key={idx}
@@ -283,32 +329,14 @@ class Home extends React.Component {
                                                                                 faInfoCircle
                                                                             }
                                                                         />{" "}
-                                                                        <Link to="">
-                                                                            Çağrı
-                                                                            Altuğ
-                                                                            published
-                                                                            a
-                                                                            new
-                                                                            topic:
-                                                                            "Domain
-                                                                            Driven
-                                                                            Design"
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <FontAwesomeIcon
-                                                                            icon={
-                                                                                faInfoCircle
+                                                                        <Link
+                                                                            to={
+                                                                                activity.link
                                                                             }
-                                                                        />{" "}
-                                                                        <Link to="">
-                                                                            {" "}
-                                                                            Gülşah
-                                                                            Coşkun
-                                                                            started
-                                                                            following
-                                                                            Cihangir
-                                                                            Özmüş.
+                                                                        >
+                                                                            {
+                                                                                activity.text
+                                                                            }
                                                                         </Link>
                                                                     </li>
                                                                 </React.Fragment>

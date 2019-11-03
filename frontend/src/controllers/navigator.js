@@ -29,8 +29,15 @@ import { connect } from "react-redux";
 import Home from "pages/home";
 import Glossary from "pages/glossary";
 import UserCreatedTopicList from "pages/topic/user-topic-list";
+import UserEnrolledTopicList from "pages/topic/user-enrollment-list";
 import CreateTopic from "pages/topic/create-topic";
 import TopicDetail from "pages/topic/topic";
+import EditTopic from "pages/topic/edit-topic";
+import TopicPreview from "pages/topic/topic-preview";
+import AddContent from "pages/learningpath/add-content";
+import EditContent from "pages/learningpath/edit-content";
+import ViewContent from "pages/learningpath/view-content";
+import ContentQuiz from "pages/learningpath/content-quiz";
 import Faq from "pages/faq";
 import NotFound from "pages/notfound";
 
@@ -41,7 +48,14 @@ const pageRegistry = {
     Glossary: Glossary,
     UserCreatedTopicList: UserCreatedTopicList,
     CreateTopic: CreateTopic,
-    TopicDetail: TopicDetail
+    TopicDetail: TopicDetail,
+    EditTopic: EditTopic,
+    AddContent: AddContent,
+    EditContent: EditContent,
+    TopicPreview: TopicPreview,
+    UserEnrolledTopicList: UserEnrolledTopicList,
+    ViewContent: ViewContent,
+    ContentQuiz: ContentQuiz
 };
 
 const mapStateToProps = state => {

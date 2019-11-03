@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
-import { REQUEST_HEADERS } from "../constants";
+import { REQUEST_HEADERS } from "../../constants";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { createTopic } from '../util/APIUtils';
+import { createTopic } from '../../util/APIUtils';
 import toast from "toasted-notes";
 import wdk from "wikidata-sdk";
 import axios from "axios";
 import { Col, Button, Row } from "react-bootstrap";
-import { Link, withRouter } from "react-router-dom";
-import PageHeader from "../components/PageHeader";
-import { resolveEndpoint } from "../util/Helpers";
-import ThingsToConsider from '../components/partials/ThingsToConsider';
-import Loading from '../components/Loading';
-import loadingGif from '../img/loading.gif'
+import { Link } from "react-router-dom";
+import PageHeader from "../../components/PageHeader";
+import { resolveEndpoint } from "../../util/Helpers";
+import ThingsToConsider from '../../components/partials/ThingsToConsider';
+import Loading from '../../components/loading';
+import loadingGif from '../../img/loading.gif'
+// Deps
+import { connect } from "react-redux";
+
+const mapStateToProps = state => {
+    return {
+        currentPage: state.generic.currentPage,
+        user: state.user.user,
+        unreadMessageCount: state.user.unreadMessageCount
+    };
+};
 
 class EditTopic extends Component {
     constructor(props) {
@@ -138,7 +148,7 @@ class EditTopic extends Component {
                             topic && (
                                 <React.Fragment>
                                     <PageHeader title="Edit Topic" intro="Be the mentor you once needed. Share what's on your mind & help others to grow.">
-                                        <Link to={`/${props.currentUser.username}/topics/created`} className="breadcrumbLink">
+                                        <Link to={`/${props.user.username}/topics/created`} className="breadcrumbLink">
                                             <span>My Topics</span>
                                         </Link>
                                     </PageHeader>
@@ -284,4 +294,4 @@ class EditTopic extends Component {
     }
 }
 
-export default withRouter(EditTopic);
+export default connect(mapStateToProps)(EditTopic);

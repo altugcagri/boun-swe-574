@@ -39,7 +39,7 @@ export default class RegisterForm extends React.Component {
 
         register(e.target, function(payload) {
             vm.setState({
-                success: payload.success ? true : false,
+                success: true,
                 loading: false,
                 message: "Kayıt Oluşturuldu",
                 email: e.target.elements.email.value
@@ -130,7 +130,7 @@ export default class RegisterForm extends React.Component {
                                 disabled={vm.state.loading}
                                 type="hidden"
                                 value={vm.state.email}
-                                label="Username"
+                                label=""
                                 className="form-field"
                             />
                             <FormInput

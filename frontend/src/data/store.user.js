@@ -104,6 +104,7 @@ export function login(form, finalFunction = false) {
 export function register(form, finalFunction = false) {
     request.post("auth/signup", serializeArray(form), function(payload) {
         if (payload && payload.success) {
+            checkLoginStatus();
             if (finalFunction) {
                 finalFunction(
                     extend({}, payload, { message: "Kayıt Başarılı" })

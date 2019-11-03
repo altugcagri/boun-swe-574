@@ -1,0 +1,61 @@
+{
+    "status": "ok",
+    "latestTopics": [
+        {
+            "title": "First Topic",
+            "image": "assets/library.jpeg",
+            "id": 1,
+            "caption": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+            "author": "@tallrye",
+            "date": "20-10-2019",
+            "wikis": [
+                {
+                    "conceptUri": "asd",
+                    "label": "dsa"
+                }
+            ]
+        }
+    ],
+    "interestTopics": [
+        {
+            "title": "New Topic",
+            "image": "assets/library.jpeg",
+            "id": 1,
+            "caption": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+            "author": "@tallrye",
+            "date": "20-10-2019",
+            "wikis": [
+                {
+                    "conceptUri": "asd",
+                    "label": "dsa"
+                }
+            ]
+        }
+    ],
+    "continueTopic": {
+        "title": "Existing Topic",
+        "image": "assets/library.jpeg",
+        "id": 1,
+        "caption": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+        "author": "@tallrye",
+        "date": "20-10-2019",
+        "wikis": [
+            {
+                "conceptUri": "asd",
+                "label": "dsa"
+            }
+        ]
+    },
+    "activities": [
+        {
+            "text": "Çağrı Altuğ published a new topic: 'Domain Driven Design'",
+            "link": "/topics/5",
+            "date": "2019-05-15T10:21:41.944Z"
+        },
+        {
+            "text": "Gülşah Coşkun started following Cihangir Özmüş.",
+            "link": "/user/ozmus",
+            "date": "2019-05-15T10:21:41.944Z"
+        }
+    ]
+}

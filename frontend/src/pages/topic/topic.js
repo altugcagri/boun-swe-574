@@ -3,7 +3,7 @@ import { REQUEST_HEADERS } from "../../constants";
 import axios from "axios";
 import toast from "toasted-notes";
 import { Row, Tab, Button } from "react-bootstrap";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faPlus,
@@ -18,6 +18,16 @@ import { resolveEndpoint } from "../../util/Helpers";
 import Loading from "../../components/loading";
 import { WikiLabels } from "../../components/wiki";
 import seperator from "assets/images/seperator.png";
+// Deps
+import { connect } from "react-redux";
+
+const mapStateToProps = state => {
+    return {
+        currentPage: state.generic.currentPage,
+        user: state.user.user,
+        unreadMessageCount: state.user.unreadMessageCount
+    };
+};
 
 class Topic extends Component {
     constructor(props) {
@@ -126,7 +136,7 @@ class Topic extends Component {
 
     render() {
         const { topic, activeTab, loading, achieved } = this.state;
-        const { editable } = this.props;
+        const editable = topic && topic.createdBy === this.props.user.id;
 
         return (
             <React.Fragment>
@@ -141,7 +151,7 @@ class Topic extends Component {
                         >
                             {editable ? (
                                 <Link
-                                    to={`/${this.props.currentUser.username}/topics/created`}
+                                    to={`/${this.props.user.username}/topics/created`}
                                     className="breadcrumbLink"
                                 >
                                     <span>My Topics</span>
@@ -298,4 +308,4 @@ class Topic extends Component {
     }
 }
 
-export default withRouter(Topic);
+export default connect(mapStateToProps)(Topic);
