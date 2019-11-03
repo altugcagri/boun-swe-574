@@ -33,6 +33,7 @@ class Home extends React.Component {
 
     loadHomepage() {
         //let url = resolveEndpoint('getActivities', []);
+
         let url = "dummy/homepage.json";
 
         axios
