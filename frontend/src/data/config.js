@@ -5,7 +5,7 @@ module.exports = {
 	mapsTheme: false,
 	filterSeperator: "|",
 	ACCESS_TOKEN: "accessToken",
-	API_BASE_URL: "http://localhost:8080/api",
+	API_BASE_URL: "http://3.124.181.240:8080/api",
 	REQUEST_HEADERS: {
 		headers: {
 			'content-type': 'application/json',

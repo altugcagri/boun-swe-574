@@ -1,4 +1,4 @@
-export const API_BASE_URL = "http://localhost:8080/api";
+export const API_BASE_URL = "http://3.124.181.240:8080/api";
 //export const API_BASE_URL = 'http://52.58.234.135:8080/api';
 //export const API_BASE_URL = 'http://192.168.1.40:8080/api';
 export const ACCESS_TOKEN = "accessToken";
