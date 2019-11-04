@@ -66,6 +66,22 @@ class TopicPreview extends Component {
                 });
                 console.log(err);
             });
+
+        /* let activityApi = resolveEndpoint("storeActivity");
+        let activityObject = {
+            summary: `${this.props.user.username} enrolled to ${this.state.topic.title}`,
+            type: "Follow",
+            actor: `http://localhost:3000/profile/${this.props.user.username}`,
+            object: `http://localhost:3000/topic/view/${topicId}`
+        };
+        axios
+            .post(activityApi, activityObject, REQUEST_HEADERS)
+            .then(res => {
+                console.log("Created", activityObject);
+            })
+            .catch(err => {
+                console.log("Failure", err);
+            }); */
     }
 
     loadTopicById() {
