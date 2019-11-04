@@ -7,7 +7,6 @@ import com.fellas.bespoke.security.UserPrincipal;
 import java.util.List;
 
 public interface ActivityService {
-        ActivityResponse getActivityById(Long activityId);
         List<ActivityResponse> getAllActivities();
         ActivityResponse createActivity(UserPrincipal currentUser, ActivityRequest activityRequest);
 }

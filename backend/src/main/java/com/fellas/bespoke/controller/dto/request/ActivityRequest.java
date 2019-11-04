@@ -15,9 +15,6 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class ActivityRequest {
     @Nullable
-    private Long id =0L;
-
-    @Nullable
     private String context;
 
     @NotBlank

@@ -15,11 +15,6 @@ public class ActivityRequestToActivity implements Converter<ActivityRequest, Act
                 .object(source.getObject())
                 .published(source.getPublished())
                 .build();
-
-        if (source.getId() != 0L){
-            activity.setId(source.getId());
-        }
-
         return activity;
     }
 }

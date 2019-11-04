@@ -31,12 +31,6 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public ActivityResponse getActivityById(Long activityId) {
-        Activity activity = activityRepository.findById(activityId).orElseThrow(() -> new ResourceNotFoundException(ACTIVITY, "id", activityId.toString()));
-        return smepConversionService.convert(activity, ActivityResponse.class);
-    }
-
-    @Override
     public List<ActivityResponse> getAllActivities() {
         List<Activity> activities = activityRepository.findAll();
         return activities.stream().map(activity -> smepConversionService.convert(activity, ActivityResponse.class)).collect(Collectors.toList());

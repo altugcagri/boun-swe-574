@@ -26,11 +26,6 @@ public class ActivityController {
         return ResponseEntity.ok(activityService.getAllActivities());
     }
 
-    @GetMapping(value = "/{activityId}")
-    public ResponseEntity<ActivityResponse> getActivityById(@PathVariable Long activityId){
-        return ResponseEntity.ok(activityService.getActivityById(activityId));
-    }
-
     @PostMapping
     public ResponseEntity<ActivityResponse> createActivity(@CurrentUser UserPrincipal currentUser,
                                                    @Valid @RequestBody ActivityRequest activityRequest){

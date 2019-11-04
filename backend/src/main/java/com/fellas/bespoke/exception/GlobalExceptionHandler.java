@@ -55,13 +55,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    // @Validate For Validating Path Variables and Request Parameters
     @ExceptionHandler(ConstraintViolationException.class)
     public void constraintViolationException(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.BAD_REQUEST.value());
     }
 
-    // error handle for @Valid
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
@@ -69,7 +67,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         Map<String, Object> body = new LinkedHashMap<>();
 
-        //Get all fields errors
         List<String> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
@@ -83,10 +80,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = Exception.class)
-    protected ResponseEntity<BaseErrorModel> handleAllExceptions(Exception e) {
+    protected ResponseEntity<ApiResponse> handleAllExceptions(Exception e) {
         log.error("Error from unknown exception -> {}", e.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(BaseErrorModel.builder().message(e.getMessage()).build());
+                .body(ApiResponse.builder().success(false).message(e.getMessage()).build());
     }
 
 
