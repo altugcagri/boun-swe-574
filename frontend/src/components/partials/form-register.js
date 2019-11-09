@@ -39,16 +39,16 @@ export default class RegisterForm extends React.Component {
 
         register(e.target, function(payload) {
             vm.setState({
-                success: payload.success ? true : false,
+                success: true,
                 loading: false,
-                message: "Kayıt Oluşturuldu",
+                message: "Registration Complete",
                 email: e.target.elements.email.value
             });
 
             if (payload.success) {
                 setTimeout(function() {
                     closeModal();
-                }, 1000);
+                }, 4000);
             }
         });
     }
@@ -61,10 +61,12 @@ export default class RegisterForm extends React.Component {
                 {vm.state.success ? (
                     <React.Fragment>
                         <h2 className="loginform-title">
-                            Üyelik kaydınız oluşturuldu
+                            Your account has been created
                         </h2>
                         <div className="loginform-info wysiwyg">
-                            <p>Lütfen bekleyin...</p>
+                            <p>
+                                Please login with the credentails you've entered
+                            </p>
                         </div>
                         <div className="loginform-nav center"></div>
                     </React.Fragment>
@@ -130,7 +132,7 @@ export default class RegisterForm extends React.Component {
                                 disabled={vm.state.loading}
                                 type="hidden"
                                 value={vm.state.email}
-                                label="Username"
+                                label=""
                                 className="form-field"
                             />
                             <FormInput

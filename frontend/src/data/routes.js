@@ -50,6 +50,13 @@ module.exports = {
             linkTitle: "My Topics",
             title: "My Topics"
         },
+        userEnrolledTopics: {
+            path: "/:username/topics/enrolled",
+            component: "UserEnrolledTopicList",
+            exact: true,
+            linkTitle: "Topics I Follow",
+            title: "Topics I Follow"
+        },
         newTopic: {
             path: "/topic/new",
             component: "CreateTopic",
@@ -63,6 +70,55 @@ module.exports = {
             exact: true,
             linkTitle: "Topics Detail",
             title: "Topics Detail"
+        },
+        editTopic: {
+            path: "/topic/:topicId/edit",
+            component: "EditTopic",
+            exact: true,
+            linkTitle: "Edit Topic",
+            title: "Edit Topic"
+        },
+        previewTopic: {
+            path: "/topic/preview/:topicId",
+            component: "TopicPreview",
+            exact: true,
+            linkTitle: "Topic Preview",
+            title: "Topic Preview"
+        },
+        viewTopic: {
+            path: "/topic/view/:topicId",
+            component: "TopicDetail",
+            exact: true,
+            linkTitle: "Topic Detail",
+            title: "Topic Detail"
+        },
+        addContent: {
+            path: "/topic/:topicId/content",
+            component: "AddContent",
+            exact: true,
+            linkTitle: "Add Content",
+            title: "Add Content"
+        },
+        editContent: {
+            path: "/content/:contentId",
+            component: "EditContent",
+            exact: true,
+            linkTitle: "Edit Content",
+            title: "Edit Content"
+        },
+        viewContent: {
+            path: "/content/view/:contentId",
+            component: "ViewContent",
+            exact: true,
+            linkTitle: "Content Detail",
+            title: "Content Detail"
+        },
+        contentQuiz: {
+            path: "/content/:contentId/quiz",
+            component: "ContentQuiz",
+            exact: true,
+            linkTitle: "Content Quiz",
+            title: "Content Quiz"
         },
         notfound: {
             path: false,
