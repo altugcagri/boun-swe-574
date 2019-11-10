@@ -1,0 +1,25 @@
+{
+    "status": "200",
+    "annotations": [
+        {
+            "start": 3,
+            "end": 31,
+            "annotatedText": "might already have an answer",
+            "comment": "Merhaba",
+            "page": "http://localhost:3000/faq",
+            "selector": "html > body > div > div.site-content > div.router-wrap > div.pageHeader.text-left > div.container > div.row > div.col-md-6 > p.wow.fadeIn ",
+            "author": "Serhat Uzunçavdar",
+            "date": "14 Mar 2019"
+        },
+        {
+            "start": 0,
+            "end": 10,
+            "annotatedText": "Frequently",
+            "comment": "Selam",
+            "page": "http://localhost:3000/faq",
+            "selector": "html > body > div > div.site-content > div.router-wrap > main.page.content > div.container > div.row > div.col-md-12 > section.section.contentpage > div.contentpage-wrap.wrapper.narrow > div.contentpage-content > h1.content-title ",
+            "author": "Serhat Uzunçavdar",
+            "date": "14 Mar 2019"
+        }
+    ]
+}

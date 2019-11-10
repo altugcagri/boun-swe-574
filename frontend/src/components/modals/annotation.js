@@ -28,6 +28,8 @@ export default class AnnotationModal extends React.Component {
             page: window.location.href,
             annotatedText: vm.props.selectedText,
             selector: vm.props.cssSelector,
+            start: vm.props.anchorOffset,
+            end: vm.props.focusOffset,
             comment: e.target.elements.comment.value,
             createdAt: new Date(),
             author: "Serhat Uzunçavdar"

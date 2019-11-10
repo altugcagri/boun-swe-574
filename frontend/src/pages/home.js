@@ -182,7 +182,13 @@ class Home extends React.Component {
                                                                         - by -{" "}
                                                                     </strong>{" "}
                                                                     {
-                                                                        latestTopic.author
+                                                                        <Link
+                                                                            to={`/profile/${latestTopic.author}`}
+                                                                        >
+                                                                            {
+                                                                                latestTopic.author
+                                                                            }
+                                                                        </Link>
                                                                     }
                                                                 </small>
                                                                 <p>
@@ -258,7 +264,13 @@ class Home extends React.Component {
                                                                         - by -
                                                                     </strong>
                                                                     {
-                                                                        interestTopic.author
+                                                                        <Link
+                                                                            to={`/profile/${interestTopic.author}`}
+                                                                        >
+                                                                            {
+                                                                                interestTopic.author
+                                                                            }
+                                                                        </Link>
                                                                     }
                                                                 </small>
                                                                 <p>

@@ -4,7 +4,7 @@ import axios from "axios";
 import { Row, Tab, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faUserPlus, faUser } from "@fortawesome/free-solid-svg-icons";
 import PageHeader from "../../components/PageHeader";
 import toast from "toasted-notes";
 import { PathNavigator } from "../../components/learning-path";
@@ -99,7 +99,14 @@ class TopicPreview extends Component {
                             ? res.data.contentList[0].id
                             : ""
                 });
-                this.getEnrolledTopicsByUserId();
+                if (this.props.user) {
+                    this.getEnrolledTopicsByUserId();
+                } else {
+                    this.setState({
+                        resolved: true,
+                        loading: false
+                    });
+                }
             })
             .catch(err => {
                 toast.notify("Something went wrong!", {
@@ -169,7 +176,7 @@ class TopicPreview extends Component {
 
     render() {
         const { topic, activeTab, resolved, loading } = this.state;
-
+        let user = this.props.user;
         return (
             <React.Fragment>
                 {loading ? (
@@ -199,20 +206,32 @@ class TopicPreview extends Component {
                                                     About {topic.title}
                                                 </h3>
                                                 <p>{topic.description}</p>
-                                                <Button
-                                                    className="btn btn-success btn-sm"
-                                                    variant="primary"
-                                                    onClick={() =>
-                                                        this.enrollUserToTopic(
-                                                            topic.id
-                                                        )
-                                                    }
-                                                >
-                                                    <FontAwesomeIcon
-                                                        icon={faUserPlus}
-                                                    />{" "}
-                                                    Enroll To This Topic
-                                                </Button>
+                                                {user ? (
+                                                    <Button
+                                                        className="btn btn-success btn-sm"
+                                                        variant="primary"
+                                                        onClick={() =>
+                                                            this.enrollUserToTopic(
+                                                                topic.id
+                                                            )
+                                                        }
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            icon={faUserPlus}
+                                                        />{" "}
+                                                        Enroll To This Topic
+                                                    </Button>
+                                                ) : (
+                                                    <Button
+                                                        className="btn btn-success btn-sm"
+                                                        variant="primary"
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            icon={faUser}
+                                                        />{" "}
+                                                        Login to Enroll
+                                                    </Button>
+                                                )}
                                             </div>
                                             <div
                                                 className="col-md-4"

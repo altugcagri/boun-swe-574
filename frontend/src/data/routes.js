@@ -120,6 +120,13 @@ module.exports = {
             linkTitle: "Content Quiz",
             title: "Content Quiz"
         },
+        profile: {
+            path: "/profile/:profile",
+            component: "Profile",
+            exact: true,
+            linkTitle: "Profile",
+            title: "Profile"
+        },
         notfound: {
             path: false,
             component: "NotFound",

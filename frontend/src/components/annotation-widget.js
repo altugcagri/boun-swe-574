@@ -9,7 +9,9 @@ export default class AnnotationWidget extends React.Component {
     btnTapped() {
         openModal("annotation", {
             selectedText: this.props.selectedText,
-            cssSelector: this.props.cssSelector
+            cssSelector: this.props.cssSelector,
+            anchorOffset: this.props.anchorOffset,
+            focusOffset: this.props.focusOffset
         });
     }
     render() {

@@ -1,0 +1,49 @@
+{
+    "status": "ok",
+    "name": "Cihangir Özmüş",
+    "currentUserIsAlreadyFollowing": false,
+    "topics": [
+        {
+            "title": "New Topic",
+            "image": "/assets/library.jpeg",
+            "id": 1,
+            "caption": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+            "author": "@cozmus",
+            "date": "20-10-2019",
+            "wikis": [
+                {
+                    "conceptUri": "asd",
+                    "label": "dsa"
+                }
+            ]
+        },
+        {
+            "title": "New Topic",
+            "image": "/assets/library.jpeg",
+            "id": 1,
+            "caption": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+            "author": "@cozmus",
+            "date": "20-10-2019",
+            "wikis": [
+                {
+                    "conceptUri": "asd",
+                    "label": "dsa"
+                }
+            ]
+        },
+        {
+            "title": "New Topic",
+            "image": "/assets/library.jpeg",
+            "id": 1,
+            "caption": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+            "author": "@cozmus",
+            "date": "20-10-2019",
+            "wikis": [
+                {
+                    "conceptUri": "asd",
+                    "label": "dsa"
+                }
+            ]
+        }
+    ]
+}
