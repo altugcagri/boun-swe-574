@@ -1,9 +1,9 @@
 package com.fellas.bespoke.persistence;
 
-import com.fellas.bespoke.persistence.model.ActivityStream;
+import com.fellas.bespoke.persistence.model.Activity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ActivityStreamRepository extends JpaRepository<ActivityStream, Long> {
+public interface ActivityRepository extends JpaRepository<Activity, Long> {
 }

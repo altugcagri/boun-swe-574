@@ -15,14 +15,10 @@ import com.fellas.bespoke.security.UserPrincipal;
 import com.fellas.bespoke.service.TopicService;
 import com.fellas.bespoke.service.util.SmeptUtilities;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,12 +34,12 @@ public class TopicServiceImpl implements TopicService {
 
     private WikiDataRepository wikiDataRepository;
 
-    private ActivityStreamServiceImpl activityStreamService;
+    private ActivityServiceImpl activityStreamService;
 
     private ConfigurableConversionService smepConversionService;
 
     public TopicServiceImpl(TopicRepository topicRepository, UserRepository userRepository,
-                            WikiDataRepository wikiDataRepository, ActivityStreamServiceImpl activityStreamService,
+                            WikiDataRepository wikiDataRepository, ActivityServiceImpl activityStreamService,
                             ConfigurableConversionService smepConversionService) {
         this.topicRepository = topicRepository;
         this.userRepository = userRepository;
@@ -123,23 +119,9 @@ public class TopicServiceImpl implements TopicService {
         topicRepository.save(topic);
 
         if(publishRequest.isPublish()){
-            JSONObject activityStreamJson = new JSONObject();
-            activityStreamJson.put("@context", "https://www.w3.org/ns/activitystreams");
-            activityStreamJson.put("summary", currentUser.getUsername() + " created a new topic: " + topic.getTitle());
-            activityStreamJson.put("type", "Create");
-            activityStreamJson.put("actor", "http://www.bespoke-domain.com/profile/" + currentUser.getUsername());
-            activityStreamJson.put("object", "http://www.bespoke-domain.com/topic/view/" + topic.getId());
-            activityStreamJson.put("published", Instant.now());
-
-            ActivityStream activityStream = ActivityStream.builder()
-                    .activityContent(ActivityContent.USER)
-                    .actor_id(currentUser.getId())
-                    .activity(activityStreamJson.toString())
-                    .build();
-
-            activityStreamService.createActivityStream(activityStream);
+            activityStreamService.createActivity(currentUser, topic, ActivityContentType.USER);
         }
-        
+
         return ResponseEntity.ok().body(new ApiResponse(true, "Topic is published successfully"));
     }
 

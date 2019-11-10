@@ -1,6 +1,6 @@
 package com.fellas.bespoke.persistence.model;
 
-public enum ActivityContent {
+public enum ActivityContentType {
     USER,
     TOPIC
 }
