@@ -122,22 +122,24 @@ public class TopicServiceImpl implements TopicService {
         topic.setPublished(publishRequest.isPublish());
         topicRepository.save(topic);
 
-        JSONObject activityStreamJson = new JSONObject();
-        activityStreamJson.put("@context", "https://www.w3.org/ns/activitystreams");
-        activityStreamJson.put("summary", currentUser.getUsername() + " created a new topic: " + topic.getTitle());
-        activityStreamJson.put("type", "Create");
-        activityStreamJson.put("actor", "http://www.bespoke-domain.com/profile/" + currentUser.getUsername());
-        activityStreamJson.put("object", "http://www.bespoke-domain.com/topic/view/" + topic.getId());
-        activityStreamJson.put("published", Instant.now());
+        if(publishRequest.isPublish()){
+            JSONObject activityStreamJson = new JSONObject();
+            activityStreamJson.put("@context", "https://www.w3.org/ns/activitystreams");
+            activityStreamJson.put("summary", currentUser.getUsername() + " created a new topic: " + topic.getTitle());
+            activityStreamJson.put("type", "Create");
+            activityStreamJson.put("actor", "http://www.bespoke-domain.com/profile/" + currentUser.getUsername());
+            activityStreamJson.put("object", "http://www.bespoke-domain.com/topic/view/" + topic.getId());
+            activityStreamJson.put("published", Instant.now());
 
-        ActivityStream activityStream = ActivityStream.builder()
-                .activityContent(ActivityContent.USER)
-                .actor_id(currentUser.getId())
-                .activity(activityStreamJson.toString())
-                .build();
+            ActivityStream activityStream = ActivityStream.builder()
+                    .activityContent(ActivityContent.USER)
+                    .actor_id(currentUser.getId())
+                    .activity(activityStreamJson.toString())
+                    .build();
 
-        activityStreamService.createActivityStream(activityStream);
-
+            activityStreamService.createActivityStream(activityStream);
+        }
+        
         return ResponseEntity.ok().body(new ApiResponse(true, "Topic is published successfully"));
     }
 
