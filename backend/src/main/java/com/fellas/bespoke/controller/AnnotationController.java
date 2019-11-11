@@ -26,14 +26,14 @@ public class AnnotationController {
 
     @Transactional
     @PostMapping
-    public ResponseEntity<ApiResponse> createContentByTopicId(@CurrentUser UserPrincipal currentUser,
+    public ResponseEntity<ApiResponse> createAnnotation(@CurrentUser UserPrincipal currentUser,
                                                               @Valid @RequestBody AnnotationRequest annotationRequest) {
         return annotationService.createAnnotation(currentUser,annotationRequest);
     }
 
     @Transactional
     @GetMapping
-    public ResponseEntity<AnnotationResponse> createContentByTopicId(@CurrentUser UserPrincipal currentUser,
+    public ResponseEntity<AnnotationResponse> getAnnotations(@CurrentUser UserPrincipal currentUser,
                                                                      @RequestParam(value = "page") String pageUrl) {
         return annotationService.getAnnotationsByTarget(currentUser,pageUrl);
     }
