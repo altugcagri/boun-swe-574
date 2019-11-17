@@ -1,11 +1,8 @@
 package com.fellas.bespoke.client.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Setter
+@Setter @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

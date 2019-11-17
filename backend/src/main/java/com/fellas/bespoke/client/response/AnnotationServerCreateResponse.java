@@ -2,11 +2,9 @@ package com.fellas.bespoke.client.response;
 
 import com.fellas.bespoke.client.request.AnnotationBody;
 import com.fellas.bespoke.client.request.AnnotationTarget;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@Getter
 @Setter
 @Builder
 @NoArgsConstructor
