@@ -6,9 +6,9 @@ import com.fellas.bespoke.controller.dto.response.ContentResponse;
 import com.fellas.bespoke.exception.ResourceNotFoundException;
 import com.fellas.bespoke.persistence.ContentRepository;
 import com.fellas.bespoke.persistence.TopicRepository;
-import com.fellas.bespoke.persistence.model.Content;
-import com.fellas.bespoke.persistence.model.Topic;
+import com.fellas.bespoke.persistence.model.*;
 import com.fellas.bespoke.security.UserPrincipal;
+import com.fellas.bespoke.service.ActivityService;
 import com.fellas.bespoke.service.ContentService;
 import com.fellas.bespoke.service.util.SmeptUtilities;
 import lombok.extern.slf4j.Slf4j;
@@ -32,12 +32,15 @@ public class ContentServiceImpl implements ContentService {
 
     private TopicRepository topicRepository;
 
+    private ActivityService activityService;
+
     private ConfigurableConversionService smepConversionService;
 
     public ContentServiceImpl(ContentRepository contentRepository, TopicRepository topicRepository,
-            ConfigurableConversionService smepConversionService) {
+                              ActivityService activityService, ConfigurableConversionService smepConversionService) {
         this.contentRepository = contentRepository;
         this.topicRepository = topicRepository;
+        this.activityService = activityService;
         this.smepConversionService = smepConversionService;
     }
 
@@ -54,6 +57,12 @@ public class ContentServiceImpl implements ContentService {
         final Content content = smepConversionService.convert(contentRequest, Content.class);
         content.setTopic(topic);
         contentRepository.save(content);
+
+        if (topic.isPublished()){
+            activityService.createTopicActivityByUser(currentUser, topic, ActivityContentType.USER, ActivityStreamType.Add, "added a new content to");
+            activityService.createTopicActivityByTopic(topic, ActivityContentType.TOPIC, ActivityStreamType.Update, " 's content is updated. Check out out!");
+        }
+
         return ResponseEntity.ok().body(new ApiResponse(true, "Content created successfully"));
     }
 

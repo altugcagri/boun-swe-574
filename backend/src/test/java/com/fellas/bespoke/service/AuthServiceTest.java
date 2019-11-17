@@ -5,7 +5,12 @@ import com.fellas.bespoke.controller.dto.request.LoginRequest;
 import com.fellas.bespoke.controller.dto.request.SignUpRequest;
 import com.fellas.bespoke.controller.dto.response.ApiResponse;
 import com.fellas.bespoke.persistence.UserRepository;
+import com.fellas.bespoke.persistence.model.ActivityContentType;
+import com.fellas.bespoke.persistence.model.ActivityStreamType;
+import com.fellas.bespoke.persistence.model.Topic;
+import com.fellas.bespoke.persistence.model.User;
 import com.fellas.bespoke.security.JwtTokenProvider;
+import com.fellas.bespoke.security.UserPrincipal;
 import com.fellas.bespoke.service.implementation.AuthServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +23,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -35,9 +43,12 @@ public class AuthServiceTest {
     @Mock
     private JwtTokenProvider tokenProvider;
 
+    @Mock
+    private ActivityService activityService;
+
     @InjectMocks
     private final AuthService sut = new AuthServiceImpl(authenticationManager, userRepository, passwordEncoder,
-            tokenProvider);
+            tokenProvider, activityService);
 
     @Test
     public void testRegisterUser_UsernameExists(){

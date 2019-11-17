@@ -27,7 +27,6 @@ import static org.mockito.Mockito.when;
 
 public class ContentServiceTest extends AbstractServiceTest {
 
-
     @Mock
     private ContentRepository contentRepository;
 
@@ -35,11 +34,14 @@ public class ContentServiceTest extends AbstractServiceTest {
     private TopicRepository topicRepository;
 
     @Mock
+    private ActivityService activityService;
+
+    @Mock
     private ConfigurableConversionService smepConversionService;
 
     @InjectMocks
     private final ContentService sut = new ContentServiceImpl(contentRepository, topicRepository,
-            smepConversionService);
+            activityService, smepConversionService);
 
     @Test(expected = ResourceNotFoundException.class)
     public void testCreateContentByTopicId_TopicNotFound() {

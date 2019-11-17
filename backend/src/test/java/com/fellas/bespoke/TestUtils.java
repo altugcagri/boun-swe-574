@@ -11,13 +11,7 @@ import com.fellas.bespoke.controller.dto.request.SignUpRequest;
 import com.fellas.bespoke.controller.dto.request.TopicRequest;
 import com.fellas.bespoke.controller.dto.response.ContentResponse;
 import com.fellas.bespoke.controller.dto.response.TopicResponse;
-import com.fellas.bespoke.persistence.model.Choice;
-import com.fellas.bespoke.persistence.model.Content;
-import com.fellas.bespoke.persistence.model.LearningStep;
-import com.fellas.bespoke.persistence.model.Question;
-import com.fellas.bespoke.persistence.model.Topic;
-import com.fellas.bespoke.persistence.model.User;
-import com.fellas.bespoke.persistence.model.WikiData;
+import com.fellas.bespoke.persistence.model.*;
 import com.fellas.bespoke.security.UserPrincipal;
 
 import java.util.ArrayList;
@@ -232,6 +226,10 @@ public class TestUtils {
         answerRequest.setChoiceId(0L);
         answerRequest.setQuestionId(0L);
         return answerRequest;
+    }
+
+    public static ActivityStream createDummyActivityStream(){
+        return new ActivityStream();
     }
 
 }

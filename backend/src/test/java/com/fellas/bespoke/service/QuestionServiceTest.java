@@ -45,10 +45,13 @@ public class QuestionServiceTest extends AbstractServiceTest {
     @Mock
     private ConfigurableConversionService smepConversionService;
 
+    @Mock
+    private ActivityService activityService;
+
 
     @InjectMocks
     private final QuestionService sut = new QuestionServiceImpl(questionRepository, contentRepository,
-            smepConversionService, learningStepRepository);
+            smepConversionService, learningStepRepository, activityService);
 
 
     @Test(expected = ResourceNotFoundException.class)
@@ -162,6 +165,5 @@ public class QuestionServiceTest extends AbstractServiceTest {
         assertEquals(responseEntity.getBody().getSuccess(), true);
 
     }
-
 
 }
