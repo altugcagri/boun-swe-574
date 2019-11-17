@@ -31,6 +31,22 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    public void createTopicActivityByTopic(Topic topic, ActivityContentType activityContentType, ActivityStreamType activityStreamType, String summary) {
+        ActivityStream activityStream = ActivityStream.builder()
+                .summary(topic.getTitle() + " " + summary)
+                .type(activityStreamType)
+                .actor("http://www.bespoke-domain.com/profile/" + topic.getTitle())
+                .object("http://www.bespoke-domain.com/topic/view/" + topic.getId())
+                .build();
+        Activity activity = Activity.builder()
+                .activityContentType(activityContentType)
+                .activityStream(activityStream.toString())
+                .actor_id(topic.getId())
+                .build();
+        activityRepository.save(activity);
+    }
+
+    @Override
     public void signUpActivity(User user, ActivityContentType activityContentType, ActivityStreamType activityStreamType, String summary) {
         ActivityStream activityStream = ActivityStream.builder()
                 .summary(user.getUsername() + " " + summary)
@@ -45,4 +61,5 @@ public class ActivityServiceImpl implements ActivityService {
                 .build();
         activityRepository.save(activity);
     }
+
 }

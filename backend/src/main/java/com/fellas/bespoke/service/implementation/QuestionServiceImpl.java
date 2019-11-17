@@ -66,6 +66,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         if (content.getTopic().isPublished()){
             activityService.createTopicActivityByUser(currentUser, content.getTopic(), ActivityContentType.USER, ActivityStreamType.Add, "added a new question to");
+            activityService.createTopicActivityByTopic(content.getTopic(), ActivityContentType.TOPIC, ActivityStreamType.Update, " 's question(s) is updated. Check it out!");
         }
 
         return ResponseEntity.ok().body(new ApiResponse(true, "Question created successfully"));
