@@ -1,5 +1,6 @@
 import React from "react";
-
+import { REQUEST_HEADERS } from "../constants";
+import axios from "axios";
 // Sections
 import Header from "components/sections/header";
 import Footer from "components/sections/footer";
@@ -24,6 +25,7 @@ import store from "data/store";
 import { setPage, setPageNotFound } from "data/store.generic";
 import extend from "lodash/extend";
 import { connect } from "react-redux";
+import { resolveEndpoint } from "util/Helpers";
 
 // Pages
 import Home from "pages/home";
@@ -38,6 +40,7 @@ import AddContent from "pages/learningpath/add-content";
 import EditContent from "pages/learningpath/edit-content";
 import ViewContent from "pages/learningpath/view-content";
 import ContentQuiz from "pages/learningpath/content-quiz";
+import Profile from "pages/profile";
 import Faq from "pages/faq";
 import NotFound from "pages/notfound";
 
@@ -55,7 +58,8 @@ const pageRegistry = {
     TopicPreview: TopicPreview,
     UserEnrolledTopicList: UserEnrolledTopicList,
     ViewContent: ViewContent,
-    ContentQuiz: ContentQuiz
+    ContentQuiz: ContentQuiz,
+    Profile: Profile
 };
 
 const mapStateToProps = state => {
@@ -72,7 +76,11 @@ class Navigator extends React.Component {
 
         this.state = {
             annotatedText: false,
-            cssSelector: false
+            cssSelector: false,
+            annotations: false,
+            annotationsResolved: false,
+            focusOffset: false,
+            anchorOffset: false
         };
 
         this.getParents = this.getParents.bind(this);
@@ -80,37 +88,6 @@ class Navigator extends React.Component {
 
     componentDidMount() {
         window.dynamicHistory = history;
-
-        let dummyAnnotation = [
-            {
-                annotatedText: "might already have an answer",
-                comment: "Merhaba",
-                page: "http://localhost:3000/faq",
-                selector:
-                    "html > body > div > div.site-content > div.router-wrap > div.pageHeader.text-left > div.container > div.row > div.col-md-6 > p.wow.fadeIn ",
-                author: "Serhat Uzunçavdar",
-                date: "14 Mar 2019"
-            }
-        ];
-
-        let actualText = document.querySelector(dummyAnnotation[0].selector);
-        if (actualText) {
-            let newHtml = actualText.innerText.replace(
-                dummyAnnotation[0].annotatedText,
-                "<mark class='mark-annotation' data-comment='" +
-                    dummyAnnotation[0].comment +
-                    "'>" +
-                    dummyAnnotation[0].annotatedText +
-                    "<span><em>At " +
-                    dummyAnnotation[0].date +
-                    " " +
-                    dummyAnnotation[0].author +
-                    " wrote:</em>" +
-                    dummyAnnotation[0].comment +
-                    "</span></mark>"
-            );
-            actualText.innerHTML = newHtml;
-        }
 
         history.listen(function(e) {
             store.dispatch(setPageNotFound(false));
@@ -146,7 +123,9 @@ class Navigator extends React.Component {
                 setTimeout(function() {
                     vm.setState({
                         annotatedText: selectedText,
-                        cssSelector: vm.getParents(elem)
+                        cssSelector: vm.getParents(elem),
+                        anchorOffset: selection.anchorOffset,
+                        focusOffset: selection.focusOffset
                     });
                 }, 500);
             } else {
@@ -189,6 +168,7 @@ class Navigator extends React.Component {
 
     render() {
         let routeData = this.props.pageNotFound ? <NotFound /> : renderRoutes();
+
         return (
             <div className="site-content">
                 <ResponsiveWatcher />
@@ -204,6 +184,8 @@ class Navigator extends React.Component {
                     <AnnotationWidget
                         selectedText={this.state.annotatedText}
                         cssSelector={this.state.cssSelector}
+                        anchorOffset={this.state.anchorOffset}
+                        focusOffset={this.state.focusOffset}
                     />
                 )}
             </div>
@@ -391,6 +373,45 @@ export function changeURLParam(
 
 export function changePage(key = false, group = "pages") {
     let route = key ? routes[group][key] : getRouteFromUrl(false, true, true);
+
+    /* let url = resolveEndpoint("getAnnotations", [
+            { slug1: window.location.href }
+        ]); */
+    let url = "dummy/annotations.json";
+
+    axios.get(url, REQUEST_HEADERS).then(res => {
+        let dummyAnnotation = res.data.annotations;
+
+        setTimeout(function() {
+            for (let i = 0; i < dummyAnnotation.length; i++) {
+                let actualText = document.querySelector(
+                    dummyAnnotation[i].selector
+                );
+                let annotatedText = actualText.innerText.substring(
+                    dummyAnnotation[i].start,
+                    dummyAnnotation[i].end
+                );
+                //let annotatedText = dummyAnnotation[i].annotatedText;
+                if (actualText) {
+                    let newHtml = actualText.innerText.replace(
+                        annotatedText,
+                        "<mark class='mark-annotation' data-comment='" +
+                            dummyAnnotation[i].comment +
+                            "'>" +
+                            annotatedText +
+                            "<span><em>At " +
+                            dummyAnnotation[i].date +
+                            " " +
+                            dummyAnnotation[i].author +
+                            " wrote:</em>" +
+                            dummyAnnotation[i].comment +
+                            "</span></mark>"
+                    );
+                    actualText.innerHTML = newHtml;
+                }
+            }
+        }, 1000);
+    });
 
     if (route) {
         if (route.key) {

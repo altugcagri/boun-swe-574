@@ -137,7 +137,7 @@ class Topic extends Component {
     render() {
         const { topic, activeTab, loading, achieved } = this.state;
         const editable = topic && topic.createdBy === this.props.user.id;
-
+        let user = this.props.user;
         return (
             <React.Fragment>
                 {loading ? (
@@ -173,7 +173,7 @@ class Topic extends Component {
                                         <h3 className="serif">
                                             About {topic.title}
                                         </h3>
-                                        {!editable && (
+                                        {!editable && user && (
                                             <React.Fragment>
                                                 {achieved ? (
                                                     <div>
