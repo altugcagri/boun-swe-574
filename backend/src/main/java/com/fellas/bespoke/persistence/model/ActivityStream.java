@@ -16,7 +16,7 @@ public class ActivityStream {
 
     private String summary;
 
-    private String type;
+    private ActivityStreamType type;
 
     private String actor;
 

@@ -39,7 +39,7 @@ public class ContentServiceTest extends AbstractServiceTest {
 
     @InjectMocks
     private final ContentService sut = new ContentServiceImpl(contentRepository, topicRepository,
-            smepConversionService);
+            activityService, smepConversionService);
 
     @Test(expected = ResourceNotFoundException.class)
     public void testCreateContentByTopicId_TopicNotFound() {

@@ -1,10 +1,7 @@
 package com.fellas.bespoke.service.implementation;
 
 import com.fellas.bespoke.persistence.ActivityRepository;
-import com.fellas.bespoke.persistence.model.Activity;
-import com.fellas.bespoke.persistence.model.ActivityContentType;
-import com.fellas.bespoke.persistence.model.ActivityStream;
-import com.fellas.bespoke.persistence.model.Topic;
+import com.fellas.bespoke.persistence.model.*;
 import com.fellas.bespoke.security.UserPrincipal;
 import com.fellas.bespoke.service.ActivityService;
 import org.springframework.stereotype.Service;
@@ -18,10 +15,10 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public void createActivity(UserPrincipal currentUser, Topic topic, ActivityContentType activityContentType) {
+    public void createTopicActivityByUser(UserPrincipal currentUser, Topic topic, ActivityContentType activityContentType, ActivityStreamType activityStreamType, String summary) {
         ActivityStream activityStream = ActivityStream.builder()
-                .summary(currentUser.getUsername() + " created a new topic: " + topic.getTitle())
-                .type("Create")
+                .summary(currentUser.getUsername() + " " + summary + " " + topic.getTitle())
+                .type(activityStreamType)
                 .actor("http://www.bespoke-domain.com/profile/" + currentUser.getUsername())
                 .object("http://www.bespoke-domain.com/topic/view/" + topic.getId())
                 .build();
@@ -32,4 +29,5 @@ public class ActivityServiceImpl implements ActivityService {
                 .build();
         activityRepository.save(activity);
     }
+
 }

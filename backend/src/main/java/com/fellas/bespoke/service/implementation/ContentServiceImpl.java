@@ -6,6 +6,8 @@ import com.fellas.bespoke.controller.dto.response.ContentResponse;
 import com.fellas.bespoke.exception.ResourceNotFoundException;
 import com.fellas.bespoke.persistence.ContentRepository;
 import com.fellas.bespoke.persistence.TopicRepository;
+import com.fellas.bespoke.persistence.model.ActivityContentType;
+import com.fellas.bespoke.persistence.model.ActivityStreamType;
 import com.fellas.bespoke.persistence.model.Content;
 import com.fellas.bespoke.persistence.model.Topic;
 import com.fellas.bespoke.security.UserPrincipal;
@@ -32,12 +34,15 @@ public class ContentServiceImpl implements ContentService {
 
     private TopicRepository topicRepository;
 
+    private ActivityServiceImpl activityService;
+
     private ConfigurableConversionService smepConversionService;
 
     public ContentServiceImpl(ContentRepository contentRepository, TopicRepository topicRepository,
-            ConfigurableConversionService smepConversionService) {
+                              ActivityServiceImpl activityService, ConfigurableConversionService smepConversionService) {
         this.contentRepository = contentRepository;
         this.topicRepository = topicRepository;
+        this.activityService = activityService;
         this.smepConversionService = smepConversionService;
     }
 
@@ -54,6 +59,11 @@ public class ContentServiceImpl implements ContentService {
         final Content content = smepConversionService.convert(contentRequest, Content.class);
         content.setTopic(topic);
         contentRepository.save(content);
+
+        if (topic.isPublished()){
+            activityService.createTopicActivityByUser(currentUser, topic, ActivityContentType.USER, ActivityStreamType.Add, "added a new content to");
+        }
+
         return ResponseEntity.ok().body(new ApiResponse(true, "Content created successfully"));
     }
 

@@ -48,7 +48,7 @@ public class QuestionServiceTest extends AbstractServiceTest {
 
     @InjectMocks
     private final QuestionService sut = new QuestionServiceImpl(questionRepository, contentRepository,
-            smepConversionService, learningStepRepository);
+            smepConversionService, learningStepRepository, activityService);
 
 
     @Test(expected = ResourceNotFoundException.class)

@@ -34,17 +34,17 @@ public class TopicServiceImpl implements TopicService {
 
     private WikiDataRepository wikiDataRepository;
 
-    private ActivityServiceImpl activityStreamService;
+    private ActivityServiceImpl activityService;
 
     private ConfigurableConversionService smepConversionService;
 
     public TopicServiceImpl(TopicRepository topicRepository, UserRepository userRepository,
-                            WikiDataRepository wikiDataRepository, ActivityServiceImpl activityStreamService,
+                            WikiDataRepository wikiDataRepository, ActivityServiceImpl activityService,
                             ConfigurableConversionService smepConversionService) {
         this.topicRepository = topicRepository;
         this.userRepository = userRepository;
         this.wikiDataRepository = wikiDataRepository;
-        this.activityStreamService = activityStreamService;
+        this.activityService = activityService;
         this.smepConversionService = smepConversionService;
     }
 
@@ -119,7 +119,7 @@ public class TopicServiceImpl implements TopicService {
         topicRepository.save(topic);
 
         if(publishRequest.isPublish()){
-            activityStreamService.createActivity(currentUser, topic, ActivityContentType.USER);
+            activityService.createTopicActivityByUser(currentUser, topic, ActivityContentType.USER, ActivityStreamType.Create, "created a new topic:");
         }
 
         return ResponseEntity.ok().body(new ApiResponse(true, "Topic is published successfully"));
