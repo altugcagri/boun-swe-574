@@ -18,16 +18,16 @@ public class ConverterConfig {
         final TopicToTopicResponse topicToTopicResponse = new TopicToTopicResponse();
         final ContentToContentResponse contentToContentResponse = new ContentToContentResponse();
         final ConfigurableConversionService conversionService = new GenericConversionService();
-        final AnnotationCreateRequestToServerRequest annotationCreateRequestToServerRequest = new AnnotationCreateRequestToServerRequest();
-        final AnnotationServerResponseToSearchResponse annotationServerResponseToSearchResponse = new AnnotationServerResponseToSearchResponse();
+        final AnnotationCreateRequestToASRequest annotationCreateRequestToASRequest = new AnnotationCreateRequestToASRequest();
+        final ASSearchResponseToAnnotationResponse ASSearchResponseToAnnotationResponse = new ASSearchResponseToAnnotationResponse();
         conversionService.addConverter(contentRequestToContent);
         conversionService.addConverter(questionRequestToQuestion);
         conversionService.addConverter(choiceRequestToChoice);
         conversionService.addConverter(topicRequestToTopic);
         conversionService.addConverter(topicToTopicResponse);
         conversionService.addConverter(contentToContentResponse);
-        conversionService.addConverter(annotationCreateRequestToServerRequest);
-        conversionService.addConverter(annotationServerResponseToSearchResponse);
+        conversionService.addConverter(annotationCreateRequestToASRequest);
+        conversionService.addConverter(ASSearchResponseToAnnotationResponse);
 
         return conversionService;
     }

@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AnnotationServerRequest {
 
+    private String type;
     private String creator;
     private String created;
     private AnnotationBody body;

@@ -1,6 +1,6 @@
 package com.fellas.bespoke.controller;
 
-import com.fellas.bespoke.controller.dto.request.AnnotationRequest;
+import com.fellas.bespoke.controller.dto.request.Annotation;
 import com.fellas.bespoke.controller.dto.response.AnnotationResponse;
 import com.fellas.bespoke.controller.dto.response.ApiResponse;
 import com.fellas.bespoke.security.CurrentUser;
@@ -8,6 +8,7 @@ import com.fellas.bespoke.security.UserPrincipal;
 import com.fellas.bespoke.service.AnnotationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -15,6 +16,7 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
+@Validated
 @RequestMapping(value = "api/annotation")
 public class AnnotationController {
 
@@ -27,8 +29,8 @@ public class AnnotationController {
     @Transactional
     @PostMapping
     public ResponseEntity<ApiResponse> createAnnotation(@CurrentUser UserPrincipal currentUser,
-                                                              @Valid @RequestBody AnnotationRequest annotationRequest) {
-        return annotationService.createAnnotation(currentUser,annotationRequest);
+                                                              @Valid @RequestBody Annotation annotation) {
+        return annotationService.createAnnotation(currentUser, annotation);
     }
 
     @Transactional

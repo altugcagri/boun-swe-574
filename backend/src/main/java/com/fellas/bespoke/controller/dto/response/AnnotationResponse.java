@@ -1,6 +1,6 @@
 package com.fellas.bespoke.controller.dto.response;
 
-import com.fellas.bespoke.controller.dto.request.AnnotationRequest;
+import com.fellas.bespoke.controller.dto.request.Annotation;
 import lombok.*;
 
 import java.util.List;
@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 public class AnnotationResponse {
 
-    private String status;
-    private List<AnnotationRequest> annotations;
+    private List<Annotation> annotations;
 
 }
