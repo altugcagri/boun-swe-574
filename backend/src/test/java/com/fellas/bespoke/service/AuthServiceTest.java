@@ -37,7 +37,7 @@ public class AuthServiceTest {
 
     @InjectMocks
     private final AuthService sut = new AuthServiceImpl(authenticationManager, userRepository, passwordEncoder,
-            tokenProvider);
+            tokenProvider, activityService);
 
     @Test
     public void testRegisterUser_UsernameExists(){

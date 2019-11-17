@@ -30,4 +30,19 @@ public class ActivityServiceImpl implements ActivityService {
         activityRepository.save(activity);
     }
 
+    @Override
+    public void signUpActivity(User user, ActivityContentType activityContentType, ActivityStreamType activityStreamType, String summary) {
+        ActivityStream activityStream = ActivityStream.builder()
+                .summary(user.getUsername() + " " + summary)
+                .type(activityStreamType)
+                .actor("http://www.bespoke-domain.com/profile/" + user.getUsername())
+                .object("http://www.bespoke-domain.com/user/view/" + user.getId())
+                .build();
+        Activity activity = Activity.builder()
+                .activityContentType(activityContentType)
+                .activityStream(activityStream.toString())
+                .actor_id(user.getId())
+                .build();
+        activityRepository.save(activity);
+    }
 }
