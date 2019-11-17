@@ -45,6 +45,9 @@ public class QuestionServiceTest extends AbstractServiceTest {
     @Mock
     private ConfigurableConversionService smepConversionService;
 
+    @Mock
+    private ActivityService activityService;
+
 
     @InjectMocks
     private final QuestionService sut = new QuestionServiceImpl(questionRepository, contentRepository,
@@ -162,6 +165,5 @@ public class QuestionServiceTest extends AbstractServiceTest {
         assertEquals(responseEntity.getBody().getSuccess(), true);
 
     }
-
 
 }

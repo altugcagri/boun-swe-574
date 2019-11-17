@@ -9,6 +9,7 @@ import com.fellas.bespoke.persistence.model.ActivityContentType;
 import com.fellas.bespoke.persistence.model.ActivityStreamType;
 import com.fellas.bespoke.persistence.model.User;
 import com.fellas.bespoke.security.JwtTokenProvider;
+import com.fellas.bespoke.service.ActivityService;
 import com.fellas.bespoke.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -35,11 +36,11 @@ public class AuthServiceImpl implements AuthService {
 
     private JwtTokenProvider tokenProvider;
 
-    private ActivityServiceImpl activityService;
+    private ActivityService activityService;
 
     public AuthServiceImpl(AuthenticationManager authenticationManager,
                            UserRepository userRepository, PasswordEncoder passwordEncoder,
-                           JwtTokenProvider tokenProvider, ActivityServiceImpl activityService) {
+                           JwtTokenProvider tokenProvider, ActivityService activityService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;

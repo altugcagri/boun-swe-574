@@ -12,6 +12,7 @@ import com.fellas.bespoke.persistence.UserRepository;
 import com.fellas.bespoke.persistence.WikiDataRepository;
 import com.fellas.bespoke.persistence.model.*;
 import com.fellas.bespoke.security.UserPrincipal;
+import com.fellas.bespoke.service.ActivityService;
 import com.fellas.bespoke.service.TopicService;
 import com.fellas.bespoke.service.util.SmeptUtilities;
 import lombok.extern.slf4j.Slf4j;
@@ -34,12 +35,12 @@ public class TopicServiceImpl implements TopicService {
 
     private WikiDataRepository wikiDataRepository;
 
-    private ActivityServiceImpl activityService;
+    private ActivityService activityService;
 
     private ConfigurableConversionService smepConversionService;
 
     public TopicServiceImpl(TopicRepository topicRepository, UserRepository userRepository,
-                            WikiDataRepository wikiDataRepository, ActivityServiceImpl activityService,
+                            WikiDataRepository wikiDataRepository, ActivityService activityService,
                             ConfigurableConversionService smepConversionService) {
         this.topicRepository = topicRepository;
         this.userRepository = userRepository;

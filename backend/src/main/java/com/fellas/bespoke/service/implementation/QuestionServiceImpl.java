@@ -11,6 +11,7 @@ import com.fellas.bespoke.persistence.LearningStepRepository;
 import com.fellas.bespoke.persistence.QuestionRepository;
 import com.fellas.bespoke.persistence.model.*;
 import com.fellas.bespoke.security.UserPrincipal;
+import com.fellas.bespoke.service.ActivityService;
 import com.fellas.bespoke.service.QuestionService;
 import com.fellas.bespoke.service.util.SmeptUtilities;
 import lombok.extern.slf4j.Slf4j;
@@ -37,12 +38,12 @@ public class QuestionServiceImpl implements QuestionService {
 
     private LearningStepRepository learningStepRepository;
 
-    private ActivityServiceImpl activityService;
+    private ActivityService activityService;
 
     private ConfigurableConversionService smepConversionService;
 
     public QuestionServiceImpl(QuestionRepository questionRepository, ContentRepository contentRepository,
-                               ConfigurableConversionService smepConversionService, LearningStepRepository learningStepRepository, ActivityServiceImpl activityService) {
+                               ConfigurableConversionService smepConversionService, LearningStepRepository learningStepRepository, ActivityService activityService) {
         this.questionRepository = questionRepository;
         this.contentRepository = contentRepository;
         this.smepConversionService = smepConversionService;

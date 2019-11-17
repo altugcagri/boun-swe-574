@@ -27,12 +27,14 @@ import static org.mockito.Mockito.when;
 
 public class ContentServiceTest extends AbstractServiceTest {
 
-
     @Mock
     private ContentRepository contentRepository;
 
     @Mock
     private TopicRepository topicRepository;
+
+    @Mock
+    private ActivityService activityService;
 
     @Mock
     private ConfigurableConversionService smepConversionService;

@@ -12,10 +12,8 @@ import com.fellas.bespoke.exception.ResourceNotFoundException;
 import com.fellas.bespoke.persistence.TopicRepository;
 import com.fellas.bespoke.persistence.UserRepository;
 import com.fellas.bespoke.persistence.WikiDataRepository;
-import com.fellas.bespoke.persistence.model.Content;
-import com.fellas.bespoke.persistence.model.Question;
-import com.fellas.bespoke.persistence.model.Topic;
-import com.fellas.bespoke.persistence.model.User;
+import com.fellas.bespoke.persistence.model.*;
+import com.fellas.bespoke.security.UserPrincipal;
 import com.fellas.bespoke.service.implementation.TopicServiceImpl;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -31,6 +29,9 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 public class TopicServiceTest extends AbstractServiceTest {
@@ -42,6 +43,9 @@ public class TopicServiceTest extends AbstractServiceTest {
     private UserRepository userRepository;
 
     @Mock
+    private ActivityService activityService;
+
+    @Mock
     private WikiDataRepository wikiDataRepository;
 
     @Mock
@@ -49,7 +53,7 @@ public class TopicServiceTest extends AbstractServiceTest {
 
     @InjectMocks
     private final TopicService sut = new TopicServiceImpl(topicRepository, userRepository, wikiDataRepository,
-            smepConversionService);
+            activityService, smepConversionService);
 
     @Test
     public void testGetAllTopics() {
@@ -114,6 +118,7 @@ public class TopicServiceTest extends AbstractServiceTest {
         final TopicRequest topicRequest = TestUtils.createDummyTopicRequest();
         final Topic topic = TestUtils.createDummyTopic();
         final TopicResponse topicResponse = TestUtils.createDummyTopicResponse();
+        final ActivityStream activityStream = TestUtils.createDummyActivityStream();
         when(topicRepository.findById(topicRequest.getId())).thenReturn(Optional.of(topic));
         when(smepConversionService.convert(topicRequest, Topic.class)).thenReturn(topic);
         when(topicRepository.save(topic)).thenReturn(topic);

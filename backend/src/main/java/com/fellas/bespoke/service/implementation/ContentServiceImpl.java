@@ -8,6 +8,7 @@ import com.fellas.bespoke.persistence.ContentRepository;
 import com.fellas.bespoke.persistence.TopicRepository;
 import com.fellas.bespoke.persistence.model.*;
 import com.fellas.bespoke.security.UserPrincipal;
+import com.fellas.bespoke.service.ActivityService;
 import com.fellas.bespoke.service.ContentService;
 import com.fellas.bespoke.service.util.SmeptUtilities;
 import lombok.extern.slf4j.Slf4j;
@@ -31,12 +32,12 @@ public class ContentServiceImpl implements ContentService {
 
     private TopicRepository topicRepository;
 
-    private ActivityServiceImpl activityService;
+    private ActivityService activityService;
 
     private ConfigurableConversionService smepConversionService;
 
     public ContentServiceImpl(ContentRepository contentRepository, TopicRepository topicRepository,
-                              ActivityServiceImpl activityService, ConfigurableConversionService smepConversionService) {
+                              ActivityService activityService, ConfigurableConversionService smepConversionService) {
         this.contentRepository = contentRepository;
         this.topicRepository = topicRepository;
         this.activityService = activityService;
