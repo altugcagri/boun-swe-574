@@ -2,8 +2,8 @@ package com.fellas.bespoke.client;
 
 import com.fellas.bespoke.client.response.AnnotationServerCreateResponse;
 import com.fellas.bespoke.client.response.AnnotationServerSearchResponse;
+import com.fellas.bespoke.exception.AnnotationServerException;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.AnnotationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -25,7 +25,7 @@ public class AnnotationServerClient {
         this.restTemplate = restTemplate;
     }
 
-    public AnnotationServerCreateResponse createAnnotation(String annotationServerRequest){
+    public void createAnnotation(String annotationServerRequest){
         StringBuilder apiUrl = new StringBuilder();
         apiUrl.append(annotationServerApiUrl)
                 .append(annotationContainerId);
@@ -34,10 +34,8 @@ public class AnnotationServerClient {
                 HttpMethod.POST, new HttpEntity<>(annotationServerRequest,getHttpHeaders()), AnnotationServerCreateResponse.class);
 
         if (response.getStatusCode() != HttpStatus.CREATED) {
-            throw new AnnotationException("Annotation could not be created");
+            throw new AnnotationServerException("Annotation could not be created");
         }
-
-        return response.getBody();
     }
 
     public AnnotationServerSearchResponse searchAnnotationsByTargetUrl(String url){
@@ -51,7 +49,7 @@ public class AnnotationServerClient {
                 HttpMethod.GET,  new HttpEntity<>(getHttpHeaders()), AnnotationServerSearchResponse.class);
 
         if (response.getStatusCode() != HttpStatus.OK) {
-            throw new AnnotationException("Annotations could not be retrieved from Annotation Server");
+            throw new AnnotationServerException("Annotations could not be retrieved from Annotation Server");
         }
 
         return response.getBody();

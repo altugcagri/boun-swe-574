@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnnotationServerRequest {
+public class AnnotationServerRequest implements Serializable {
 
     private String type;
     private String creator;

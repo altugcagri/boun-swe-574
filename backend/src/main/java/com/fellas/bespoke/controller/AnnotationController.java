@@ -1,7 +1,6 @@
 package com.fellas.bespoke.controller;
 
 import com.fellas.bespoke.controller.dto.request.Annotation;
-import com.fellas.bespoke.controller.dto.response.AnnotationResponse;
 import com.fellas.bespoke.controller.dto.response.ApiResponse;
 import com.fellas.bespoke.security.CurrentUser;
 import com.fellas.bespoke.security.UserPrincipal;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -35,8 +35,8 @@ public class AnnotationController {
 
     @Transactional
     @GetMapping
-    public ResponseEntity<AnnotationResponse> getAnnotations(@CurrentUser UserPrincipal currentUser,
-                                                                     @RequestParam(value = "page") String pageUrl) {
+    public ResponseEntity<List<Annotation>> getAnnotations(@CurrentUser UserPrincipal currentUser,
+                                                           @RequestParam(value = "page") String pageUrl) {
         return annotationService.getAnnotationsByTarget(currentUser,pageUrl);
     }
 
