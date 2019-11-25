@@ -33,6 +33,15 @@ export function createTopic(topicData) {
     });
 }
 
+export function createAnnotation(annotationData) {
+    let url = resolveEndpoint('storeAnnotation', []);
+    return request({
+        url: url,
+        method: 'POST',
+        body: JSON.stringify(annotationData)
+    });
+}
+
 export function updateTopic(topicData) {
     let url = resolveEndpoint('updateTopic', []);
     return request({

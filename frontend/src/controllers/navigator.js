@@ -89,7 +89,7 @@ class Navigator extends React.Component {
     componentDidMount() {
         window.dynamicHistory = history;
 
-        history.listen(function(e) {
+        history.listen(function (e) {
             store.dispatch(setPageNotFound(false));
             /*let route = getRouteFromUrl(e.pathname, false, true);
 			changePage(route[0], route[1]);*/
@@ -120,7 +120,7 @@ class Navigator extends React.Component {
                 }
 
                 let elem = document.querySelector(selectedTag + classString);
-                setTimeout(function() {
+                setTimeout(function () {
                     vm.setState({
                         annotatedText: selectedText,
                         cssSelector: vm.getParents(elem),
@@ -129,7 +129,7 @@ class Navigator extends React.Component {
                     });
                 }, 500);
             } else {
-                setTimeout(function() {
+                setTimeout(function () {
                     vm.setState({ annotatedText: false });
                 }, 300);
             }
@@ -161,6 +161,9 @@ class Navigator extends React.Component {
             parentString =
                 parents[i].localName + classString + " > " + parentString;
         }
+
+        parentString = parentString.replace(". >", " >")
+        parentString = parentString.replace("..", ".")
 
         // Return css selector string
         return parentString.substring(0, parentString.length - 2);
@@ -198,7 +201,7 @@ export default connect(mapStateToProps)(Navigator);
 export function ListingLink(params) {
     return (
         "/arama/?" +
-        params.map(function(param, nth) {
+        params.map(function (param, nth) {
             return param.key + "=" + param.val;
         })
     );
@@ -374,28 +377,31 @@ export function changeURLParam(
 export function changePage(key = false, group = "pages") {
     let route = key ? routes[group][key] : getRouteFromUrl(false, true, true);
 
-    /* let url = resolveEndpoint("getAnnotations", [
-            { slug1: window.location.href }
-        ]); */
-    let url = "dummy/annotations.json";
+    let url = resolveEndpoint("getAnnotations", [
+        { slug1: window.location.href }
+    ]);
+    /* let url = "dummy/annotations.json"; */
 
     axios.get(url, REQUEST_HEADERS).then(res => {
-        let dummyAnnotation = res.data.annotations;
+        let dummyAnnotation = res.data;
 
-        setTimeout(function() {
+        setTimeout(function () {
             for (let i = 0; i < dummyAnnotation.length; i++) {
-                let actualText = document.querySelector(
-                    dummyAnnotation[i].selector
-                );
-                let annotatedText = actualText.innerText.substring(
-                    dummyAnnotation[i].start,
-                    dummyAnnotation[i].end
-                );
-                //let annotatedText = dummyAnnotation[i].annotatedText;
-                if (actualText) {
-                    let newHtml = actualText.innerText.replace(
-                        annotatedText,
-                        "<mark class='mark-annotation' data-comment='" +
+                if (dummyAnnotation[i].page === window.location.href) {
+                    let selector = dummyAnnotation[i].selector.replace(". >", " >")
+                    selector = selector.replace("..", ".")
+                    let actualText = document.querySelector(
+                        selector
+                    );
+                    /* let annotatedText = actualText.innerText.substring(
+                        dummyAnnotation[i].start,
+                        dummyAnnotation[i].end
+                    ); */
+                    let annotatedText = dummyAnnotation[i].annotatedText;
+                    if (actualText) {
+                        let newHtml = actualText.innerText.replace(
+                            annotatedText,
+                            "<mark class='mark-annotation' data-comment='" +
                             dummyAnnotation[i].comment +
                             "'>" +
                             annotatedText +
@@ -406,8 +412,9 @@ export function changePage(key = false, group = "pages") {
                             " wrote:</em>" +
                             dummyAnnotation[i].comment +
                             "</span></mark>"
-                    );
-                    actualText.innerHTML = newHtml;
+                        );
+                        actualText.innerHTML = newHtml;
+                    }
                 }
             }
         }, 1000);
@@ -435,7 +442,7 @@ export function changePage(key = false, group = "pages") {
             store.dispatch(setPage(pageData));
 
             if (window.location.hash) {
-                setTimeout(function() {
+                setTimeout(function () {
                     let hashTarget = document.querySelector(
                         window.location.hash
                     );
