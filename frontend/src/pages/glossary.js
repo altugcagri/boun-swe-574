@@ -83,116 +83,118 @@ class Glossary extends Component {
                 {loading ? (
                     <Loading />
                 ) : (
-                    <React.Fragment>
-                        <PageHeader
-                            title="Explore"
-                            bg={page_banner}
-                            intro="To boldly go where no man has gone before!"
-                        ></PageHeader>
-                        <div className=" minHeightContent">
-                            <div className="container">
-                                <div className="row  mt-5 mb-5">
-                                    <div className="col-md-12">
-                                        <InputGroup>
-                                            <FontAwesomeIcon icon={faSearch} />
-                                            <input
-                                                value={input}
-                                                placeholder="Search "
-                                                className="form-control searchInput"
-                                                type="text"
-                                                onChange={this.handleSearch}
-                                            />
-                                        </InputGroup>
+                        <React.Fragment>
+                            <PageHeader
+                                title="Explore"
+                                bg={page_banner}
+                                intro="To boldly go where no man has gone before!"
+                                className="bespoke-glossary-header"
+                            ></PageHeader>
+                            <div className=" minHeightContent bespoke-glossary-container">
+                                <div className="container">
+                                    <div className="row  mt-5 mb-5">
+                                        <div className="col-md-12 bespoke-glossary-search">
+                                            <InputGroup>
+                                                <FontAwesomeIcon icon={faSearch} />
+                                                <input
+                                                    value={input}
+                                                    placeholder="Search "
+                                                    className="form-control searchInput"
+                                                    type="text"
+                                                    onChange={this.handleSearch}
+                                                />
+                                            </InputGroup>
+                                        </div>
                                     </div>
-                                </div>
-                                {topics.length === 0 && (
-                                    <div className="mt-5 text-center">
-                                        Nothing to show
+                                    {topics.length === 0 && (
+                                        <div className="mt-5 text-center">
+                                            Nothing to show
                                     </div>
-                                )}
-                                <div className="col-md-12 mb-5">
-                                    {topics
-                                        .filter(
-                                            topic =>
-                                                input === "" ||
-                                                topic.title
-                                                    .toLowerCase()
-                                                    .indexOf(input) > -1
-                                        )
-                                        .map((topic, topicIndex) => {
-                                            return (
-                                                <Row
-                                                    className="mb-3"
-                                                    key={topicIndex}
-                                                >
-                                                    <div
-                                                        className="card mb-5 wow fadeIn"
-                                                        data-wow-delay={`0.${topicIndex +
-                                                            1}s`}
-                                                        style={{
-                                                            minWidth: "100%"
-                                                        }}
+                                    )}
+                                    <div className="col-md-12 mb-5">
+                                        {topics
+                                            .filter(
+                                                topic =>
+                                                    input === "" ||
+                                                    topic.title
+                                                        .toLowerCase()
+                                                        .indexOf(input) > -1
+                                            )
+                                            .map((topic, topicIndex) => {
+                                                return (
+                                                    <Row
+                                                        className="mb-3"
+                                                        key={topicIndex}
                                                     >
-                                                        <div className="row no-gutters ">
-                                                            <div className="col-md-5">
-                                                                <div className="clear p-4">
-                                                                    <img
-                                                                        src={
-                                                                            topic.imageUrl
-                                                                        }
-                                                                        className="img-fluid fullWidth mb-4"
-                                                                        alt={
-                                                                            topic.title
-                                                                        }
-                                                                    />
-                                                                    <Link
-                                                                        className="btn btn-orange fullWidth"
-                                                                        to={`/topic/preview/${topic.id}`}
-                                                                    >
-                                                                        Details
+                                                        <div
+                                                            className={`card mb-5 wow fadeIn bespoke-glossary-topic-${topicIndex}`}
+                                                            data-wow-delay={`0.${topicIndex +
+                                                                1}s`}
+                                                            style={{
+                                                                minWidth: "100%"
+                                                            }}
+                                                        >
+                                                            <div className="row no-gutters ">
+                                                                <div className="col-md-5">
+                                                                    <div className="clear p-4">
+                                                                        <img
+                                                                            src={
+                                                                                topic.imageUrl
+                                                                            }
+                                                                            className="img-fluid fullWidth mb-4"
+                                                                            alt={
+                                                                                topic.title
+                                                                            }
+                                                                            id={`${topic.id}-${topic.imageUrl}`}
+                                                                        />
+                                                                        <Link
+                                                                            className="btn btn-orange fullWidth"
+                                                                            to={`/topic/preview/${topic.id}`}
+                                                                        >
+                                                                            Details
                                                                     </Link>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div className="col-md-7">
-                                                                <div className="card-body text-left">
-                                                                    <h5 className="card-title text-info serif font-24 text-justify mb-1">
+                                                                <div className="col-md-7">
+                                                                    <div className="card-body text-left">
+                                                                        <h5 className="card-title text-info serif font-24 text-justify mb-1">
+                                                                            {
+                                                                                topic.title
+                                                                            }{" "}
+                                                                        </h5>
+                                                                        <small className="text-left">
+                                                                            <strong>
+                                                                                by{" "}
+                                                                            </strong>{" "}
+                                                                            @
                                                                         {
-                                                                            topic.title
-                                                                        }{" "}
-                                                                    </h5>
-                                                                    <small className="text-left">
-                                                                        <strong>
-                                                                            by{" "}
-                                                                        </strong>{" "}
-                                                                        @
-                                                                        {
-                                                                            topic.createdByName
-                                                                        }{" "}
-                                                                    </small>
-                                                                    <hr />
-                                                                    <p className="card-text text-justify">
-                                                                        {
-                                                                            topic.description
-                                                                        }
-                                                                    </p>
-                                                                    <hr />
-                                                                    <WikiLabels
-                                                                        wikis={
-                                                                            topic.wikiData
-                                                                        }
-                                                                    />
+                                                                                topic.createdByName
+                                                                            }{" "}
+                                                                        </small>
+                                                                        <hr />
+                                                                        <p className="card-text text-justify">
+                                                                            {
+                                                                                topic.description
+                                                                            }
+                                                                        </p>
+                                                                        <hr />
+                                                                        <WikiLabels
+                                                                            wikis={
+                                                                                topic.wikiData
+                                                                            }
+                                                                        />
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </Row>
-                                            );
-                                        })}
+                                                    </Row>
+                                                );
+                                            })}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </React.Fragment>
-                )}
+                        </React.Fragment>
+                    )}
             </React.Fragment>
         );
     }

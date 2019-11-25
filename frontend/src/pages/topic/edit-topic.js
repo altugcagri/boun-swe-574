@@ -147,14 +147,14 @@ class EditTopic extends Component {
                         {
                             topic && (
                                 <React.Fragment>
-                                    <PageHeader title="Edit Topic" intro="Be the mentor you once needed. Share what's on your mind & help others to grow.">
+                                    <PageHeader title="Edit Topic" intro="Be the mentor you once needed. Share what's on your mind & help others to grow." className="bespoke-edit-topic-header">
                                         <Link to={`/${props.user.username}/topics/created`} className="breadcrumbLink">
                                             <span>My Topics</span>
                                         </Link>
                                     </PageHeader>
 
                                     <div className="sectionPadding">
-                                        <div className="container w-90 text-left">
+                                        <div className="container w-90 text-left bespoke-edit-topic-container">
                                             <div className="row">
                                                 <ThingsToConsider />
                                                 <div className="col-md-10 offset-md-1 mt-5 mb-5">
@@ -207,14 +207,14 @@ class EditTopic extends Component {
                                                     >
                                                         {({ isSubmitting }) => (
                                                             <Form>
-                                                                <div className="form-group row text-left">
+                                                                <div className="form-group row text-left bespoke-edit-topic-form-title">
                                                                     <label htmlFor="topicTitle" className="col-sm-12 col-form-label">Topic <strong>Title</strong></label>
                                                                     <div className="col-sm-12">
                                                                         <Field type="text" name="title" id="topicTitle" placeholder="Topic title" required className="form-control" />
                                                                         <ErrorMessage name="topicTitle" component="div" />
                                                                     </div>
                                                                 </div>
-                                                                <div className="form-group row text-left">
+                                                                <div className="form-group row text-left bespoke-edit-topic-form-image">
                                                                     <label htmlFor="topicImage" className="col-sm-12 col-form-label">Topic <strong>Image</strong></label>
                                                                     <div className="col-sm-12">
                                                                         <Field type="text" name="imageUrl" id="topicImage" placeholder="Topic image" required className="form-control" />
@@ -222,7 +222,7 @@ class EditTopic extends Component {
                                                                     </div>
                                                                 </div>
 
-                                                                <div className="form-group row text-left">
+                                                                <div className="form-group row text-left bespoke-edit-topic-form-body">
                                                                     <label htmlFor="topicDescription" className="col-sm-12 col-form-label">Topic <strong>Body</strong> </label>
                                                                     <div className="col-sm-12">
                                                                         <Field type="text" component="textarea" rows="7" name="description" required id="description" placeholder="Topic description" className="form-control" />
@@ -235,7 +235,7 @@ class EditTopic extends Component {
                                                                         <ul>
                                                                             {selectedWikis.map((wiki, idx) => {
                                                                                 return (
-                                                                                    <li key={idx}>
+                                                                                    <li key={idx} className={`bespoke-selected-wiki-${idx}`}>
                                                                                         {wiki.label} - {wiki.description} <span onClick={() => this.removeWiki(wiki.id)} className="ml-2 removeWikiLabel badge badge-pill badge-danger">Remove</span>
                                                                                     </li>
                                                                                 )
@@ -245,7 +245,7 @@ class EditTopic extends Component {
                                                                     </div>
                                                                 )}
 
-                                                                <div className="form-group row text-left">
+                                                                <div className="form-group row text-left bespoke-edit-topic-form-wiki-search">
                                                                     <label htmlFor="topicDescription" className="col-sm-12 col-form-label">
                                                                         {loadingWiki ? (<span><img src={loadingGif} width="30" alt="" /> Searching WikiData...</span>) : 'Keyword'}
                                                                     </label>
@@ -260,7 +260,7 @@ class EditTopic extends Component {
                                                                 {wikiDataSearch.length > 0 && (
                                                                     wikiDataSearch.map((wiki, wikiIndex) => {
                                                                         return (
-                                                                            <Row key={wikiIndex} className="border-bottom border-info p-1 m-1">
+                                                                            <Row key={wikiIndex} className={`border-bottom border-info p-1 m-1 bespoke-found-wiki-${wikiIndex}`}>
                                                                                 {wiki.description && (
                                                                                     <React.Fragment>
                                                                                         <Col md="1">

@@ -80,10 +80,49 @@ class Navigator extends React.Component {
             annotations: false,
             annotationsResolved: false,
             focusOffset: false,
-            anchorOffset: false
+            anchorOffset: false,
+            isImage: false,
+            imgSrc: false
         };
 
         this.getParents = this.getParents.bind(this);
+        this.imageHoverHandler = this.imageHoverHandler.bind(this)
+    }
+
+    imageHoverHandler(id, src, title) {
+        let vm = this;
+        vm.setState({
+            annotatedText: title,
+            cssSelector: `#${id}`,
+            anchorOffset: 0,
+            focusOffset: 1,
+            isImage: true,
+            imgSrc: src
+        });
+
+        setTimeout(function () {
+            vm.setState({
+                annotatedText: false,
+                cssSelector: false,
+                annotations: false,
+                annotationsResolved: false,
+                focusOffset: false,
+                anchorOffset: false,
+                isImage: false,
+                imgSrc: false
+            });
+        }, 5000);
+    }
+
+    componentDidUpdate() {
+        let vm = this;
+        setTimeout(function () {
+            var images = document.getElementsByTagName("IMG");
+
+            for (let i = 0; i < images.length; i++) {
+                images[i].addEventListener("mouseover", () => { vm.imageHoverHandler(images[i].id, images[i].src, images[i].alt) });
+            }
+        }, 1000)
     }
 
     componentDidMount() {
@@ -97,6 +136,15 @@ class Navigator extends React.Component {
         });
 
         let vm = this;
+
+        setTimeout(function () {
+            var images = document.getElementsByTagName("IMG");
+
+            for (let i = 0; i < images.length; i++) {
+                images[i].addEventListener("mouseover", () => { vm.imageHoverHandler(images[i].id, images[i].src) });
+            }
+        }, 1000)
+
         // onselectionchange version
         document.onselectionchange = () => {
             let selection = document.getSelection();
@@ -173,10 +221,10 @@ class Navigator extends React.Component {
         let routeData = this.props.pageNotFound ? <NotFound /> : renderRoutes();
 
         return (
-            <div className="site-content">
+            <div className="site-content bespoke-content">
                 <ResponsiveWatcher />
                 <Header />
-                <div className="router-wrap">{routeData}</div>
+                <div className="router-wrap bespoke-router-wrap">{routeData}</div>
                 <Footer />
                 <ModalsWrap>
                     <LoginModal />
@@ -189,6 +237,8 @@ class Navigator extends React.Component {
                         cssSelector={this.state.cssSelector}
                         anchorOffset={this.state.anchorOffset}
                         focusOffset={this.state.focusOffset}
+                        isImage={this.state.isImage}
+                        imgSrc={this.state.imgSrc}
                     />
                 )}
             </div>
@@ -385,23 +435,29 @@ export function changePage(key = false, group = "pages") {
     axios.get(url, REQUEST_HEADERS).then(res => {
         let dummyAnnotation = res.data;
 
-        setTimeout(function () {
-            for (let i = 0; i < dummyAnnotation.length; i++) {
+        let sameElements = [];
+        for (let i = 0; i < dummyAnnotation.length; i++) {
+            setTimeout(function () {
                 if (dummyAnnotation[i].page === window.location.href) {
                     let selector = dummyAnnotation[i].selector.replace(". >", " >")
                     selector = selector.replace("..", ".")
-                    let actualText = document.querySelector(
-                        selector
-                    );
-                    /* let annotatedText = actualText.innerText.substring(
-                        dummyAnnotation[i].start,
-                        dummyAnnotation[i].end
-                    ); */
+
+                    var results = [];
+
+                    var toSearch = selector;
+
+                    for (var j = 0; j < sameElements.length; j++) {
+                        for (key in sameElements[j]) {
+                            if (sameElements[j][key].indexOf(toSearch) != -1) {
+                                results.push(sameElements[j]);
+                            }
+                        }
+                    }
                     let annotatedText = dummyAnnotation[i].annotatedText;
-                    if (actualText) {
-                        let newHtml = actualText.innerText.replace(
-                            annotatedText,
-                            "<mark class='mark-annotation' data-comment='" +
+                    if (selector.charAt(0) === '#') {
+                        let image = document.getElementById(selector.replace('#', ''));
+                        var newItem = document.createElement("SPAN");       // Create a <li> node
+                        newItem.innerHTML = "<mark class='mark-annotation' data-comment='" +
                             dummyAnnotation[i].comment +
                             "'>" +
                             annotatedText +
@@ -411,13 +467,58 @@ export function changePage(key = false, group = "pages") {
                             dummyAnnotation[i].author +
                             " wrote:</em>" +
                             dummyAnnotation[i].comment +
-                            "</span></mark>"
+                            "</span></mark>";  // Create a text node
+                        // Append the text to <li>
+
+
+                        image.parentNode.insertBefore(newItem, image.nextSibling);
+                    } else {
+                        let actualText = document.querySelector(
+                            selector
                         );
-                        actualText.innerHTML = newHtml;
+                        let actualTextInner;
+
+                        if (results.length > 0) {
+                            actualTextInner = results[0].html
+                        } else {
+                            actualTextInner = actualText.innerText
+
+                        }
+
+
+                        /* let annotatedText = actualText.innerText.substring(
+                            dummyAnnotation[i].start,
+                            dummyAnnotation[i].end
+                        ); */
+
+                        if (actualText) {
+                            let newHtml = actualTextInner.replace(
+                                annotatedText,
+                                "<mark class='mark-annotation' data-comment='" +
+                                dummyAnnotation[i].comment +
+                                "'>" +
+                                annotatedText +
+                                "<span><em>At " +
+                                dummyAnnotation[i].date +
+                                " " +
+                                dummyAnnotation[i].author +
+                                " wrote:</em>" +
+                                dummyAnnotation[i].comment +
+                                "</span></mark>"
+                            );
+
+
+                            actualText.innerHTML = newHtml;
+
+                            sameElements.push({ selector: selector, html: actualText.innerHTML })
+                        }
                     }
+
+
                 }
-            }
-        }, 1000);
+            }, 1000 + i * 100);
+        }
+
     });
 
     if (route) {

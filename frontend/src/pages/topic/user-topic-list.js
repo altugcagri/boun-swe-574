@@ -97,95 +97,97 @@ class UserCreatedTopicList extends Component {
                 {loading && user ? (
                     <Loading />
                 ) : (
-                    <React.Fragment>
-                        <PageHeader
-                            title="My Topics"
-                            bg={page_banner}
-                            intro="Be the mentor you once needed. Share what's on your mind & help others to grow."
-                        />
+                        <React.Fragment>
+                            <PageHeader
+                                title="My Topics"
+                                bg={page_banner}
+                                intro="Be the mentor you once needed. Share what's on your mind & help others to grow."
+                                className="bespoke-user-topic-header"
+                            />
 
-                        <div className="sectionPadding minHeightContent">
-                            <div className="container">
-                                <div className="row">
-                                    <div className="col-md-4">
-                                        <Link
-                                            to="/topic/new"
-                                            className="btn btn-success fullWidth"
-                                        >
-                                            <FontAwesomeIcon icon={faPlus} />{" "}
-                                            Create a Topic
-                                        </Link>
-                                    </div>
-                                </div>
-
-                                <div className="row mt-5">
-                                    {topics.map((topic, topicIndex) => {
-                                        return (
-                                            <div
-                                                className="col-md-4 wow fadeIn"
-                                                data-wow-delay={`0.${topicIndex +
-                                                    1}s`}
-                                                key={topicIndex}
+                            <div className="sectionPadding minHeightContent bespoke-user-topic-container">
+                                <div className="container">
+                                    <div className="row">
+                                        <div className="col-md-4">
+                                            <Link
+                                                to="/topic/new"
+                                                className="btn btn-success fullWidth"
                                             >
+                                                <FontAwesomeIcon icon={faPlus} />{" "}
+                                                Create a Topic
+                                        </Link>
+                                        </div>
+                                    </div>
+
+                                    <div className="row mt-5">
+                                        {topics.map((topic, topicIndex) => {
+                                            return (
                                                 <div
-                                                    className="card"
-                                                    style={{ padding: "20px" }}
+                                                    className={`col-md-4 wow fadeIn bespoke-user-topic-${topicIndex}`}
+                                                    data-wow-delay={`0.${topicIndex +
+                                                        1}s`}
+                                                    key={topicIndex}
                                                 >
-                                                    <div className="card-bod minWiki">
-                                                        <div className="maxCaption">
-                                                            <img
-                                                                src={
-                                                                    topic.imageUrl
-                                                                }
-                                                                className="img-fluid mb-2"
-                                                                alt={
-                                                                    topic.title
+                                                    <div
+                                                        className="card"
+                                                        style={{ padding: "20px" }}
+                                                    >
+                                                        <div className="card-bod minWiki">
+                                                            <div className="maxCaption">
+                                                                <img
+                                                                    src={
+                                                                        topic.imageUrl
+                                                                    }
+                                                                    className="img-fluid mb-2"
+                                                                    alt={
+                                                                        topic.title
+                                                                    }
+                                                                    id={`${topic.id}-${topic.imageUrl}`}
+                                                                />
+                                                            </div>
+                                                            <h4 className="serif font-24">
+                                                                {topic.title}
+                                                            </h4>
+                                                            <div className="topicCaption">
+                                                                {topic.description}
+                                                            </div>
+                                                            <br />
+                                                            <WikiLabels
+                                                                wikis={
+                                                                    topic.wikiData
                                                                 }
                                                             />
-                                                        </div>
-                                                        <h4 className="serif font-24">
-                                                            {topic.title}
-                                                        </h4>
-                                                        <div className="topicCaption">
-                                                            {topic.description}
-                                                        </div>
-                                                        <br />
-                                                        <WikiLabels
-                                                            wikis={
-                                                                topic.wikiData
-                                                            }
-                                                        />
-                                                        <hr />
-                                                        <Link
-                                                            className="btn btn-sm fullWidth btn-orange "
-                                                            to={`/topic/${topic.id}`}
-                                                        >
-                                                            Details
+                                                            <hr />
+                                                            <Link
+                                                                className="btn btn-sm fullWidth btn-orange "
+                                                                to={`/topic/${topic.id}`}
+                                                            >
+                                                                Details
                                                         </Link>
-                                                        <Button
-                                                            style={{
-                                                                display: "none"
-                                                            }}
-                                                            className="ml-2 btn-sm"
-                                                            variant="outline-danger"
-                                                            onClick={() =>
-                                                                this.handleDeleteTopicById(
-                                                                    topic.id
-                                                                )
-                                                            }
-                                                        >
-                                                            Delete
+                                                            <Button
+                                                                style={{
+                                                                    display: "none"
+                                                                }}
+                                                                className="ml-2 btn-sm"
+                                                                variant="outline-danger"
+                                                                onClick={() =>
+                                                                    this.handleDeleteTopicById(
+                                                                        topic.id
+                                                                    )
+                                                                }
+                                                            >
+                                                                Delete
                                                         </Button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        );
-                                    })}
+                                            );
+                                        })}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </React.Fragment>
-                )}
+                        </React.Fragment>
+                    )}
             </React.Fragment>
         );
     }

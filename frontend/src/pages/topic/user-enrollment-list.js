@@ -53,7 +53,7 @@ class UserEnrolledTopicList extends Component {
 
     componentDidMount() {
         let vm = this;
-        setTimeout(function() {
+        setTimeout(function () {
             vm.loadUserEnrolledTopics();
         }, 500);
     }
@@ -66,64 +66,66 @@ class UserEnrolledTopicList extends Component {
                 {loading ? (
                     <Loading />
                 ) : (
-                    <React.Fragment>
-                        <PageHeader
-                            title="Topics I Follow"
-                            bg={page_banner}
-                            intro="Your own collection of interest."
-                        />
+                        <React.Fragment>
+                            <PageHeader
+                                title="Topics I Follow"
+                                bg={page_banner}
+                                intro="Your own collection of interest."
+                                className="bespoke-user-enrollment-header"
+                            />
 
-                        <div className="container minHeightContent">
-                            {topics.length === 0 && (
-                                <div className="mt-5 text-center">
-                                    Nothing to show
+                            <div className="container minHeightContent bespoke-user-enrollment-container">
+                                {topics.length === 0 && (
+                                    <div className="mt-5 text-center">
+                                        Nothing to show
                                 </div>
-                            )}
-                            <div className="row mt-5">
-                                {topics.map((topic, topicIndex) => {
-                                    return (
-                                        <div
-                                            className="col-md-4"
-                                            key={topicIndex}
-                                        >
+                                )}
+                                <div className="row mt-5">
+                                    {topics.map((topic, topicIndex) => {
+                                        return (
                                             <div
-                                                className="card"
-                                                style={{ padding: "20px" }}
+                                                className={`col-md-4 bespoke-user-enrollment-topic${topicIndex}`}
+                                                key={topicIndex}
                                             >
-                                                <div className="card-bod minWiki">
-                                                    <div className="maxCaption">
-                                                        <img
-                                                            src={topic.imageUrl}
-                                                            className="img-fluid mb-2"
-                                                            alt={topic.title}
+                                                <div
+                                                    className="card"
+                                                    style={{ padding: "20px" }}
+                                                >
+                                                    <div className="card-bod minWiki">
+                                                        <div className="maxCaption">
+                                                            <img
+                                                                src={topic.imageUrl}
+                                                                className="img-fluid mb-2"
+                                                                alt={topic.title}
+                                                                id={`${topic.id}-${topic.imageUrl}`}
+                                                            />
+                                                        </div>
+                                                        <h4 className="serif font-24">
+                                                            {topic.title}
+                                                        </h4>
+                                                        <div className="topicCaption mb-3">
+                                                            {topic.description}
+                                                        </div>
+                                                        <br />
+                                                        <WikiLabels
+                                                            wikis={topic.wikiData}
                                                         />
-                                                    </div>
-                                                    <h4 className="serif font-24">
-                                                        {topic.title}
-                                                    </h4>
-                                                    <div className="topicCaption mb-3">
-                                                        {topic.description}
-                                                    </div>
-                                                    <br />
-                                                    <WikiLabels
-                                                        wikis={topic.wikiData}
-                                                    />
-                                                    <hr />
-                                                    <Link
-                                                        className="btn btn-sm fullWidth btn-orange"
-                                                        to={`/topic/view/${topic.id}`}
-                                                    >
-                                                        Details
+                                                        <hr />
+                                                        <Link
+                                                            className="btn btn-sm fullWidth btn-orange"
+                                                            to={`/topic/view/${topic.id}`}
+                                                        >
+                                                            Details
                                                     </Link>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    );
-                                })}
+                                        );
+                                    })}
+                                </div>
                             </div>
-                        </div>
-                    </React.Fragment>
-                )}
+                        </React.Fragment>
+                    )}
             </React.Fragment>
         );
     }

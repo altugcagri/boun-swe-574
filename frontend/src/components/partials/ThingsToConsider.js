@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class WikiLabel extends Component {
     render() {
         return (
-            <div className="col-md-8 offset-2 text-center">
+            <div className="col-md-8 offset-2 text-center bespoke-things-to-consider">
                 <h4 className="serif" style={{ fontSize: '22px' }}>Things to Consider</h4>
                 <hr />
                 <p style={{ fontSize: '14px', textAlign: 'center' }}>

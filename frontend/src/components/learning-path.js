@@ -43,14 +43,14 @@ export class PathNavigator extends Component {
                                         />
                                     </Link>
                                 ) : (
-                                    <span>
-                                        {contentId + 1} -{" "}
-                                        {content.title.substr(0, 20)}...{" "}
-                                        <FontAwesomeIcon
-                                            icon={faChevronRight}
-                                        />
-                                    </span>
-                                )}
+                                        <span>
+                                            {contentId + 1} -{" "}
+                                            {content.title.substr(0, 20)}...{" "}
+                                            <FontAwesomeIcon
+                                                icon={faChevronRight}
+                                            />
+                                        </span>
+                                    )}
                             </ListGroup.Item>
                         );
                     })}
@@ -156,17 +156,17 @@ export class PathElement extends Component {
                         </React.Fragment>
                     )
                 ) : (
-                    <div className="text-right">
-                        <hr />
-                        <Link
-                            className="btn btn-success btn-sm ml-2 inlineBtn"
-                            to={`/content/${content.id}/quiz`}
-                        >
-                            <FontAwesomeIcon icon={faChevronRight} /> Start
-                            Section Quiz
+                        <div className="text-right">
+                            <hr />
+                            <Link
+                                className="btn btn-success btn-sm ml-2 inlineBtn"
+                                to={`/content/${content.id}/quiz`}
+                            >
+                                <FontAwesomeIcon icon={faChevronRight} /> Start
+                                Section Quiz
                         </Link>
-                    </div>
-                )}
+                        </div>
+                    )}
             </div>
         );
     }
@@ -208,10 +208,10 @@ export class Question extends Component {
     }
 
     render() {
-        const { question, order, editable, handleRefresh } = this.props;
+        const { question, order, editable, handleRefresh, classes } = this.props;
         const { disabled } = this.state;
         return (
-            <div id={`questionDiv${question.id}`}>
+            <div id={`questionDiv${question.id} ${classes}`}>
                 <p>
                     <strong>Q{order}:</strong> {question.text}
                     {editable && (
@@ -271,7 +271,7 @@ export class Question extends Component {
                                     {question.choiceList.map(
                                         (choice, choiceId) => {
                                             return (
-                                                <li key={choiceId}>
+                                                <li key={choiceId} className={`bespoke-choice-${choiceId}`}>
                                                     {!editable && (
                                                         <Field
                                                             type="radio"
@@ -284,7 +284,7 @@ export class Question extends Component {
                                                                 (question
                                                                     .userAnswer
                                                                     .id ===
-                                                                choice.id
+                                                                    choice.id
                                                                     ? true
                                                                     : false)
                                                             }
@@ -301,32 +301,32 @@ export class Question extends Component {
                                                         </small>
                                                     )}
                                                     {question.userAnswer &&
-                                                    question.userAnswer.id ===
+                                                        question.userAnswer.id ===
                                                         choice.id ? (
-                                                        <strong>
-                                                            {choice.correct ? (
-                                                                <span className="text-success">
-                                                                    {" "}
-                                                                    <FontAwesomeIcon
-                                                                        icon={
-                                                                            faCheck
-                                                                        }
-                                                                    />
-                                                                </span>
-                                                            ) : (
-                                                                <span className="text-danger">
-                                                                    {" "}
-                                                                    <FontAwesomeIcon
-                                                                        icon={
-                                                                            faTimes
-                                                                        }
-                                                                    />
-                                                                </span>
-                                                            )}
-                                                        </strong>
-                                                    ) : (
-                                                        false
-                                                    )}
+                                                            <strong>
+                                                                {choice.correct ? (
+                                                                    <span className="text-success">
+                                                                        {" "}
+                                                                        <FontAwesomeIcon
+                                                                            icon={
+                                                                                faCheck
+                                                                            }
+                                                                        />
+                                                                    </span>
+                                                                ) : (
+                                                                        <span className="text-danger">
+                                                                            {" "}
+                                                                            <FontAwesomeIcon
+                                                                                icon={
+                                                                                    faTimes
+                                                                                }
+                                                                            />
+                                                                        </span>
+                                                                    )}
+                                                            </strong>
+                                                        ) : (
+                                                            false
+                                                        )}
                                                 </li>
                                             );
                                         }

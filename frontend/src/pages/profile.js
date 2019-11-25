@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCheck } from "@fortawesome/free-solid-svg-icons";
 import PageHeader from "../components/PageHeader";
 import { WikiLabels } from "../components/wiki";
-import { resolveEndpoint } from "../util/Helpers";
+//import { resolveEndpoint } from "../util/Helpers";
 // Deps
 import { connect } from "react-redux";
 
@@ -78,120 +78,121 @@ class Profile extends Component {
                 {loading && profile ? (
                     <Loading />
                 ) : (
-                    <React.Fragment>
-                        <PageHeader
-                            title="Cihangir Özmüş"
-                            bg={page_banner}
-                            intro="Profile"
-                        />
-                        {profile && (
-                            <React.Fragment>
-                                <div className="sectionPadding minHeightContent">
-                                    <div className="container">
-                                        {user && (
-                                            <div className="row">
-                                                <div className="col-md-4">
-                                                    <Button
-                                                        onClick={
-                                                            profile.currentUserIsAlreadyFollowing
-                                                                ? false
-                                                                : this
-                                                                      .followUser
-                                                        }
-                                                        className="btn btn-success fullWidth"
-                                                    >
-                                                        {profile.currentUserIsAlreadyFollowing ? (
-                                                            <span>
-                                                                <FontAwesomeIcon
-                                                                    icon={
-                                                                        faCheck
-                                                                    }
-                                                                />{" "}
-                                                                Your are
-                                                                following
-                                                                Cihangir Özmüş
-                                                            </span>
-                                                        ) : (
-                                                            <span>
-                                                                <FontAwesomeIcon
-                                                                    icon={
-                                                                        faPlus
-                                                                    }
-                                                                />{" "}
-                                                                Follow Cihangir
-                                                                Özmüş
-                                                            </span>
-                                                        )}
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        <div className="row mt-5">
-                                            {profile.topics.map(
-                                                (topic, topicIndex) => {
-                                                    return (
-                                                        <div
-                                                            className="col-md-4 wow fadeIn"
-                                                            data-wow-delay={`0.${topicIndex +
-                                                                1}s`}
-                                                            key={topicIndex}
+                        <React.Fragment>
+                            <PageHeader
+                                title="Cihangir Özmüş"
+                                bg={page_banner}
+                                intro="Profile"
+                                className="bespoke-profile-header"
+                            />
+                            {profile && (
+                                <React.Fragment>
+                                    <div className="sectionPadding minHeightContent bespoke-profile-container">
+                                        <div className="container">
+                                            {user && (
+                                                <div className="row">
+                                                    <div className="col-md-4">
+                                                        <Button
+                                                            onClick={
+                                                                profile.currentUserIsAlreadyFollowing
+                                                                    ? false
+                                                                    : this
+                                                                        .followUser
+                                                            }
+                                                            className="btn btn-success fullWidth"
                                                         >
-                                                            <div
-                                                                className="card"
-                                                                style={{
-                                                                    padding:
-                                                                        "20px"
-                                                                }}
-                                                            >
-                                                                <div className="card-bod minWiki">
-                                                                    <div className="maxCaption">
-                                                                        <img
-                                                                            src={
-                                                                                topic.image
+                                                            {profile.currentUserIsAlreadyFollowing ? (
+                                                                <span>
+                                                                    <FontAwesomeIcon
+                                                                        icon={
+                                                                            faCheck
+                                                                        }
+                                                                    />{" "}
+                                                                    Your are
+                                                                    following
+                                                                    Cihangir Özmüş
+                                                            </span>
+                                                            ) : (
+                                                                    <span>
+                                                                        <FontAwesomeIcon
+                                                                            icon={
+                                                                                faPlus
                                                                             }
-                                                                            className="img-fluid mb-2"
-                                                                            alt={
+                                                                        />{" "}
+                                                                        Follow Cihangir
+                                                                        Özmüş
+                                                            </span>
+                                                                )}
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            <div className="row mt-5 bespoke-profile-topics">
+                                                {profile.topics.map(
+                                                    (topic, topicIndex) => {
+                                                        return (
+                                                            <div
+                                                                className={`col-md-4 wow fadeIn bespoke-profile-topic-${topicIndex}`}
+                                                                data-wow-delay={`0.${topicIndex +
+                                                                    1}s`}
+                                                                key={topicIndex}
+                                                            >
+                                                                <div
+                                                                    className="card"
+                                                                    style={{
+                                                                        padding:
+                                                                            "20px"
+                                                                    }}
+                                                                >
+                                                                    <div className="card-bod minWiki">
+                                                                        <div className="maxCaption">
+                                                                            <img
+                                                                                src={
+                                                                                    topic.image
+                                                                                }
+                                                                                className="img-fluid mb-2"
+                                                                                alt={
+                                                                                    topic.title
+                                                                                }
+                                                                            />
+                                                                        </div>
+                                                                        <h4 className="serif font-24">
+                                                                            {
                                                                                 topic.title
                                                                             }
+                                                                        </h4>
+                                                                        <div className="topicCaption">
+                                                                            {
+                                                                                topic.caption
+                                                                            }
+                                                                        </div>
+                                                                        <br />
+                                                                        <WikiLabels
+                                                                            wikis={
+                                                                                topic.wikis
+                                                                            }
                                                                         />
-                                                                    </div>
-                                                                    <h4 className="serif font-24">
-                                                                        {
-                                                                            topic.title
-                                                                        }
-                                                                    </h4>
-                                                                    <div className="topicCaption">
-                                                                        {
-                                                                            topic.caption
-                                                                        }
-                                                                    </div>
-                                                                    <br />
-                                                                    <WikiLabels
-                                                                        wikis={
-                                                                            topic.wikis
-                                                                        }
-                                                                    />
-                                                                    <hr />
-                                                                    <Link
-                                                                        className="btn btn-sm fullWidth btn-orange "
-                                                                        to={`/topic/${topic.id}`}
-                                                                    >
-                                                                        Details
+                                                                        <hr />
+                                                                        <Link
+                                                                            className="btn btn-sm fullWidth btn-orange "
+                                                                            to={`/topic/${topic.id}`}
+                                                                        >
+                                                                            Details
                                                                     </Link>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    );
-                                                }
-                                            )}
+                                                        );
+                                                    }
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </React.Fragment>
-                        )}
-                    </React.Fragment>
-                )}
+                                </React.Fragment>
+                            )}
+                        </React.Fragment>
+                    )}
             </React.Fragment>
         );
     }

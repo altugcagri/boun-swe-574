@@ -110,7 +110,7 @@ class Home extends React.Component {
         return (
             <React.Fragment>
                 <div
-                    className="pageHeader  text-left"
+                    className="pageHeader bespoke-home-page-header  text-left"
                     style={{ backgroundImage: `url(${page_banner})` }}
                 >
                     <div className="container">
@@ -132,10 +132,10 @@ class Home extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="container">
+                <div className="container bespoke-home-container">
                     <Row>
                         <div className="col-md-8 mt-5 mb-5">
-                            <h2 className="serif font-30">Latest.</h2>
+                            <h2 className="serif font-30 besoke-latest-header">Latest.</h2>
                             <hr />
                             {latestTopics &&
                                 latestTopics.map((latestTopic, idx) => {
@@ -144,7 +144,7 @@ class Home extends React.Component {
                                             {" "}
                                             <Row>
                                                 <div
-                                                    className="mb-1 wow fadeIn"
+                                                    className={`mb-1 wow fadeIn bespoke-latest-${idx}`}
                                                     data-wow-delay={`0.1s`}
                                                     style={{ minWidth: "100%" }}
                                                 >
@@ -159,6 +159,7 @@ class Home extends React.Component {
                                                                     alt={
                                                                         latestTopic.title
                                                                     }
+                                                                    id={`${latestTopic.id}-${latestTopic.image}`}
                                                                 />
                                                             </div>
                                                         </div>
@@ -210,13 +211,13 @@ class Home extends React.Component {
                                     );
                                 })}
                             <Link
-                                className="btn btn-orange fullWidth"
+                                className="btn btn-orange fullWidth besoke-home-explore-button"
                                 to={`/explore`}
                             >
                                 Explore all topics
                             </Link>
                             <div style={{ height: "100px" }}></div>
-                            <h2 className="serif font-30">
+                            <h2 className="serif font-30 besoke-interested-header">
                                 You might be interested.
                             </h2>
                             <hr />
@@ -227,7 +228,7 @@ class Home extends React.Component {
                                             {" "}
                                             <Row>
                                                 <div
-                                                    className="mb-1 wow fadeIn"
+                                                    className={`mb-1 wow fadeIn bespoke-latest-${idx}`}
                                                     data-wow-delay={`0.1s`}
                                                     style={{ minWidth: "100%" }}
                                                 >
@@ -242,6 +243,7 @@ class Home extends React.Component {
                                                                     alt={
                                                                         interestTopic.title
                                                                     }
+                                                                    id={`${interestTopic.id}-${interestTopic.image}`}
                                                                 />
                                                             </div>
                                                         </div>
@@ -292,7 +294,7 @@ class Home extends React.Component {
                                     );
                                 })}
                         </div>
-                        <div className="col-md-4 mt-5 mb-5">
+                        <div className="col-md-4 mt-5 mb-5 bespoke-home-continue">
                             {user && continueTopic && (
                                 <React.Fragment>
                                     <h2 className="serif font-30">
@@ -304,6 +306,7 @@ class Home extends React.Component {
                                             src={continueTopic.image}
                                             className="img-fluid fullWidth mb-4"
                                             alt={continueTopic.title}
+                                            id={`${continueTopic.id}-${continueTopic.image}`}
                                         />
                                         <h5 className="card-title text-info serif font-24 text-justify mb-1">
                                             <Link
@@ -322,7 +325,7 @@ class Home extends React.Component {
                                             wikis={continueTopic.wikis}
                                         />
                                     </div>
-                                    <div className="mt-5">
+                                    <div className="mt-5 bespoke-home-activities">
                                         <h2 className="serif font-30">
                                             From your circle.
                                         </h2>
@@ -336,7 +339,7 @@ class Home extends React.Component {
                                                                 <React.Fragment
                                                                     key={idx}
                                                                 >
-                                                                    <li>
+                                                                    <li className={`bespoke-home-activity-${idx}`}>
                                                                         <FontAwesomeIcon
                                                                             icon={
                                                                                 faInfoCircle
@@ -364,7 +367,7 @@ class Home extends React.Component {
                         </div>
                     </Row>
                 </div>
-                <div className="sectionPadding preFooter">
+                <div className="sectionPadding preFooter bespoke-pre-footer">
                     <div className="container">
                         <div className="row">
                             <div className="col-md-10 offset-md-1 text-center">
