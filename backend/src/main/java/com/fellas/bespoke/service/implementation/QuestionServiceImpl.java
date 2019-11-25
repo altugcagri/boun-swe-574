@@ -9,11 +9,9 @@ import com.fellas.bespoke.exception.ResourceNotFoundException;
 import com.fellas.bespoke.persistence.ContentRepository;
 import com.fellas.bespoke.persistence.LearningStepRepository;
 import com.fellas.bespoke.persistence.QuestionRepository;
-import com.fellas.bespoke.persistence.model.Choice;
-import com.fellas.bespoke.persistence.model.Content;
-import com.fellas.bespoke.persistence.model.LearningStep;
-import com.fellas.bespoke.persistence.model.Question;
+import com.fellas.bespoke.persistence.model.*;
 import com.fellas.bespoke.security.UserPrincipal;
+import com.fellas.bespoke.service.ActivityService;
 import com.fellas.bespoke.service.QuestionService;
 import com.fellas.bespoke.service.util.SmeptUtilities;
 import lombok.extern.slf4j.Slf4j;
@@ -38,16 +36,19 @@ public class QuestionServiceImpl implements QuestionService {
 
     private ContentRepository contentRepository;
 
-    private ConfigurableConversionService smepConversionService;
-
     private LearningStepRepository learningStepRepository;
 
+    private ActivityService activityService;
+
+    private ConfigurableConversionService smepConversionService;
+
     public QuestionServiceImpl(QuestionRepository questionRepository, ContentRepository contentRepository,
-                               ConfigurableConversionService smepConversionService, LearningStepRepository learningStepRepository) {
+                               ConfigurableConversionService smepConversionService, LearningStepRepository learningStepRepository, ActivityService activityService) {
         this.questionRepository = questionRepository;
         this.contentRepository = contentRepository;
         this.smepConversionService = smepConversionService;
         this.learningStepRepository = learningStepRepository;
+        this.activityService = activityService;
     }
 
     @Override
@@ -63,6 +64,12 @@ public class QuestionServiceImpl implements QuestionService {
         final Question question = smepConversionService.convert(questionRequest, Question.class);
         question.setContent(content);
         questionRepository.save(question);
+
+        if (content.getTopic().isPublished()){
+            activityService.createTopicActivityByUser(currentUser, content.getTopic(), ActivityContentType.USER, ActivityStreamType.Add, "added a new question to");
+            activityService.createTopicActivityByTopic(content.getTopic(), ActivityContentType.TOPIC, ActivityStreamType.Update, " 's question(s) is updated. Check it out!");
+        }
+
         return ResponseEntity.ok().body(new ApiResponse(true, "Question created successfully"));
     }
 

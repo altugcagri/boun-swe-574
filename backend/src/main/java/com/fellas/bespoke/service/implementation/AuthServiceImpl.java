@@ -5,8 +5,11 @@ import com.fellas.bespoke.controller.dto.request.SignUpRequest;
 import com.fellas.bespoke.controller.dto.response.ApiResponse;
 import com.fellas.bespoke.controller.dto.response.JwtAuthenticationResponse;
 import com.fellas.bespoke.persistence.UserRepository;
+import com.fellas.bespoke.persistence.model.ActivityContentType;
+import com.fellas.bespoke.persistence.model.ActivityStreamType;
 import com.fellas.bespoke.persistence.model.User;
 import com.fellas.bespoke.security.JwtTokenProvider;
+import com.fellas.bespoke.service.ActivityService;
 import com.fellas.bespoke.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -33,13 +36,16 @@ public class AuthServiceImpl implements AuthService {
 
     private JwtTokenProvider tokenProvider;
 
+    private ActivityService activityService;
+
     public AuthServiceImpl(AuthenticationManager authenticationManager,
                            UserRepository userRepository, PasswordEncoder passwordEncoder,
-                           JwtTokenProvider tokenProvider) {
+                           JwtTokenProvider tokenProvider, ActivityService activityService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenProvider = tokenProvider;
+        this.activityService = activityService;
     }
 
     @Override
@@ -60,6 +66,8 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         User result = userRepository.save(user);
+
+        activityService.signUpActivity(result, ActivityContentType.USER, ActivityStreamType.Join, "registered to BeSpoke.");
 
         URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
                 .buildAndExpand(result.getUsername()).toUri();

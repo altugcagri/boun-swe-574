@@ -162,6 +162,9 @@ class Navigator extends React.Component {
                 parents[i].localName + classString + " > " + parentString;
         }
 
+        parentString = parentString.replace(". >", " >")
+        parentString = parentString.replace("..", ".")
+
         // Return css selector string
         return parentString.substring(0, parentString.length - 2);
     }
@@ -374,41 +377,44 @@ export function changeURLParam(
 export function changePage(key = false, group = "pages") {
     let route = key ? routes[group][key] : getRouteFromUrl(false, true, true);
 
-    /* let url = resolveEndpoint("getAnnotations", [
-            { slug1: window.location.href }
-        ]); */
-    let url = "dummy/annotations.json";
+    let url = resolveEndpoint("getAnnotations", [
+        { slug1: window.location.href }
+    ]);
+    /* let url = "dummy/annotations.json"; */
 
     axios.get(url, REQUEST_HEADERS).then(res => {
-        let dummyAnnotation = res.data.annotations;
+        let dummyAnnotation = res.data;
 
         setTimeout(function () {
             for (let i = 0; i < dummyAnnotation.length; i++) {
-                let actualText = document.querySelector(
-                    dummyAnnotation[i].selector
-                );
-
-                //let annotatedText = dummyAnnotation[i].annotatedText;
-                if (actualText) {
-                    let annotatedText = actualText.innerText.substring(
+                if (dummyAnnotation[i].page === window.location.href) {
+                    let selector = dummyAnnotation[i].selector.replace(". >", " >")
+                    selector = selector.replace("..", ".")
+                    let actualText = document.querySelector(
+                        selector
+                    );
+                    /* let annotatedText = actualText.innerText.substring(
                         dummyAnnotation[i].start,
                         dummyAnnotation[i].end
-                    );
-                    let newHtml = actualText.innerText.replace(
-                        annotatedText,
-                        "<mark class='mark-annotation' data-comment='" +
-                        dummyAnnotation[i].comment +
-                        "'>" +
-                        annotatedText +
-                        "<span><em>At " +
-                        dummyAnnotation[i].date +
-                        " " +
-                        dummyAnnotation[i].author +
-                        " wrote:</em>" +
-                        dummyAnnotation[i].comment +
-                        "</span></mark>"
-                    );
-                    actualText.innerHTML = newHtml;
+                    ); */
+                    let annotatedText = dummyAnnotation[i].annotatedText;
+                    if (actualText) {
+                        let newHtml = actualText.innerText.replace(
+                            annotatedText,
+                            "<mark class='mark-annotation' data-comment='" +
+                            dummyAnnotation[i].comment +
+                            "'>" +
+                            annotatedText +
+                            "<span><em>At " +
+                            dummyAnnotation[i].date +
+                            " " +
+                            dummyAnnotation[i].author +
+                            " wrote:</em>" +
+                            dummyAnnotation[i].comment +
+                            "</span></mark>"
+                        );
+                        actualText.innerHTML = newHtml;
+                    }
                 }
             }
         }, 1000);

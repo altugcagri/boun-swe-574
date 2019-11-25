@@ -24,5 +24,6 @@
     "getUserProfile": "/users/[slug1]",
     "storeActivity": "/activity",
     "getProfile": "/proile/[slug1]",
-    "getAnnotations": "/getAnnotations?url=[slug1]"
+    "getAnnotations": "/annotation?page=[slug1]",
+    "storeAnnotation": "/annotation"
 }

@@ -43,4 +43,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         final ApiResponse response = new ApiResponse(false, ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(AnnotationServerException.class)
+    protected ResponseEntity<ApiResponse> handleAnnotationServerException(AnnotationServerException ex) {
+        final ApiResponse response = new ApiResponse(false, ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }

@@ -10,10 +10,9 @@ import com.fellas.bespoke.exception.ResourceNotFoundException;
 import com.fellas.bespoke.persistence.TopicRepository;
 import com.fellas.bespoke.persistence.UserRepository;
 import com.fellas.bespoke.persistence.WikiDataRepository;
-import com.fellas.bespoke.persistence.model.Topic;
-import com.fellas.bespoke.persistence.model.User;
-import com.fellas.bespoke.persistence.model.WikiData;
+import com.fellas.bespoke.persistence.model.*;
 import com.fellas.bespoke.security.UserPrincipal;
+import com.fellas.bespoke.service.ActivityService;
 import com.fellas.bespoke.service.TopicService;
 import com.fellas.bespoke.service.util.SmeptUtilities;
 import lombok.extern.slf4j.Slf4j;
@@ -36,14 +35,18 @@ public class TopicServiceImpl implements TopicService {
 
     private WikiDataRepository wikiDataRepository;
 
+    private ActivityService activityService;
+
     private ConfigurableConversionService smepConversionService;
 
     public TopicServiceImpl(TopicRepository topicRepository, UserRepository userRepository,
-            WikiDataRepository wikiDataRepository, ConfigurableConversionService smepConversionService) {
+                            WikiDataRepository wikiDataRepository, ActivityService activityService,
+                            ConfigurableConversionService smepConversionService) {
         this.topicRepository = topicRepository;
         this.userRepository = userRepository;
-        this.smepConversionService = smepConversionService;
         this.wikiDataRepository = wikiDataRepository;
+        this.activityService = activityService;
+        this.smepConversionService = smepConversionService;
     }
 
     @Override
@@ -115,7 +118,12 @@ public class TopicServiceImpl implements TopicService {
 
         topic.setPublished(publishRequest.isPublish());
         topicRepository.save(topic);
-        return ResponseEntity.ok().body(new ApiResponse(true, "Topic published successfully"));
+
+        if(publishRequest.isPublish()){
+            activityService.createTopicActivityByUser(currentUser, topic, ActivityContentType.USER, ActivityStreamType.Create, "created a new topic:");
+        }
+
+        return ResponseEntity.ok().body(new ApiResponse(true, "Topic is published successfully"));
     }
 
     @Override

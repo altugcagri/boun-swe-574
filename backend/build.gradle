@@ -36,6 +36,14 @@ configurations {
 sonarqube {
 	properties {
 		property "sonar.jacoco.reportPaths", jacocoMergeFiles
+		property "sonar.test.inclusions", "**/*Test*/**"
+		property "sonar.test.exclusions", "**/*Test*/**"
+		property "sonar.exclusions", ["src/main/java/com/fellas/bespoke/persistence/model/*",
+									  "src/main/java/com/fellas/bespoke/config/*",
+									  "src/main/java/com/fellas/bespoke/controller/dto/request/*",
+									  "src/main/java/com/fellas/bespoke/controller/dto/response/*",
+									  "src/main/java/com/fellas/bespoke/security/UserPrincipal*"]
+
 	}
 }
 
@@ -48,6 +56,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'com.github.jsonld-java:jsonld-java:0.12.5'
 	compileOnly 'org.projectlombok:lombok'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	runtimeOnly 'org.postgresql:postgresql'
