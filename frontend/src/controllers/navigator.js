@@ -91,6 +91,7 @@ class Navigator extends React.Component {
 
     imageHoverHandler(id, src, title) {
         let vm = this;
+
         vm.setState({
             annotatedText: title,
             cssSelector: `#${id}`,
@@ -114,16 +115,7 @@ class Navigator extends React.Component {
         }, 5000);
     }
 
-    componentDidUpdate() {
-        let vm = this;
-        setTimeout(function () {
-            var images = document.getElementsByTagName("IMG");
 
-            for (let i = 0; i < images.length; i++) {
-                images[i].addEventListener("mouseover", () => { vm.imageHoverHandler(images[i].id, images[i].src, images[i].alt) });
-            }
-        }, 1000)
-    }
 
     componentDidMount() {
         window.dynamicHistory = history;
@@ -141,7 +133,7 @@ class Navigator extends React.Component {
             var images = document.getElementsByTagName("IMG");
 
             for (let i = 0; i < images.length; i++) {
-                images[i].addEventListener("mouseover", () => { vm.imageHoverHandler(images[i].id, images[i].src) });
+                images[i].addEventListener("mouseover", () => { vm.imageHoverHandler(images[i].id, images[i].src, images[i].alt) });
             }
         }, 1000)
 
@@ -448,7 +440,7 @@ export function changePage(key = false, group = "pages") {
 
                     for (var j = 0; j < sameElements.length; j++) {
                         for (key in sameElements[j]) {
-                            if (sameElements[j][key].indexOf(toSearch) != -1) {
+                            if (sameElements[j][key].indexOf(toSearch) !== -1) {
                                 results.push(sameElements[j]);
                             }
                         }
@@ -471,7 +463,7 @@ export function changePage(key = false, group = "pages") {
                         // Append the text to <li>
 
 
-                        image.parentNode.insertBefore(newItem, image.nextSibling);
+                        if (image) { image.parentNode.insertBefore(newItem, image.nextSibling); }
                     } else {
                         let actualText = document.querySelector(
                             selector
@@ -482,9 +474,8 @@ export function changePage(key = false, group = "pages") {
                             actualTextInner = results[0].html
                         } else {
                             actualTextInner = actualText.innerText
-
                         }
-
+                        console.log(actualTextInner)
 
                         /* let annotatedText = actualText.innerText.substring(
                             dummyAnnotation[i].start,

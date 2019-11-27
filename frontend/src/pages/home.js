@@ -144,7 +144,7 @@ class Home extends React.Component {
                                             {" "}
                                             <Row>
                                                 <div
-                                                    className={`mb-1 wow fadeIn bespoke-latest-${idx}`}
+                                                    className={`mb-1 wow fadeIn bespoke-latest-${latestTopic.id}`}
                                                     data-wow-delay={`0.1s`}
                                                     style={{ minWidth: "100%" }}
                                                 >
@@ -228,7 +228,7 @@ class Home extends React.Component {
                                             {" "}
                                             <Row>
                                                 <div
-                                                    className={`mb-1 wow fadeIn bespoke-latest-${idx}`}
+                                                    className={`mb-1 wow fadeIn bespoke-interested-${interestTopic.id}`}
                                                     data-wow-delay={`0.1s`}
                                                     style={{ minWidth: "100%" }}
                                                 >

@@ -123,7 +123,7 @@ class UserCreatedTopicList extends Component {
                                         {topics.map((topic, topicIndex) => {
                                             return (
                                                 <div
-                                                    className={`col-md-4 wow fadeIn bespoke-user-topic-${topicIndex}`}
+                                                    className={`col-md-4 wow fadeIn bespoke-user-topic-${topic.id}`}
                                                     data-wow-delay={`0.${topicIndex +
                                                         1}s`}
                                                     key={topicIndex}

@@ -84,7 +84,7 @@ class UserEnrolledTopicList extends Component {
                                     {topics.map((topic, topicIndex) => {
                                         return (
                                             <div
-                                                className={`col-md-4 bespoke-user-enrollment-topic${topicIndex}`}
+                                                className={`col-md-4 bespoke-user-enrollment-topic${topic.id}`}
                                                 key={topicIndex}
                                             >
                                                 <div

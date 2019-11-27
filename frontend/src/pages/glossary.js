@@ -127,7 +127,7 @@ class Glossary extends Component {
                                                         key={topicIndex}
                                                     >
                                                         <div
-                                                            className={`card mb-5 wow fadeIn bespoke-glossary-topic-${topicIndex}`}
+                                                            className={`card mb-5 wow fadeIn bespoke-glossary-topic-${topic.id}`}
                                                             data-wow-delay={`0.${topicIndex +
                                                                 1}s`}
                                                             style={{
