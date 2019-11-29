@@ -11,5 +11,7 @@ public interface UserService {
 
     UserIdentityAvailability checkUsernameAvailability(String email);
 
-    UserProfile getUserProfile(String username);
+    UserProfile getUserByUserName(String username);
+
+    UserProfile getUserByUserId(long userId);
 }

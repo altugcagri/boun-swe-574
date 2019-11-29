@@ -37,11 +37,11 @@ public class ContentServiceTest extends AbstractServiceTest {
     private ActivityService activityService;
 
     @Mock
-    private ConfigurableConversionService smepConversionService;
+    private ConfigurableConversionService bespokeConversionService;
 
     @InjectMocks
     private final ContentService sut = new ContentServiceImpl(contentRepository, topicRepository,
-            activityService, smepConversionService);
+            activityService, bespokeConversionService);
 
     @Test(expected = ResourceNotFoundException.class)
     public void testCreateContentByTopicId_TopicNotFound() {
@@ -73,7 +73,7 @@ public class ContentServiceTest extends AbstractServiceTest {
         final Content content = TestUtils.createDummyContent();
         topic.setCreatedBy(currentUser.getId());
         when(topicRepository.findById(request.getTopicId())).thenReturn(Optional.of(topic));
-        when(smepConversionService.convert(request, Content.class)).thenReturn(content);
+        when(bespokeConversionService.convert(request, Content.class)).thenReturn(content);
 
         //Test
         final ResponseEntity<ApiResponse> responseEntity = sut.createContentByTopicId(currentUser, request);
@@ -103,7 +103,7 @@ public class ContentServiceTest extends AbstractServiceTest {
         topic.setContentList(contentList);
         final ContentResponse contentResponse = TestUtils.createDummyContentResponse();
         when(contentRepository.findById(0L)).thenReturn(Optional.of(content));
-        when(smepConversionService.convert(content, ContentResponse.class)).thenReturn(contentResponse);
+        when(bespokeConversionService.convert(content, ContentResponse.class)).thenReturn(contentResponse);
 
         //Test
         final ResponseEntity<ContentResponse> responseEntity = sut.getContentById(currentUser, 0L);

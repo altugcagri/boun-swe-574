@@ -13,7 +13,7 @@ import com.fellas.bespoke.persistence.model.*;
 import com.fellas.bespoke.security.UserPrincipal;
 import com.fellas.bespoke.service.ActivityService;
 import com.fellas.bespoke.service.QuestionService;
-import com.fellas.bespoke.service.util.SmeptUtilities;
+import com.fellas.bespoke.service.util.BespokeUtilities;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.http.ResponseEntity;
@@ -40,13 +40,13 @@ public class QuestionServiceImpl implements QuestionService {
 
     private ActivityService activityService;
 
-    private ConfigurableConversionService smepConversionService;
+    private ConfigurableConversionService bespokeConversionService;
 
     public QuestionServiceImpl(QuestionRepository questionRepository, ContentRepository contentRepository,
-                               ConfigurableConversionService smepConversionService, LearningStepRepository learningStepRepository, ActivityService activityService) {
+                               ConfigurableConversionService bespokeConversionService, LearningStepRepository learningStepRepository, ActivityService activityService) {
         this.questionRepository = questionRepository;
         this.contentRepository = contentRepository;
-        this.smepConversionService = smepConversionService;
+        this.bespokeConversionService = bespokeConversionService;
         this.learningStepRepository = learningStepRepository;
         this.activityService = activityService;
     }
@@ -59,9 +59,9 @@ public class QuestionServiceImpl implements QuestionService {
                 .orElseThrow(() -> new ResourceNotFoundException(CONTENT, "id",
                         questionRequest.getContentId().toString()));
 
-        SmeptUtilities.checkCreatedBy(CONTENT, currentUser.getId(), content.getCreatedBy());
+        BespokeUtilities.checkCreatedBy(CONTENT, currentUser.getId(), content.getCreatedBy());
 
-        final Question question = smepConversionService.convert(questionRequest, Question.class);
+        final Question question = bespokeConversionService.convert(questionRequest, Question.class);
         question.setContent(content);
         questionRepository.save(question);
 
@@ -79,7 +79,7 @@ public class QuestionServiceImpl implements QuestionService {
         final Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> new ResourceNotFoundException(QUESTION, "id", questionId.toString()));
 
-        SmeptUtilities.checkCreatedBy(QUESTION, currentUser.getId(), question.getCreatedBy());
+        BespokeUtilities.checkCreatedBy(QUESTION, currentUser.getId(), question.getCreatedBy());
 
         questionRepository.delete(question);
         return ResponseEntity.ok().body(new ApiResponse(true, "Question deleted successfully"));

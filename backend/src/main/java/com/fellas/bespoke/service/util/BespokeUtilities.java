@@ -2,9 +2,9 @@ package com.fellas.bespoke.service.util;
 
 import com.fellas.bespoke.exception.CreatedByException;
 
-public class SmeptUtilities {
+public class BespokeUtilities {
 
-    private SmeptUtilities() {
+    private BespokeUtilities() {
     }
 
     public static void checkCreatedBy(String entity, Long userId, Long createdBy) {

@@ -10,7 +10,7 @@ import com.fellas.bespoke.persistence.model.*;
 import com.fellas.bespoke.security.UserPrincipal;
 import com.fellas.bespoke.service.ActivityService;
 import com.fellas.bespoke.service.ContentService;
-import com.fellas.bespoke.service.util.SmeptUtilities;
+import com.fellas.bespoke.service.util.BespokeUtilities;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.http.ResponseEntity;
@@ -34,14 +34,14 @@ public class ContentServiceImpl implements ContentService {
 
     private ActivityService activityService;
 
-    private ConfigurableConversionService smepConversionService;
+    private ConfigurableConversionService bespokeConversionService;
 
     public ContentServiceImpl(ContentRepository contentRepository, TopicRepository topicRepository,
-                              ActivityService activityService, ConfigurableConversionService smepConversionService) {
+                              ActivityService activityService, ConfigurableConversionService bespokeConversionService) {
         this.contentRepository = contentRepository;
         this.topicRepository = topicRepository;
         this.activityService = activityService;
-        this.smepConversionService = smepConversionService;
+        this.bespokeConversionService = bespokeConversionService;
     }
 
     @Override
@@ -52,9 +52,9 @@ public class ContentServiceImpl implements ContentService {
                 .orElseThrow(
                         () -> new ResourceNotFoundException(TOPIC, "id", contentRequest.getTopicId().toString()));
 
-        SmeptUtilities.checkCreatedBy(TOPIC, currentUser.getId(), topic.getCreatedBy());
+        BespokeUtilities.checkCreatedBy(TOPIC, currentUser.getId(), topic.getCreatedBy());
 
-        final Content content = smepConversionService.convert(contentRequest, Content.class);
+        final Content content = bespokeConversionService.convert(contentRequest, Content.class);
         content.setTopic(topic);
         contentRepository.save(content);
 
@@ -72,7 +72,7 @@ public class ContentServiceImpl implements ContentService {
         final Content content = contentRepository.findById(contentId)
                 .orElseThrow(() -> new ResourceNotFoundException(CONTENT, "id", contentId.toString()));
 
-        final ContentResponse contentResponse = smepConversionService.convert(content, ContentResponse.class);
+        final ContentResponse contentResponse = bespokeConversionService.convert(content, ContentResponse.class);
 
         final AtomicLong nextContentId = new AtomicLong(0L);
 
@@ -91,7 +91,7 @@ public class ContentServiceImpl implements ContentService {
         final Content content = contentRepository.findById(contentId)
                 .orElseThrow(() -> new ResourceNotFoundException(CONTENT, "id", contentId.toString()));
 
-        SmeptUtilities.checkCreatedBy(CONTENT, currentUser.getId(), content.getCreatedBy());
+        BespokeUtilities.checkCreatedBy(CONTENT, currentUser.getId(), content.getCreatedBy());
 
         contentRepository.delete(content);
         return ResponseEntity.ok().body(new ApiResponse(true, "Content deleted successfully"));

@@ -10,7 +10,7 @@ import org.springframework.core.convert.support.GenericConversionService;
 public class ConverterConfig {
 
     @Bean
-    public ConfigurableConversionService smepConversionService() {
+    public ConfigurableConversionService bespokeConversionService() {
         final ContentRequestToContent contentRequestToContent = new ContentRequestToContent();
         final QuestionRequestToQuestion questionRequestToQuestion = new QuestionRequestToQuestion();
         final ChoiceRequestToChoice choiceRequestToChoice = new ChoiceRequestToChoice();

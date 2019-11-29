@@ -18,26 +18,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 @Slf4j
 public class AnnotationServiceImpl implements AnnotationService {
 
     private final AnnotationServerClient annotationServerClient;
-    private final ConfigurableConversionService conversionService;
+    private final ConfigurableConversionService bespokeConversionService;
     private final ObjectMapper objectMapper;
 
     public AnnotationServiceImpl(AnnotationServerClient annotationServerClient,
-                                 ConfigurableConversionService smepConversionService,
+                                 ConfigurableConversionService bespokeConversionService,
                                  ObjectMapper objectMapper) {
         this.annotationServerClient = annotationServerClient;
-        this.conversionService = smepConversionService;
+        this.bespokeConversionService = bespokeConversionService;
         this.objectMapper = objectMapper;
     }
 
     @Override
     public ResponseEntity<ApiResponse> createAnnotation(UserPrincipal currentUser, Annotation annotation) {
-        AnnotationServerRequest annotationServerRequest = conversionService.convert(annotation,AnnotationServerRequest.class);
+        AnnotationServerRequest annotationServerRequest = bespokeConversionService.convert(annotation,AnnotationServerRequest.class);
         objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
         try{
@@ -57,7 +56,7 @@ public class AnnotationServiceImpl implements AnnotationService {
     @Override
     public ResponseEntity<List<Annotation>> getAnnotationsByTarget(UserPrincipal currentUser, String targetUrl) {
         AnnotationServerSearchResponse annotationServerSearchResponse = annotationServerClient.searchAnnotationsByTargetUrl(targetUrl);
-        List<Annotation> annotations = conversionService.convert(annotationServerSearchResponse, List.class);
+        List<Annotation> annotations = bespokeConversionService.convert(annotationServerSearchResponse, List.class);
         return ResponseEntity.ok().body(annotations);
     }
 

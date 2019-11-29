@@ -13,7 +13,6 @@ import com.fellas.bespoke.persistence.TopicRepository;
 import com.fellas.bespoke.persistence.UserRepository;
 import com.fellas.bespoke.persistence.WikiDataRepository;
 import com.fellas.bespoke.persistence.model.*;
-import com.fellas.bespoke.security.UserPrincipal;
 import com.fellas.bespoke.service.implementation.TopicServiceImpl;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -30,8 +29,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 public class TopicServiceTest extends AbstractServiceTest {
@@ -49,18 +46,18 @@ public class TopicServiceTest extends AbstractServiceTest {
     private WikiDataRepository wikiDataRepository;
 
     @Mock
-    private ConfigurableConversionService smepConversionService;
+    private ConfigurableConversionService bespokeConversionService;
 
     @InjectMocks
     private final TopicService sut = new TopicServiceImpl(topicRepository, userRepository, wikiDataRepository,
-            activityService, smepConversionService);
+            activityService, bespokeConversionService);
 
     @Test
     public void testGetAllTopics() {
         //Prepare
         final List<Topic> topicList = TestUtils.createDummyTopicList();
         when(topicRepository.findByPublished(true)).thenReturn(topicList);
-        when(smepConversionService.convert(topicList.get(0), TopicResponse.class))
+        when(bespokeConversionService.convert(topicList.get(0), TopicResponse.class))
                 .thenReturn(TestUtils.createDummyTopicResponse());
         //Test
         final ResponseEntity<List<TopicResponse>> responseEntity = sut.getAllTopics(currentUser);
@@ -83,7 +80,7 @@ public class TopicServiceTest extends AbstractServiceTest {
         final List<Topic> topicList = TestUtils.createDummyTopicList();
         when(userRepository.findByUsername("username")).thenReturn(Optional.of(user));
         when(topicRepository.findByCreatedBy(user.getId())).thenReturn(topicList);
-        when(smepConversionService.convert(topicList.get(0), TopicResponse.class))
+        when(bespokeConversionService.convert(topicList.get(0), TopicResponse.class))
                 .thenReturn(TestUtils.createDummyTopicResponse());
         //Test
         final ResponseEntity<List<TopicResponse>> responseEntity = sut.getTopicsCreatedBy("username", currentUser);
@@ -104,7 +101,7 @@ public class TopicServiceTest extends AbstractServiceTest {
         //Prepare
         final Topic topic = TestUtils.createDummyTopic();
         when(topicRepository.findById(0L)).thenReturn(Optional.of(topic));
-        when(smepConversionService.convert(topic, TopicResponse.class))
+        when(bespokeConversionService.convert(topic, TopicResponse.class))
                 .thenReturn(TestUtils.createDummyTopicResponse());
         //Test
         final ResponseEntity<TopicResponse> responseEntity = sut.getTopicById(0L, currentUser);
@@ -120,9 +117,9 @@ public class TopicServiceTest extends AbstractServiceTest {
         final TopicResponse topicResponse = TestUtils.createDummyTopicResponse();
         final ActivityStream activityStream = TestUtils.createDummyActivityStream();
         when(topicRepository.findById(topicRequest.getId())).thenReturn(Optional.of(topic));
-        when(smepConversionService.convert(topicRequest, Topic.class)).thenReturn(topic);
+        when(bespokeConversionService.convert(topicRequest, Topic.class)).thenReturn(topic);
         when(topicRepository.save(topic)).thenReturn(topic);
-        when(smepConversionService.convert(topic, TopicResponse.class)).thenReturn(topicResponse);
+        when(bespokeConversionService.convert(topic, TopicResponse.class)).thenReturn(topicResponse);
         //Test
         final ResponseEntity<TopicResponse> responseEntity = sut.createTopic(currentUser, topicRequest);
         //Verify
@@ -277,7 +274,7 @@ public class TopicServiceTest extends AbstractServiceTest {
         final TopicResponse topicResponse = TestUtils.createDummyTopicResponse();
         when(userRepository.findById(0L)).thenReturn(Optional.of(user));
         when(topicRepository.findTopicByEnrolledUsersContainsAndPublished(user, true)).thenReturn(enrolledTopics);
-        when(smepConversionService.convert(enrolledTopics.get(0), TopicResponse.class)).thenReturn(topicResponse);
+        when(bespokeConversionService.convert(enrolledTopics.get(0), TopicResponse.class)).thenReturn(topicResponse);
         //Test
         final ResponseEntity<List<TopicResponse>> responseEntity = sut.getTopicsByEnrolledUserId(currentUser, 0L);
         //Verify
