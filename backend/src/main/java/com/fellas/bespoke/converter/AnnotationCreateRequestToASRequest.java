@@ -25,6 +25,7 @@ public class AnnotationCreateRequestToASRequest implements Converter<Annotation,
                 .type(TYPE)
                 .created(DATE_FORMAT.format(new Date()))
                 .creator(source.getAuthor())
+                .motivation(source.getMotivation())
                 .body(AnnotationBody.builder().type(BODY_TYPE).value(source.getComment()).build())
                 .target(AnnotationTarget.builder().source(source.getPage())
                         .selector(AnnotationSelector.builder().type(SELECTOR).value(source.getSelector())
