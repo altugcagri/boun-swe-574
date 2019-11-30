@@ -16,6 +16,7 @@ public class AnnotationServerRequest implements Serializable {
     private String type;
     private String creator;
     private String created;
+    private String motivation;
     private AnnotationBody body;
     private AnnotationTarget target;
 
