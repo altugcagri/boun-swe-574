@@ -64,9 +64,9 @@ class EditContent extends Component {
                                     >
                                         <Link
                                             to={`/topic/${content.topicId}`}
-                                            className="breadcrumbLink"
+                                            className="breadcrumbLink bespoke-edit-content-breadcdumbLink"
                                         >
-                                            <span>{content.title}</span>
+                                            <span className="bespoke-edit-content-breadcdumbLink-span">{content.title}</span>
                                         </Link>
                                     </PageHeader>
                                     <div className="sectionPadding">

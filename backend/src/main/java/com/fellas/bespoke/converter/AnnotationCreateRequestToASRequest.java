@@ -15,8 +15,8 @@ public class AnnotationCreateRequestToASRequest implements Converter<Annotation,
     private static final String TYPE = "Annotation";
     private static final String SELECTOR = "CssSelector";
     private static final String REFINED_BY_TYPE = "TextQuoteSelector";
-    private static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+    private final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
+    private final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
 
     @Override
     public AnnotationServerRequest convert(Annotation source) {

@@ -60,11 +60,11 @@ export default class RegisterForm extends React.Component {
             <div className={"section bespoke-modal-register-form loginform type-" + vm.props.type}>
                 {vm.state.success ? (
                     <React.Fragment>
-                        <h2 className="loginform-title">
+                        <h2 className="bespoke-registerform-h2 loginform-title">
                             Your account has been created
                         </h2>
                         <div className="loginform-info wysiwyg">
-                            <p>
+                            <p className="bespoke-registerform-p">
                                 Please login with the credentails you've entered
                             </p>
                         </div>
@@ -72,9 +72,9 @@ export default class RegisterForm extends React.Component {
                     </React.Fragment>
                 ) : (
                         <React.Fragment>
-                            <h2 className="loginform-title">
+                            <h2 className="loginform-title bespoke-registerform-title-h2">
                                 Create a New Account
-                        </h2>
+                            </h2>
                             <InputForm
                                 className="loginform-form"
                                 onSubmit={this.submit}

@@ -140,11 +140,13 @@ class Navigator extends React.Component {
         // onselectionchange version
         document.onselectionchange = () => {
             let selection = document.getSelection();
+            
             if (selection.focusNode && selection.focusNode.data) {
                 let selectedText = selection.focusNode.data.substring(
                     selection.anchorOffset,
                     selection.focusOffset
                 );
+                
                 let selectedTag = selection.focusNode.parentNode.localName;
                 let classList = selection.focusNode.parentNode.className.split(
                     " "
@@ -158,6 +160,8 @@ class Navigator extends React.Component {
                 if (classString === ".") {
                     classString = "";
                 }
+
+                console.log(classString)
 
                 let elem = document.querySelector(selectedTag + classString);
                 setTimeout(function () {
@@ -181,11 +185,13 @@ class Navigator extends React.Component {
         var parents = [];
         var parentString = "";
 
+
         // Push each parent element to the array
         for (; elem && elem !== document; elem = elem.parentNode) {
+            
             parents.push(elem);
         }
-
+    
         for (let i = 0; i < parents.length; i++) {
             let classList = parents[i].className.split(" ");
             let classString = "";
@@ -427,12 +433,19 @@ export function changePage(key = false, group = "pages") {
     axios.get(url, REQUEST_HEADERS).then(res => {
         let dummyAnnotation = res.data;
 
+<<<<<<< HEAD
         let sameElements = [];
         for (let i = 0; i < dummyAnnotation.length; i++) {
+=======
+
+        for (let i = 0; i < dummyAnnotation.length; i++) {
+
+>>>>>>> master
             setTimeout(function () {
                 if (dummyAnnotation[i].page === window.location.href) {
                     let selector = dummyAnnotation[i].selector.replace(". >", " >")
                     selector = selector.replace("..", ".")
+<<<<<<< HEAD
 
                     var results = [];
 
@@ -445,6 +458,23 @@ export function changePage(key = false, group = "pages") {
                             }
                         }
                     }
+=======
+                    let actualText;
+
+                    if(selector.charAt(0) === '#'){
+                        actualText = document.getElementById(selector);
+                    }else{
+                        actualText = document.querySelector(
+                            selector
+                        );
+                    }
+
+
+                    /* let annotatedText = actualText.innerText.substring(
+                        dummyAnnotation[i].start,
+                        dummyAnnotation[i].end
+                    ); */
+>>>>>>> master
                     let annotatedText = dummyAnnotation[i].annotatedText;
                     if (selector.charAt(0) === '#') {
                         let image = document.getElementById(selector.replace('#', ''));
@@ -510,6 +540,10 @@ export function changePage(key = false, group = "pages") {
             }, 1000 + i * 100);
         }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
     });
 
     if (route) {

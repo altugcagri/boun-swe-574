@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 public class ContentRequest {
 
     @NonNull
+    @Builder.Default
     private Long id = 0L;
 
     @NonNull

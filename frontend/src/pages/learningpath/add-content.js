@@ -39,9 +39,9 @@ class AddContent extends Component {
                             >
                                 <Link
                                     to={`/topic/${props.match.params.topicId}`}
-                                    className="breadcrumbLink"
+                                    className="breadcrumbLink bespoke-add-content-breadcdumbLink"
                                 >
-                                    <span>My Topics</span>
+                                    <span className="bespoke-add-content-breadcdumbLink-span">My Topics</span>
                                 </Link>
                             </PageHeader>
 

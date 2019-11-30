@@ -43,7 +43,7 @@ public class QuestionServiceTest extends AbstractServiceTest {
     private LearningStepRepository learningStepRepository;
 
     @Mock
-    private ConfigurableConversionService smepConversionService;
+    private ConfigurableConversionService bespokeConversionService;
 
     @Mock
     private ActivityService activityService;
@@ -51,7 +51,7 @@ public class QuestionServiceTest extends AbstractServiceTest {
 
     @InjectMocks
     private final QuestionService sut = new QuestionServiceImpl(questionRepository, contentRepository,
-            smepConversionService, learningStepRepository, activityService);
+            bespokeConversionService, learningStepRepository, activityService);
 
 
     @Test(expected = ResourceNotFoundException.class)
@@ -82,7 +82,7 @@ public class QuestionServiceTest extends AbstractServiceTest {
         final Question question = TestUtils.createDummyQuestion();
         content.setCreatedBy(currentUser.getId());
         when(contentRepository.findById(questionRequest.getContentId())).thenReturn(Optional.of(content));
-        when(smepConversionService.convert(questionRequest, Question.class)).thenReturn(question);
+        when(bespokeConversionService.convert(questionRequest, Question.class)).thenReturn(question);
         //Test
         final ResponseEntity<ApiResponse> responseEntity = sut.createQuestionByContentId(currentUser, questionRequest);
         //Verify

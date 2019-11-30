@@ -148,8 +148,8 @@ class EditTopic extends Component {
                             topic && (
                                 <React.Fragment>
                                     <PageHeader title="Edit Topic" intro="Be the mentor you once needed. Share what's on your mind & help others to grow." className="bespoke-edit-topic-header">
-                                        <Link to={`/${props.user.username}/topics/created`} className="breadcrumbLink">
-                                            <span>My Topics</span>
+                                        <Link to={`/${props.user.username}/topics/created`} className="breadcrumbLink bespoke-edit-topic-breadcdumbLink">
+                                            <span className="bespoke-edit-topic-breadcdumbLink-span">My Topics</span>
                                         </Link>
                                     </PageHeader>
 

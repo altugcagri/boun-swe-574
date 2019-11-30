@@ -88,9 +88,9 @@ class ViewContent extends Component {
                             >
                                 <Link
                                     to={`/topic/view/${content.topicId}`}
-                                    className="breadcrumbLink"
+                                    className="breadcrumbLink bespoke-view-content-breadcdumbLink"
                                 >
-                                    <span>{content.topicTitle}</span>
+                                    <span className="bespoke-view-content-breadcdumbLink-span">{content.topicTitle}</span>
                                 </Link>
                             </PageHeader>
 

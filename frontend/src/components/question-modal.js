@@ -58,7 +58,7 @@ function QuestionModal(FieldProps) {
                         {({ isSubmitting }) => (
                             <Form>
                                 <div className="form-group row text-left">
-                                    <label htmlFor="contentTitle" className="col-sm-12 col-form-label">Your <strong>Question</strong></label>
+                                    <label htmlFor="contentTitle" className="col-sm-12 col-form-label bespoke-your-question-label">Your <strong className="bespoke-your-question-label-strong">Question</strong></label>
                                     <div className="col-sm-12">
                                         <Field type="text" name="text" id="text" className="form-control" />
                                         <ErrorMessage name="text" component="div" />

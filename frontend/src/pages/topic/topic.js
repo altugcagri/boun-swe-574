@@ -152,17 +152,16 @@ class Topic extends Component {
                             >
                                 {editable ? (
                                     <Link
-                                        to={`/${this.props.user.username}/topics/created`}
-                                        className="breadcrumbLink"
+                                        className="breadcrumbLink bespoke-topic-breadcdumbLink"
                                     >
-                                        <span>My Topics</span>
+                                        <span className="bespoke-topic-breadcdumbLink-span">My Topics</span>
                                     </Link>
                                 ) : (
                                         <Link
                                             to={`/explore`}
-                                            className="breadcrumbLink"
+                                            className="breadcrumbLink bespoke-topic-breadcdumbLink"
                                         >
-                                            <span>Explore</span>
+                                            <span className="bespoke-topic-breadcdumbLink-span">Explore</span>
                                         </Link>
                                     )}
                             </PageHeader>
@@ -178,7 +177,7 @@ class Topic extends Component {
                                                 <React.Fragment>
                                                     {achieved ? (
                                                         <div>
-                                                            <span className="badge badge-pill badge-success font-14">
+                                                            <span className="badge badge-pill badge-success font-14 bespoke-topic-status">
                                                                 <FontAwesomeIcon
                                                                     icon={faCheck}
                                                                 />{" "}
@@ -189,7 +188,7 @@ class Topic extends Component {
                                                         </div>
                                                     ) : (
                                                             <div>
-                                                                <span className="badge badge-pill badge-warning font-14">
+                                                                <span className="badge badge-pill badge-warning font-14 bespoke-topic-status">
                                                                     <FontAwesomeIcon
                                                                         icon={faCogs}
                                                                     />{" "}
@@ -201,11 +200,11 @@ class Topic extends Component {
                                                         )}
                                                 </React.Fragment>
                                             )}
-                                            <p>{topic.description}</p>
+                                            <p className="bespoke-topic-description">{topic.description}</p>
 
                                             {editable && (
                                                 <Link
-                                                    className="btn btn-primary inlineBtn"
+                                                    className="btn btn-primary inlineBtn bespoke-topic-edit-button"
                                                     to={`/topic/${topic.id}/edit`}
                                                 >
                                                     <FontAwesomeIcon
@@ -217,7 +216,7 @@ class Topic extends Component {
 
                                             {editable && (
                                                 <Button
-                                                    className="btn ml-2 inlineBtn"
+                                                    className="btn ml-2 inlineBtn bespoke-topic-publish-button" 
                                                     variant={
                                                         topic.published
                                                             ? "danger"
@@ -243,7 +242,7 @@ class Topic extends Component {
                                                 borderLeft: "1px solid #cdcdcd"
                                             }}
                                         >
-                                            <h3 className="serif">Wiki</h3>
+                                            <h3 className="serif bespoke-topic-button-wiki">Wiki</h3>
                                             <WikiLabels wikis={topic.wikiData} />
                                         </div>
                                     </div>
@@ -262,11 +261,11 @@ class Topic extends Component {
                             <div className="sectionPadding minHeightContent bespoke-topic-learning-path">
                                 <div className="container">
                                     <div className="row col-md-12 text-left">
-                                        <h4>
+                                        <h4 class="bespoke-topic-learning-path-title">
                                             Learning <strong>Path</strong>
                                             {editable && (
                                                 <Link
-                                                    className="btn btn-success btn-sm ml-2 inlineBtn"
+                                                    className="btn btn-success btn-sm ml-2 inlineBtn bespoke-topic-learning-path-add-new"
                                                     to={`/topic/${topic.id}/content`}
                                                 >
                                                     <FontAwesomeIcon

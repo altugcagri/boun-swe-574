@@ -21,13 +21,13 @@ class Footer extends React.Component {
 				<div className="myFooter">
 					<div className="container">
 						<div className="row">
-							<div className="col-md-4 text-left">
+							<div className="col-md-4 text-left bespoke-footer-love">
 								Made with <FontAwesomeIcon icon={faHeart} />
 							</div>
-							<div className="col-md-4 text-center">
+							<div className="col-md-4 text-center bespoke-footer-copyright">
 								All rights reserved.
 						</div>
-							<div className="col-md-4 text-right">
+							<div className="col-md-4 text-right bespoke-footer-school">
 								Bogazici University &copy; 2019
 						</div>
 						</div>
@@ -39,11 +39,11 @@ class Footer extends React.Component {
 						<div className="row">
 							<div className="col-md-6 text-left">
 								<br /><br /><br />
-								<h2 className="serif">Contact</h2>
+								<h2 className="serif bespoke-footer-contact">Contact</h2>
 								<p>
-									<strong>Call: </strong>+90(212) 359-54-00
+									<strong className="bespoke-footer-call">Call: </strong>+90(212) 359-54-00
 								<br />
-									<strong>Visit:</strong> Rumeli Hisarı, Hisar Üstü Nispetiye Cd <br /> No:7, 34342 Sarıyer/İstanbul
+									<strong className="bespoke-footer-visit">Visit:</strong> Rumeli Hisarı, Hisar Üstü Nispetiye Cd <br /> No:7, 34342 Sarıyer/İstanbul
 							</p>
 							</div>
 							<div className="col-md-6 text-right">

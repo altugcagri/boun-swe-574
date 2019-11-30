@@ -67,7 +67,7 @@ public class UserServiceTest extends AbstractServiceTest {
         //Prepare
         when(userRepository.findByUsername("username")).thenReturn(Optional.empty());
         //Test
-        sut.getUserProfile("username");
+        sut.getUserByUserName("username");
     }
 
     @Test
@@ -77,7 +77,7 @@ public class UserServiceTest extends AbstractServiceTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
         when(topicRepository.countByCreatedBy(user.getId())).thenReturn(1L);
         //Test
-        final UserProfile userprofile =sut.getUserProfile(user.getUsername());
+        final UserProfile userprofile =sut.getUserByUserName(user.getUsername());
         //Verify
         assertEquals(userprofile.getId(),user.getId());
         assertEquals(userprofile.getName(),user.getName());

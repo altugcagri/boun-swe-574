@@ -157,12 +157,12 @@ class Profile extends Component {
                                                                                 }
                                                                             />
                                                                         </div>
-                                                                        <h4 className="serif font-24">
+                                                                        <h4 className="serif font-24 bespoke-topic-title">
                                                                             {
                                                                                 topic.title
                                                                             }
                                                                         </h4>
-                                                                        <div className="topicCaption">
+                                                                        <div className="topicCaption bespoke-topic-caption">
                                                                             {
                                                                                 topic.caption
                                                                             }
@@ -175,7 +175,7 @@ class Profile extends Component {
                                                                         />
                                                                         <hr />
                                                                         <Link
-                                                                            className="btn btn-sm fullWidth btn-orange "
+                                                                            className="btn btn-sm fullWidth btn-orange bespoke-topic-detail-link"
                                                                             to={`/topic/${topic.id}`}
                                                                         >
                                                                             Details
