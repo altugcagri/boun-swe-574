@@ -485,9 +485,11 @@ export function changePage(key = false, group = "pages") {
                         if (results.length > 0) {
                             actualTextInner = results[0].html
                         } else {
-                            actualTextInner = actualText.innerText
+                            if (actualText) {
+                                actualTextInner = actualText.innerText
+                            }
                         }
-                        console.log(actualTextInner)
+                       
 
                         /* let annotatedText = actualText.innerText.substring(
                             dummyAnnotation[i].start,

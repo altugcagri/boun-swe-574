@@ -1,7 +1,7 @@
 import extend from "lodash/extend"
 import { storagePath, apiBase, API_BASE_URL } from "../config"
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
-import endpoints from "./endpoints.json";
+import endpoints from "../util/endpoints.json";
 
 export function formatDate(dateString) {
 	const date = new Date(dateString);
@@ -36,6 +36,7 @@ export function formatDateTime(dateTimeString) {
 
 export function resolveEndpoint(key, slugs = {}) {
 	let finalUrl = endpoints[key];
+
 	if (slugs.length) {
 		for (let i = 0; i < slugs.length; i++)
 			finalUrl = finalUrl.replace(`[slug${i + 1}]`, slugs[i][`slug${i + 1}`])

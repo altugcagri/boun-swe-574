@@ -6,6 +6,7 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { resolveEndpoint } from "functions/helpers";
 import PageHeader from "../components/PageHeader";
 import { WikiLabels } from "../components/wiki";
 //import { resolveEndpoint } from "../util/Helpers";
@@ -41,11 +42,9 @@ class Profile extends Component {
     }
 
     loadProfile() {
-        /* let url = resolveEndpoint("getProfile", [
+        let url = resolveEndpoint("getProfile", [
             { slug1: this.props.match.params.profile }
-        ]); */
-
-        let url = "../dummy/profile.json";
+        ]);
 
         axios
             .get(url, REQUEST_HEADERS)
@@ -54,7 +53,7 @@ class Profile extends Component {
                     profile: res.data,
                     loading: false
                 });
-                console.log(res);
+
             })
             .catch(err => {
                 toast.notify("Something went wrong!", {
@@ -73,6 +72,7 @@ class Profile extends Component {
     render() {
         const { profile, loading } = this.state;
         let user = this.props.user;
+
         return (
             <React.Fragment>
                 {loading && profile ? (
@@ -80,7 +80,7 @@ class Profile extends Component {
                 ) : (
                         <React.Fragment>
                             <PageHeader
-                                title="Cihangir Özmüş"
+                                title={profile.name}
                                 bg={page_banner}
                                 intro="Profile"
                                 className="bespoke-profile-header"
@@ -102,7 +102,7 @@ class Profile extends Component {
                                                             className="btn btn-success fullWidth"
                                                         >
                                                             {profile.currentUserIsAlreadyFollowing ? (
-                                                                <span>
+                                                                <span className="bespoke-profile-follow-btn">
                                                                     <FontAwesomeIcon
                                                                         icon={
                                                                             faCheck
@@ -110,17 +110,16 @@ class Profile extends Component {
                                                                     />{" "}
                                                                     Your are
                                                                     following
-                                                                    Cihangir Özmüş
+                                                                    {profile.name}
                                                             </span>
                                                             ) : (
-                                                                    <span>
+                                                                    <span className="bespoke-profile-follow-btn">
                                                                         <FontAwesomeIcon
                                                                             icon={
                                                                                 faPlus
                                                                             }
                                                                         />{" "}
-                                                                        Follow Cihangir
-                                                                        Özmüş
+                                                                        Follow {profile.name}
                                                             </span>
                                                                 )}
                                                         </Button>
@@ -149,7 +148,7 @@ class Profile extends Component {
                                                                         <div className="maxCaption">
                                                                             <img
                                                                                 src={
-                                                                                    topic.image
+                                                                                    topic.imageUrl
                                                                                 }
                                                                                 className="img-fluid mb-2"
                                                                                 alt={
@@ -164,13 +163,13 @@ class Profile extends Component {
                                                                         </h4>
                                                                         <div className="topicCaption bespoke-topic-caption">
                                                                             {
-                                                                                topic.caption
+                                                                                topic.description
                                                                             }
                                                                         </div>
                                                                         <br />
                                                                         <WikiLabels
                                                                             wikis={
-                                                                                topic.wikis
+                                                                                topic.wikiData
                                                                             }
                                                                         />
                                                                         <hr />

@@ -167,12 +167,18 @@ class Glossary extends Component {
                                                                                 by{" "}
                                                                             </strong>{" "}
                                                                             @
-                                                                        {
-                                                                                topic.createdByName
-                                                                            }{" "}
+                                                                            <Link
+                                                                                to={`/profile/${topic.createdBy}`}
+                                                                            >
+                                                                                {
+                                                                                    topic.createdByName
+                                                                                }{" "}
+                                                                            </Link>
+                                                                            
                                                                         </small>
                                                                         <hr />
                                                                         <p className="card-text text-justify bespoke-topic-description">
+
                                                                             {
                                                                                 topic.description
                                                                             }
