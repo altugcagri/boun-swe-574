@@ -111,7 +111,7 @@ class UserCreatedTopicList extends Component {
                                         <div className="col-md-4">
                                             <Link
                                                 to="/topic/new"
-                                                className="btn btn-success fullWidth"
+                                                className="btn btn-success fullWidth bespoke-topic-create-new"
                                             >
                                                 <FontAwesomeIcon icon={faPlus} />{" "}
                                                 Create a Topic
@@ -145,10 +145,11 @@ class UserCreatedTopicList extends Component {
                                                                     id={`${topic.id}-${topic.imageUrl}`}
                                                                 />
                                                             </div>
-                                                            <h4 className="serif font-24">
+
+                                                            <h4 className="serif font-24 bespoke-topic-title">
                                                                 {topic.title}
                                                             </h4>
-                                                            <div className="topicCaption">
+                                                            <div className="topicCaption bespoke-topic-description">
                                                                 {topic.description}
                                                             </div>
                                                             <br />
@@ -159,7 +160,7 @@ class UserCreatedTopicList extends Component {
                                                             />
                                                             <hr />
                                                             <Link
-                                                                className="btn btn-sm fullWidth btn-orange "
+                                                                className="btn btn-sm fullWidth btn-orange bespoke-topic-detail"
                                                                 to={`/topic/${topic.id}`}
                                                             >
                                                                 Details
@@ -168,7 +169,7 @@ class UserCreatedTopicList extends Component {
                                                                 style={{
                                                                     display: "none"
                                                                 }}
-                                                                className="ml-2 btn-sm"
+                                                                className="ml-2 btn-sm bespoke-topic-delete-button"
                                                                 variant="outline-danger"
                                                                 onClick={() =>
                                                                     this.handleDeleteTopicById(

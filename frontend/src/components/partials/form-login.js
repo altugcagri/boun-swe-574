@@ -67,7 +67,7 @@ export default class LoginForm extends React.Component {
 
         return (
             <div className={"section bespoke-modal-login-form loginform type-" + vm.props.type}>
-                <h2 className="loginform-title">Login to your account</h2>
+                <h2 className="loginform-title bespoke-loginform-h2">Login to your account</h2>
 
                 <InputForm
                     className="loginform-form"

@@ -117,12 +117,12 @@ class Home extends React.Component {
                         <div className="row">
                             <div className="col-md-12 serif">
                                 <h2
-                                    className="serif wow fadeIn"
+                                    className="serif wow fadeIn bespoke-header-h2"
                                     data-wow-delay="0.2s"
                                 >
                                     Tailor-made content.
                                 </h2>
-                                <p className="wow fadeIn" data-wow-delay="0.3s">
+                                <p className="wow fadeIn bespoke-header-p" data-wow-delay="0.3s">
                                     Bespoke is an open source learning space
                                     built just for you. <br />
                                     Here, you can learn from others, and share
@@ -168,6 +168,7 @@ class Home extends React.Component {
                                                                 <h5 className="card-title text-info serif font-24 text-justify mb-1">
                                                                     <Link
                                                                         to={`/topic/preview/${latestTopic.id}`}
+                                                                        className={`bespoke-latest-title-${latestTopic.id}`}
                                                                     >
                                                                         {
                                                                             latestTopic.title
@@ -192,7 +193,7 @@ class Home extends React.Component {
                                                                         </Link>
                                                                     }
                                                                 </small>
-                                                                <p>
+                                                                <p className={`bespoke-latest-caption${latestTopic.id}`}>
                                                                     {
                                                                         latestTopic.caption
                                                                     }
@@ -252,6 +253,7 @@ class Home extends React.Component {
                                                                 <h5 className="card-title text-info serif font-24 text-justify mb-1">
                                                                     <Link
                                                                         to={`/topic/preview/${interestTopic.id}`}
+                                                                        className={`bespoke-interest-title-${interestTopic.id}`}
                                                                     >
                                                                         {
                                                                             interestTopic.title
@@ -275,7 +277,7 @@ class Home extends React.Component {
                                                                         </Link>
                                                                     }
                                                                 </small>
-                                                                <p>
+                                                                <p className={`bespoke-interest-caption-${interestTopic.id}`}>
                                                                     {
                                                                         interestTopic.caption
                                                                     }
@@ -297,7 +299,7 @@ class Home extends React.Component {
                         <div className="col-md-4 mt-5 mb-5 bespoke-home-continue">
                             {user && continueTopic && (
                                 <React.Fragment>
-                                    <h2 className="serif font-30">
+                                    <h2 className="serif font-30 bespoke-home-continue-h2">
                                         Continue learning.
                                     </h2>
                                     <hr />
@@ -311,6 +313,7 @@ class Home extends React.Component {
                                         <h5 className="card-title text-info serif font-24 text-justify mb-1">
                                             <Link
                                                 to={`/topic/preview/${continueTopic.id}`}
+                                                className={`bespoke-home-continue-title${continueTopic.id}`}
                                             >
                                                 {continueTopic.title}{" "}
                                             </Link>
@@ -320,13 +323,13 @@ class Home extends React.Component {
                                             <strong>by </strong>{" "}
                                             {continueTopic.author}{" "}
                                         </small>
-                                        <p>{continueTopic.caption}</p>
+                                        <p className={`bespoke-home-continue-caption${continueTopic.id}`}>{continueTopic.caption}</p>
                                         <WikiLabels
                                             wikis={continueTopic.wikis}
                                         />
                                     </div>
                                     <div className="mt-5 bespoke-home-activities">
-                                        <h2 className="serif font-30">
+                                        <h2 className="serif font-30 bespoke-home-activities-title">
                                             From your circle.
                                         </h2>
                                         <hr />
@@ -349,6 +352,7 @@ class Home extends React.Component {
                                                                             to={
                                                                                 activity.link
                                                                             }
+                                                                            className={`bespoke-home-activity-link-${idx}`}
                                                                         >
                                                                             {
                                                                                 activity.text
@@ -372,14 +376,14 @@ class Home extends React.Component {
                         <div className="row">
                             <div className="col-md-10 offset-md-1 text-center">
                                 <h3
-                                    className="serif wow fadeIn"
+                                    className="serif wow fadeIn bespoke-pre-footer-h3"
                                     data-wow-delay="0.7s"
                                     style={{ fontSize: "34px" }}
                                 >
                                     About Bespoke
                                 </h3>
                                 <br />
-                                <p className="wow fadeIn" data-wow-delay="0.9s">
+                                <p className="wow fadeIn bespoke-pre-footer-p" data-wow-delay="0.9s">
                                     Bespoke is an open source project built in
                                     Bogazici University in 2019.
                                     <br />

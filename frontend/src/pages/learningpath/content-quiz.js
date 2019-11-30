@@ -88,9 +88,9 @@ class ContentQuiz extends Component {
                             >
                                 <Link
                                     to={`/topic/view/${content.topicId}`}
-                                    className="breadcrumbLink"
+                                    className="breadcrumbLink bespoke-content-quiz-breadcdumbLink "
                                 >
-                                    <span>{content.topicTitle}</span>
+                                    <span className="bespoke-content-quiz-breadcdumbLink-span">{content.topicTitle}</span>
                                 </Link>
                             </PageHeader>
 
@@ -99,9 +99,9 @@ class ContentQuiz extends Component {
                                     <div className="container bespoke-quiz-container">
                                         <div className="row">
                                             <div className="col-md-8">
-                                                <h4 className="mb-4">
+                                                <h4 className="mb-4 bespke-content-quiz-h4">
                                                     Quiz:{" "}
-                                                    <strong>
+                                                    <strong className="bespke-content-quiz-h4-strong">
                                                         {content.contentTitle}
                                                     </strong>
                                                 </h4>
@@ -142,7 +142,7 @@ class ContentQuiz extends Component {
                                                 {content.nextContentId === null ? (
                                                     <div className="text-right mt-5">
                                                         <Link
-                                                            className="btn btn-success btn-sm ml-2 inlineBtn"
+                                                            className="btn btn-success btn-sm ml-2 inlineBtn bespke-content-quiz-finalize"
                                                             to={`/topic/view/${content.topicId}`}
                                                         >
                                                             <FontAwesomeIcon
@@ -154,7 +154,7 @@ class ContentQuiz extends Component {
                                                 ) : (
                                                         <div className="text-right mt-5">
                                                             <Link
-                                                                className="btn btn-success btn-sm ml-2 inlineBtn"
+                                                                className="btn btn-success btn-sm ml-2 inlineBtn bespke-content-quiz-start-next"
                                                                 to={`/content/view/${content.nextContentId}`}
                                                             >
                                                                 <FontAwesomeIcon

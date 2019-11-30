@@ -107,7 +107,7 @@ class Glossary extends Component {
                                         </div>
                                     </div>
                                     {topics.length === 0 && (
-                                        <div className="mt-5 text-center">
+                                        <div className="mt-5 text-center bespoke-nothing-to-show">
                                             Nothing to show
                                     </div>
                                     )}
@@ -148,7 +148,7 @@ class Glossary extends Component {
                                                                             id={`${topic.id}-${topic.imageUrl}`}
                                                                         />
                                                                         <Link
-                                                                            className="btn btn-orange fullWidth"
+                                                                            className="btn btn-orange fullWidth bespoke-link-to-topic"
                                                                             to={`/topic/preview/${topic.id}`}
                                                                         >
                                                                             Details
@@ -157,22 +157,28 @@ class Glossary extends Component {
                                                                 </div>
                                                                 <div className="col-md-7">
                                                                     <div className="card-body text-left">
-                                                                        <h5 className="card-title text-info serif font-24 text-justify mb-1">
+                                                                        <h5 className="card-title text-info serif font-24 text-justify mb-1 bespoke-topic-title">
                                                                             {
                                                                                 topic.title
                                                                             }{" "}
                                                                         </h5>
-                                                                        <small className="text-left">
+                                                                        <small className="text-left bespoke-topic-author">
                                                                             <strong>
                                                                                 by{" "}
                                                                             </strong>{" "}
                                                                             @
-                                                                        {
-                                                                                topic.createdByName
-                                                                            }{" "}
+                                                                            <Link
+                                                                                to={`/profile/${topic.createdBy}`}
+                                                                            >
+                                                                                {
+                                                                                    topic.createdByName
+                                                                                }{" "}
+                                                                            </Link>
+                                                                            
                                                                         </small>
                                                                         <hr />
-                                                                        <p className="card-text text-justify">
+                                                                        <p className="card-text text-justify bespoke-topic-description">
+
                                                                             {
                                                                                 topic.description
                                                                             }

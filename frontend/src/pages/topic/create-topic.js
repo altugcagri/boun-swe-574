@@ -193,9 +193,9 @@ class CreateTopic extends Component {
                             >
                                 <Link
                                     to={`/${props.user.username}/topics/created`}
-                                    className="breadcrumbLink"
+                                    className="breadcrumbLink bespoke-create-topic-breadcdumbLink"
                                 >
-                                    <span>My Topics</span>
+                                    <span className="bespoke-create-topic-breadcdumbLink-span">My Topics</span>
                                 </Link>
                             </PageHeader>
 

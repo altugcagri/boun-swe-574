@@ -21,5 +21,9 @@
     "checkUsernameAvailability": "/user/checkUsernameAvailability?username=[slug1]",
     "checkEmailAvailability": "/user/checkEmailAvailability?email=[slug1]",
     "getCurrentUser": "/user/me",
-    "getUserProfile": "/users/[slug1]"
+    "getUserProfile": "/users/[slug1]",
+    "storeActivity": "/activity",
+    "getProfile": "/profile/[slug1]",
+    "getAnnotations": "/annotation?page=[slug1]",
+    "storeAnnotation": "/annotation"
 }

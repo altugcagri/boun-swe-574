@@ -76,7 +76,7 @@ class UserEnrolledTopicList extends Component {
 
                             <div className="container minHeightContent bespoke-user-enrollment-container">
                                 {topics.length === 0 && (
-                                    <div className="mt-5 text-center">
+                                    <div className="mt-5 text-center bespoke-nothing-to-show">
                                         Nothing to show
                                 </div>
                                 )}
@@ -100,10 +100,10 @@ class UserEnrolledTopicList extends Component {
                                                                 id={`${topic.id}-${topic.imageUrl}`}
                                                             />
                                                         </div>
-                                                        <h4 className="serif font-24">
+                                                        <h4 className="serif font-24 bespoke-topic-title">
                                                             {topic.title}
                                                         </h4>
-                                                        <div className="topicCaption mb-3">
+                                                        <div className="topicCaption mb-3 bespoke-topic-description">
                                                             {topic.description}
                                                         </div>
                                                         <br />
@@ -112,7 +112,7 @@ class UserEnrolledTopicList extends Component {
                                                         />
                                                         <hr />
                                                         <Link
-                                                            className="btn btn-sm fullWidth btn-orange"
+                                                            className="btn btn-sm fullWidth btn-orange bespoke-topic-detail"
                                                             to={`/topic/view/${topic.id}`}
                                                         >
                                                             Details

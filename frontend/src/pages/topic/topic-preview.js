@@ -193,9 +193,9 @@ class TopicPreview extends Component {
                                     >
                                         <Link
                                             to={`/explore`}
-                                            className="breadcrumbLink"
+                                            className="breadcrumbLink bespoke-topic-preview-breadcdumbLink"
                                         >
-                                            <span>Explore</span>
+                                            <span className="bespoke-topic-preview-breadcdumbLink-span">Explore</span>
                                         </Link>
                                     </PageHeader>
 
@@ -203,13 +203,13 @@ class TopicPreview extends Component {
                                         <div className="container bespoke-topic-preview-container">
                                             <div className="row">
                                                 <div className="col-md-8">
-                                                    <h3 className="serif">
+                                                    <h3 className="serif bespoke-topic-preview-topic-h3">
                                                         About {topic.title}
                                                     </h3>
-                                                    <p>{topic.description}</p>
+                                                    <p className="bespoke-topic-preview-topic-p">{topic.description}</p>
                                                     {user ? (
                                                         <Button
-                                                            className="btn btn-success btn-sm"
+                                                            className="btn btn-success btn-sm bespoke-topic-preview-topic-button"
                                                             variant="primary"
                                                             onClick={() =>
                                                                 this.enrollUserToTopic(
@@ -224,7 +224,7 @@ class TopicPreview extends Component {
                                                     </Button>
                                                     ) : (
                                                             <Button
-                                                                className="btn btn-success btn-sm"
+                                                                className="btn btn-success btn-sm bespoke-topic-preview-topic-button-login"
                                                                 variant="primary"
                                                             >
                                                                 <FontAwesomeIcon
@@ -241,7 +241,7 @@ class TopicPreview extends Component {
                                                             "1px solid #cdcdcd"
                                                     }}
                                                 >
-                                                    <h3 className="serif">Wiki</h3>
+                                                    <h3 className="serif bespoke-topic-preview-topic-h3-wiki">Wiki</h3>
                                                     <WikiLabels
                                                         wikis={topic.wikiData}
                                                     />
@@ -262,7 +262,7 @@ class TopicPreview extends Component {
                                     <div className="sectionPadding minHeightContent">
                                         <div className="container">
                                             <div className="row col-md-12 text-left">
-                                                <h4>
+                                                <h4 className="bespoke-topic-preview-learning-path">
                                                     Learning <strong>Path</strong>
                                                 </h4>
                                             </div>
