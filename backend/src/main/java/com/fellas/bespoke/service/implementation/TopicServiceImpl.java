@@ -14,7 +14,7 @@ import com.fellas.bespoke.persistence.model.*;
 import com.fellas.bespoke.security.UserPrincipal;
 import com.fellas.bespoke.service.ActivityService;
 import com.fellas.bespoke.service.TopicService;
-import com.fellas.bespoke.service.util.SmeptUtilities;
+import com.fellas.bespoke.service.util.BespokeUtilities;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.http.ResponseEntity;
@@ -37,22 +37,22 @@ public class TopicServiceImpl implements TopicService {
 
     private ActivityService activityService;
 
-    private ConfigurableConversionService smepConversionService;
+    private ConfigurableConversionService bespokeConversionService;
 
     public TopicServiceImpl(TopicRepository topicRepository, UserRepository userRepository,
                             WikiDataRepository wikiDataRepository, ActivityService activityService,
-                            ConfigurableConversionService smepConversionService) {
+                            ConfigurableConversionService bespokeConversionService) {
         this.topicRepository = topicRepository;
         this.userRepository = userRepository;
         this.wikiDataRepository = wikiDataRepository;
         this.activityService = activityService;
-        this.smepConversionService = smepConversionService;
+        this.bespokeConversionService = bespokeConversionService;
     }
 
     @Override
     public ResponseEntity<List<TopicResponse>> getAllTopics(UserPrincipal currentUser) {
         return ResponseEntity.ok().body(topicRepository.findByPublished(true).stream()
-                .map(topic -> smepConversionService.convert(topic, TopicResponse.class)).collect(
+                .map(topic -> bespokeConversionService.convert(topic, TopicResponse.class)).collect(
                         Collectors.toList()));
     }
 
@@ -62,8 +62,18 @@ public class TopicServiceImpl implements TopicService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
 
         return ResponseEntity.ok().body(topicRepository.findByCreatedBy(user.getId()).stream()
-                .map(topic -> smepConversionService.convert(topic, TopicResponse.class)).collect(
+                .map(topic -> bespokeConversionService.convert(topic, TopicResponse.class)).collect(
                         Collectors.toList()));
+    }
+
+    @Override
+    public List<TopicResponse> getPublishedTopicsCreatedBy(Long userId) {
+        final User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId.toString()));
+
+        return topicRepository.findByCreatedBy(user.getId()).stream().filter(Topic::isPublished)
+                .map(topic -> bespokeConversionService.convert(topic, TopicResponse.class)).collect(
+                        Collectors.toList());
     }
 
     @Override
@@ -71,7 +81,7 @@ public class TopicServiceImpl implements TopicService {
         final Topic topic = topicRepository.findById(topicId).orElseThrow(
                 () -> new ResourceNotFoundException(TOPIC, "id", topicId.toString()));
 
-        return ResponseEntity.ok().body(smepConversionService.convert(topic, TopicResponse.class));
+        return ResponseEntity.ok().body(bespokeConversionService.convert(topic, TopicResponse.class));
     }
 
     @Override
@@ -89,9 +99,9 @@ public class TopicServiceImpl implements TopicService {
 
         topicRequest.setCreatedByName(currentUser.getUsername());
 
-        final Topic topic = topicRepository.save(smepConversionService.convert(topicRequest, Topic.class));
+        final Topic topic = topicRepository.save(bespokeConversionService.convert(topicRequest, Topic.class));
 
-        return ResponseEntity.ok().body(smepConversionService.convert(topic, TopicResponse.class));
+        return ResponseEntity.ok().body(bespokeConversionService.convert(topic, TopicResponse.class));
     }
 
     @Override
@@ -99,7 +109,7 @@ public class TopicServiceImpl implements TopicService {
         final Topic topic = topicRepository.findById(publishRequest.getTopicId())
                 .orElseThrow(() -> new ResourceNotFoundException(TOPIC, "id", publishRequest.getTopicId().toString()));
 
-        SmeptUtilities.checkCreatedBy(TOPIC, currentUser.getId(), topic.getCreatedBy());
+        BespokeUtilities.checkCreatedBy(TOPIC, currentUser.getId(), topic.getCreatedBy());
 
         if (publishRequest.isPublish()) {
 
@@ -131,7 +141,7 @@ public class TopicServiceImpl implements TopicService {
         final Topic topic = topicRepository.findById(topicId)
                 .orElseThrow(() -> new ResourceNotFoundException(TOPIC, "id", topicId.toString()));
 
-        SmeptUtilities.checkCreatedBy(TOPIC, currentUser.getId(), topic.getCreatedBy());
+        BespokeUtilities.checkCreatedBy(TOPIC, currentUser.getId(), topic.getCreatedBy());
 
         topicRepository.delete(topic);
         return ResponseEntity.ok().body(new ApiResponse(true, "Topic deleted"));
@@ -158,7 +168,7 @@ public class TopicServiceImpl implements TopicService {
         final List<Topic> enrolledTopics = topicRepository.findTopicByEnrolledUsersContainsAndPublished(user, true);
 
         return ResponseEntity.ok()
-                .body(enrolledTopics.stream().map(topic -> smepConversionService.convert(topic, TopicResponse.class))
+                .body(enrolledTopics.stream().map(topic -> bespokeConversionService.convert(topic, TopicResponse.class))
                         .collect(Collectors.toList()));
     }
 }

@@ -17,6 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class TopicRequest {
 
+    @Builder.Default
     private Long id = 0L;
 
     @NotBlank

@@ -142,7 +142,7 @@ class TopicPreview extends Component {
     componentDidMount() {
         this._isMounted = true;
         let vm = this;
-        setTimeout(function() {
+        setTimeout(function () {
             vm.loadTopicById();
         }, 500);
     }
@@ -182,109 +182,110 @@ class TopicPreview extends Component {
                 {loading ? (
                     <Loading />
                 ) : (
-                    <React.Fragment>
-                        {resolved && (
-                            <div>
-                                <PageHeader
-                                    title={topic.title}
-                                    bg={topic.imageUrl}
-                                    intro="Tip: a topic is just a start. It is in your own hands to master a topic. If you have another perspective, share it!"
-                                >
-                                    <Link
-                                        to={`/explore`}
-                                        className="breadcrumbLink"
+                        <React.Fragment>
+                            {resolved && (
+                                <div>
+                                    <PageHeader
+                                        title={topic.title}
+                                        bg={topic.imageUrl}
+                                        intro="Tip: a topic is just a start. It is in your own hands to master a topic. If you have another perspective, share it!"
+                                        className="bespoke-topic-preview-header"
                                     >
-                                        <span>Explore</span>
-                                    </Link>
-                                </PageHeader>
+                                        <Link
+                                            to={`/explore`}
+                                            className="breadcrumbLink bespoke-topic-preview-breadcdumbLink"
+                                        >
+                                            <span className="bespoke-topic-preview-breadcdumbLink-span">Explore</span>
+                                        </Link>
+                                    </PageHeader>
 
-                                <div className="bg-alt sectionPadding text-left">
-                                    <div className="container">
-                                        <div className="row">
-                                            <div className="col-md-8">
-                                                <h3 className="serif">
-                                                    About {topic.title}
-                                                </h3>
-                                                <p>{topic.description}</p>
-                                                {user ? (
-                                                    <Button
-                                                        className="btn btn-success btn-sm"
-                                                        variant="primary"
-                                                        onClick={() =>
-                                                            this.enrollUserToTopic(
-                                                                topic.id
-                                                            )
-                                                        }
-                                                    >
-                                                        <FontAwesomeIcon
-                                                            icon={faUserPlus}
-                                                        />{" "}
-                                                        Enroll To This Topic
+                                    <div className="bg-alt sectionPadding text-left">
+                                        <div className="container bespoke-topic-preview-container">
+                                            <div className="row">
+                                                <div className="col-md-8">
+                                                    <h3 className="serif bespoke-topic-preview-topic-h3">
+                                                        About {topic.title}
+                                                    </h3>
+                                                    <p className="bespoke-topic-preview-topic-p">{topic.description}</p>
+                                                    {user ? (
+                                                        <Button
+                                                            className="btn btn-success btn-sm bespoke-topic-preview-topic-button"
+                                                            variant="primary"
+                                                            onClick={() =>
+                                                                this.enrollUserToTopic(
+                                                                    topic.id
+                                                                )
+                                                            }
+                                                        >
+                                                            <FontAwesomeIcon
+                                                                icon={faUserPlus}
+                                                            />{" "}
+                                                            Enroll To This Topic
                                                     </Button>
-                                                ) : (
-                                                    <Button
-                                                        className="btn btn-success btn-sm"
-                                                        variant="primary"
-                                                    >
-                                                        <FontAwesomeIcon
-                                                            icon={faUser}
-                                                        />{" "}
-                                                        Login to Enroll
+                                                    ) : (
+                                                            <Button
+                                                                className="btn btn-success btn-sm bespoke-topic-preview-topic-button-login"
+                                                                variant="primary"
+                                                            >
+                                                                <FontAwesomeIcon
+                                                                    icon={faUser}
+                                                                />{" "}
+                                                                Login to Enroll
                                                     </Button>
-                                                )}
-                                            </div>
-                                            <div
-                                                className="col-md-4"
-                                                style={{
-                                                    borderLeft:
-                                                        "1px solid #cdcdcd"
-                                                }}
-                                            >
-                                                <h3 className="serif">Wiki</h3>
-                                                <WikiLabels
-                                                    wikis={topic.wikiData}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="text-center mt-5">
-                                    <img
-                                        src={seperator}
-                                        className="wow fadeIn"
-                                        data-wow-delay="0.3s"
-                                        alt=""
-                                        width="100"
-                                    />
-                                </div>
-
-                                <div className="sectionPadding minHeightContent">
-                                    <div className="container">
-                                        <div className="row col-md-12 text-left">
-                                            <h4>
-                                                Learning <strong>Path</strong>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                    {activeTab && (
-                                        <Tab.Container id="list-group-tabs-example">
-                                            <div className="container mt-5 text-left">
-                                                <Row>
-                                                    <PathNavigator
-                                                        contents={
-                                                            topic.contentList
-                                                        }
-                                                        preview={true}
+                                                        )}
+                                                </div>
+                                                <div
+                                                    className="col-md-4"
+                                                    style={{
+                                                        borderLeft:
+                                                            "1px solid #cdcdcd"
+                                                    }}
+                                                >
+                                                    <h3 className="serif bespoke-topic-preview-topic-h3-wiki">Wiki</h3>
+                                                    <WikiLabels
+                                                        wikis={topic.wikiData}
                                                     />
-                                                </Row>
+                                                </div>
                                             </div>
-                                        </Tab.Container>
-                                    )}
+                                        </div>
+                                    </div>
+                                    <div className="text-center mt-5">
+                                        <img
+                                            src={seperator}
+                                            className="wow fadeIn"
+                                            data-wow-delay="0.3s"
+                                            alt=""
+                                            width="100"
+                                        />
+                                    </div>
+
+                                    <div className="sectionPadding minHeightContent">
+                                        <div className="container">
+                                            <div className="row col-md-12 text-left">
+                                                <h4 className="bespoke-topic-preview-learning-path">
+                                                    Learning <strong>Path</strong>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        {activeTab && (
+                                            <Tab.Container id="list-group-tabs-example">
+                                                <div className="container mt-5 text-left">
+                                                    <Row>
+                                                        <PathNavigator
+                                                            contents={
+                                                                topic.contentList
+                                                            }
+                                                            preview={true}
+                                                        />
+                                                    </Row>
+                                                </div>
+                                            </Tab.Container>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        )}
-                    </React.Fragment>
-                )}
+                            )}
+                        </React.Fragment>
+                    )}
             </React.Fragment>
         );
     }

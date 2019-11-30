@@ -31,11 +31,11 @@ public class ChoiceServiceTest extends AbstractServiceTest {
     private QuestionRepository questionRepository;
 
     @Mock
-    private ConfigurableConversionService smepConversionService;
+    private ConfigurableConversionService bespokeConversionService;
 
     @InjectMocks
     private final ChoiceService sut = new ChoiceServiceImpl(choiceRepository, questionRepository,
-            smepConversionService);
+            bespokeConversionService);
 
     @Test(expected = ResourceNotFoundException.class)
     public void testCreateChoiceByQuestionId_QuestionNotFound() {
@@ -68,7 +68,7 @@ public class ChoiceServiceTest extends AbstractServiceTest {
         final Choice choice = TestUtils.createDummyChoice();
         question.setCreatedBy(currentUser.getId());
         when(questionRepository.findById(request.getQuestionId())).thenReturn(Optional.of(question));
-        when(smepConversionService.convert(request, Choice.class)).thenReturn(choice);
+        when(bespokeConversionService.convert(request, Choice.class)).thenReturn(choice);
 
         //Test
         final ResponseEntity<ApiResponse> responseEntity = sut.createChoiceByQuestionId(currentUser, request);

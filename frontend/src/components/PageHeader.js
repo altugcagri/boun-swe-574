@@ -11,19 +11,19 @@ class PageHeader extends Component {
         const props = this.props;
         return (
 
-            <div className="pageHeader text-left" style={{ backgroundImage: `url(${props.bg})` }}>
+            <div className={`pageHeader text-left ${props.className}`} style={{ backgroundImage: `url(${props.bg})` }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-md-6 serif">
                             <span className="wow fadeIn">
-                                <Link to={`/`} className="breadcrumbLink">
+                                <Link to={`/`} className="breadcrumbLink bespoke-page-header-breadcrumb-link">
                                     <span>Home</span>
                                 </Link>
                                 {props.children}
-                                <span className="breadcrumbLink">{props.title}</span>
+                                <span className="breadcrumbLink bespoke-page-header-breadcrumb">{props.title}</span>
                             </span>
-                            <h2 className="serif wow fadeIn" data-wow-offset="50" data-wow-delay="0.2s">{props.title}</h2>
-                            <p className="wow fadeIn" data-wow-delay="0.3s">
+                            <h2 className="serif wow fadeIn bespoke-page-header-h2" data-wow-offset="50" data-wow-delay="0.2s">{props.title}</h2>
+                            <p className="wow fadeIn bespoke-page-header-p" data-wow-delay="0.3s">
                                 {props.intro}
                             </p>
                         </div>

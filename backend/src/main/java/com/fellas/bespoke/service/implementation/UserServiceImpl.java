@@ -6,11 +6,15 @@ import com.fellas.bespoke.controller.dto.response.UserSummary;
 import com.fellas.bespoke.exception.ResourceNotFoundException;
 import com.fellas.bespoke.persistence.TopicRepository;
 import com.fellas.bespoke.persistence.UserRepository;
+import com.fellas.bespoke.persistence.model.Topic;
 import com.fellas.bespoke.persistence.model.User;
 import com.fellas.bespoke.security.UserPrincipal;
 import com.fellas.bespoke.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -37,13 +41,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserProfile getUserProfile(String username) {
+    public UserProfile getUserByUserName(String username) {
         final User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("UserEntity", "username", username));
 
-        final long topicCount = topicRepository.countByCreatedBy(user.getId());
+        return new UserProfile(user.getId(), user.getUsername(), user.getName(), user.getCreatedAt(),
+                topicRepository.countByCreatedBy(user.getId()), null);
+    }
+
+    @Override
+    public UserProfile getUserByUserId(long userId) {
+        final User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("UserEntity", "userId", Long.toString(userId)));
+
+        final List<UserSummary> userSummaryList = user.getFollowedUsers().stream().map(followedUser ->
+                UserSummary.builder().name(followedUser.getName()).
+                        username(followedUser.getUsername()).
+                        id(followedUser.getId()).build()).
+                collect(Collectors.toList());
 
         return new UserProfile(user.getId(), user.getUsername(), user.getName(), user.getCreatedAt(),
-                topicCount);
+                topicRepository.countByCreatedBy(user.getId()), userSummaryList);
     }
 }

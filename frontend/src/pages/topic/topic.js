@@ -143,166 +143,167 @@ class Topic extends Component {
                 {loading ? (
                     <Loading />
                 ) : (
-                    <React.Fragment>
-                        <PageHeader
-                            title={topic.title}
-                            bg={topic.imageUrl}
-                            intro="Tip: a topic is just a start. It is in your own hands to master a topic. If you have another perspective, share it!"
-                        >
-                            {editable ? (
-                                <Link
-                                    to={`/${this.props.user.username}/topics/created`}
-                                    className="breadcrumbLink"
-                                >
-                                    <span>My Topics</span>
-                                </Link>
-                            ) : (
-                                <Link
-                                    to={`/explore`}
-                                    className="breadcrumbLink"
-                                >
-                                    <span>Explore</span>
-                                </Link>
-                            )}
-                        </PageHeader>
-
-                        <div className="bg-alt sectionPadding text-left">
-                            <div className="container">
-                                <div className="row">
-                                    <div className="col-md-8 ">
-                                        <h3 className="serif">
-                                            About {topic.title}
-                                        </h3>
-                                        {!editable && user && (
-                                            <React.Fragment>
-                                                {achieved ? (
-                                                    <div>
-                                                        <span className="badge badge-pill badge-success font-14">
-                                                            <FontAwesomeIcon
-                                                                icon={faCheck}
-                                                            />{" "}
-                                                            Completed
-                                                        </span>
-                                                        <br />
-                                                        <br />
-                                                    </div>
-                                                ) : (
-                                                    <div>
-                                                        <span className="badge badge-pill badge-warning font-14">
-                                                            <FontAwesomeIcon
-                                                                icon={faCogs}
-                                                            />{" "}
-                                                            Ongoing
-                                                        </span>
-                                                        <br />
-                                                        <br />
-                                                    </div>
-                                                )}
-                                            </React.Fragment>
-                                        )}
-                                        <p>{topic.description}</p>
-
-                                        {editable && (
-                                            <Link
-                                                className="btn btn-primary inlineBtn"
-                                                to={`/topic/${topic.id}/edit`}
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={faEdit}
-                                                />{" "}
-                                                Edit This Topic
-                                            </Link>
-                                        )}
-
-                                        {editable && (
-                                            <Button
-                                                className="btn ml-2 inlineBtn"
-                                                variant={
-                                                    topic.published
-                                                        ? "danger"
-                                                        : "warning"
-                                                }
-                                                onClick={() =>
-                                                    this.togglePublish(
-                                                        topic.id,
-                                                        !topic.published
-                                                    )
-                                                }
-                                            >
-                                                <FontAwesomeIcon icon={faEye} />{" "}
-                                                {topic.published
-                                                    ? "Unpublish"
-                                                    : "Publish This Topic"}
-                                            </Button>
-                                        )}
-                                    </div>
-                                    <div
-                                        className="col-md-4"
-                                        style={{
-                                            borderLeft: "1px solid #cdcdcd"
-                                        }}
+                        <React.Fragment>
+                            <PageHeader
+                                title={topic.title}
+                                bg={topic.imageUrl}
+                                intro="Tip: a topic is just a start. It is in your own hands to master a topic. If you have another perspective, share it!"
+                                className="bespoke-topic-header"
+                            >
+                                {editable ? (
+                                    <Link
+                                        to={`/${this.props.user.username}/topics/created`}
+                                        className="breadcrumbLink bespoke-topic-breadcdumbLink"
                                     >
-                                        <h3 className="serif">Wiki</h3>
-                                        <WikiLabels wikis={topic.wikiData} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="text-center mt-5">
-                            <img
-                                src={seperator}
-                                className="wow fadeIn"
-                                data-wow-delay="0.3s"
-                                alt=""
-                                width="100"
-                            />
-                        </div>
+                                        <span className="bespoke-topic-breadcdumbLink-span">My Topics</span>
+                                    </Link>
+                                ) : (
+                                        <Link
+                                            to={`/explore`}
+                                            className="breadcrumbLink bespoke-topic-breadcdumbLink"
+                                        >
+                                            <span className="bespoke-topic-breadcdumbLink-span">Explore</span>
+                                        </Link>
+                                    )}
+                            </PageHeader>
 
-                        <div className="sectionPadding minHeightContent">
-                            <div className="container">
-                                <div className="row col-md-12 text-left">
-                                    <h4>
-                                        Learning <strong>Path</strong>
-                                        {editable && (
-                                            <Link
-                                                className="btn btn-success btn-sm ml-2 inlineBtn"
-                                                to={`/topic/${topic.id}/content`}
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={faPlus}
-                                                />
+                            <div className="bg-alt sectionPadding text-left">
+                                <div className="container bespoke-topic-container">
+                                    <div className="row">
+                                        <div className="col-md-8 ">
+                                            <h3 className="serif bespoke-topic-title">
+                                                About {topic.title}
+                                            </h3>
+                                            {!editable && user && (
+                                                <React.Fragment>
+                                                    {achieved ? (
+                                                        <div>
+                                                            <span className="badge badge-pill badge-success font-14 bespoke-topic-status">
+                                                                <FontAwesomeIcon
+                                                                    icon={faCheck}
+                                                                />{" "}
+                                                                Completed
+                                                        </span>
+                                                            <br />
+                                                            <br />
+                                                        </div>
+                                                    ) : (
+                                                            <div>
+                                                                <span className="badge badge-pill badge-warning font-14 bespoke-topic-status">
+                                                                    <FontAwesomeIcon
+                                                                        icon={faCogs}
+                                                                    />{" "}
+                                                                    Ongoing
+                                                        </span>
+                                                                <br />
+                                                                <br />
+                                                            </div>
+                                                        )}
+                                                </React.Fragment>
+                                            )}
+                                            <p className="bespoke-topic-description">{topic.description}</p>
+
+                                            {editable && (
+                                                <Link
+                                                    className="btn btn-primary inlineBtn bespoke-topic-edit-button"
+                                                    to={`/topic/${topic.id}/edit`}
+                                                >
+                                                    <FontAwesomeIcon
+                                                        icon={faEdit}
+                                                    />{" "}
+                                                    Edit This Topic
                                             </Link>
-                                        )}
-                                    </h4>
+                                            )}
+
+                                            {editable && (
+                                                <Button
+                                                    className="btn ml-2 inlineBtn bespoke-topic-publish-button" 
+                                                    variant={
+                                                        topic.published
+                                                            ? "danger"
+                                                            : "warning"
+                                                    }
+                                                    onClick={() =>
+                                                        this.togglePublish(
+                                                            topic.id,
+                                                            !topic.published
+                                                        )
+                                                    }
+                                                >
+                                                    <FontAwesomeIcon icon={faEye} />{" "}
+                                                    {topic.published
+                                                        ? "Unpublish"
+                                                        : "Publish This Topic"}
+                                                </Button>
+                                            )}
+                                        </div>
+                                        <div
+                                            className="col-md-4"
+                                            style={{
+                                                borderLeft: "1px solid #cdcdcd"
+                                            }}
+                                        >
+                                            <h3 className="serif bespoke-topic-button-wiki">Wiki</h3>
+                                            <WikiLabels wikis={topic.wikiData} />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            {activeTab && (
-                                <Tab.Container
-                                    id="list-group-tabs-example"
-                                    defaultActiveKey={activeTab}
-                                >
-                                    <div className="container mt-5 text-left">
-                                        <Row>
-                                            <PathNavigator
-                                                contents={topic.contentList}
-                                                linkable={!editable}
-                                            />
+                            <div className="text-center mt-5">
+                                <img
+                                    src={seperator}
+                                    className="wow fadeIn"
+                                    data-wow-delay="0.3s"
+                                    alt=""
+                                    width="100"
+                                />
+                            </div>
+
+                            <div className="sectionPadding minHeightContent bespoke-topic-learning-path">
+                                <div className="container">
+                                    <div className="row col-md-12 text-left">
+                                        <h4 class="bespoke-topic-learning-path-title">
+                                            Learning <strong>Path</strong>
                                             {editable && (
-                                                <PathTabs
-                                                    contents={topic.contentList}
-                                                    editable={editable}
-                                                    handleRefresh={() =>
-                                                        this.loadTopicById()
-                                                    }
-                                                />
+                                                <Link
+                                                    className="btn btn-success btn-sm ml-2 inlineBtn bespoke-topic-learning-path-add-new"
+                                                    to={`/topic/${topic.id}/content`}
+                                                >
+                                                    <FontAwesomeIcon
+                                                        icon={faPlus}
+                                                    />
+                                                </Link>
                                             )}
-                                        </Row>
+                                        </h4>
                                     </div>
-                                </Tab.Container>
-                            )}
-                        </div>
-                    </React.Fragment>
-                )}
+                                </div>
+                                {activeTab && (
+                                    <Tab.Container
+                                        id="list-group-tabs-example"
+                                        defaultActiveKey={activeTab}
+                                    >
+                                        <div className="container mt-5 text-left">
+                                            <Row>
+                                                <PathNavigator
+                                                    contents={topic.contentList}
+                                                    linkable={!editable}
+                                                />
+                                                {editable && (
+                                                    <PathTabs
+                                                        contents={topic.contentList}
+                                                        editable={editable}
+                                                        handleRefresh={() =>
+                                                            this.loadTopicById()
+                                                        }
+                                                    />
+                                                )}
+                                            </Row>
+                                        </div>
+                                    </Tab.Container>
+                                )}
+                            </div>
+                        </React.Fragment>
+                    )}
             </React.Fragment>
         );
     }

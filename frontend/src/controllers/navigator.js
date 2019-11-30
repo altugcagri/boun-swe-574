@@ -80,11 +80,42 @@ class Navigator extends React.Component {
             annotations: false,
             annotationsResolved: false,
             focusOffset: false,
-            anchorOffset: false
+            anchorOffset: false,
+            isImage: false,
+            imgSrc: false
         };
 
         this.getParents = this.getParents.bind(this);
+        this.imageHoverHandler = this.imageHoverHandler.bind(this)
     }
+
+    imageHoverHandler(id, src, title) {
+        let vm = this;
+
+        vm.setState({
+            annotatedText: title,
+            cssSelector: `#${id}`,
+            anchorOffset: 0,
+            focusOffset: 1,
+            isImage: true,
+            imgSrc: src
+        });
+
+        setTimeout(function () {
+            vm.setState({
+                annotatedText: false,
+                cssSelector: false,
+                annotations: false,
+                annotationsResolved: false,
+                focusOffset: false,
+                anchorOffset: false,
+                isImage: false,
+                imgSrc: false
+            });
+        }, 5000);
+    }
+
+
 
     componentDidMount() {
         window.dynamicHistory = history;
@@ -97,14 +128,25 @@ class Navigator extends React.Component {
         });
 
         let vm = this;
+
+        setTimeout(function () {
+            var images = document.getElementsByTagName("IMG");
+
+            for (let i = 0; i < images.length; i++) {
+                images[i].addEventListener("mouseover", () => { vm.imageHoverHandler(images[i].id, images[i].src, images[i].alt) });
+            }
+        }, 1000)
+
         // onselectionchange version
         document.onselectionchange = () => {
             let selection = document.getSelection();
+            
             if (selection.focusNode && selection.focusNode.data) {
                 let selectedText = selection.focusNode.data.substring(
                     selection.anchorOffset,
                     selection.focusOffset
                 );
+                
                 let selectedTag = selection.focusNode.parentNode.localName;
                 let classList = selection.focusNode.parentNode.className.split(
                     " "
@@ -118,6 +160,8 @@ class Navigator extends React.Component {
                 if (classString === ".") {
                     classString = "";
                 }
+
+                console.log(classString)
 
                 let elem = document.querySelector(selectedTag + classString);
                 setTimeout(function () {
@@ -141,11 +185,13 @@ class Navigator extends React.Component {
         var parents = [];
         var parentString = "";
 
+
         // Push each parent element to the array
         for (; elem && elem !== document; elem = elem.parentNode) {
+            
             parents.push(elem);
         }
-
+    
         for (let i = 0; i < parents.length; i++) {
             let classList = parents[i].className.split(" ");
             let classString = "";
@@ -173,10 +219,10 @@ class Navigator extends React.Component {
         let routeData = this.props.pageNotFound ? <NotFound /> : renderRoutes();
 
         return (
-            <div className="site-content">
+            <div className="site-content bespoke-content">
                 <ResponsiveWatcher />
                 <Header />
-                <div className="router-wrap">{routeData}</div>
+                <div className="router-wrap bespoke-router-wrap">{routeData}</div>
                 <Footer />
                 <ModalsWrap>
                     <LoginModal />
@@ -189,6 +235,8 @@ class Navigator extends React.Component {
                         cssSelector={this.state.cssSelector}
                         anchorOffset={this.state.anchorOffset}
                         focusOffset={this.state.focusOffset}
+                        isImage={this.state.isImage}
+                        imgSrc={this.state.imgSrc}
                     />
                 )}
             </div>
@@ -385,14 +433,24 @@ export function changePage(key = false, group = "pages") {
     axios.get(url, REQUEST_HEADERS).then(res => {
         let dummyAnnotation = res.data;
 
-        setTimeout(function () {
-            for (let i = 0; i < dummyAnnotation.length; i++) {
+
+        for (let i = 0; i < dummyAnnotation.length; i++) {
+
+            setTimeout(function () {
                 if (dummyAnnotation[i].page === window.location.href) {
                     let selector = dummyAnnotation[i].selector.replace(". >", " >")
                     selector = selector.replace("..", ".")
-                    let actualText = document.querySelector(
-                        selector
-                    );
+                    let actualText;
+
+                    if(selector.charAt(0) === '#'){
+                        actualText = document.getElementById(selector);
+                    }else{
+                        actualText = document.querySelector(
+                            selector
+                        );
+                    }
+
+
                     /* let annotatedText = actualText.innerText.substring(
                         dummyAnnotation[i].start,
                         dummyAnnotation[i].end
@@ -416,8 +474,10 @@ export function changePage(key = false, group = "pages") {
                         actualText.innerHTML = newHtml;
                     }
                 }
-            }
-        }, 1000);
+            }, 1000 + i * 100);
+        }
+
+
     });
 
     if (route) {

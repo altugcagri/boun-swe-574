@@ -49,4 +49,20 @@ public class User extends DataBaseEntity {
     @ManyToMany(mappedBy = "enrolledUsers")
     private Set<Topic> enrolledTopics;
 
+    @JsonIgnore
+    @Nullable
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "followed_users",
+            joinColumns = @JoinColumn(name = "followerId"),
+            inverseJoinColumns = @JoinColumn(name = "followedId")
+    )
+    private Set<User> followedUsers;
+
+    @Nullable
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "followed_users",
+            joinColumns = @JoinColumn(name = "followedId"),
+            inverseJoinColumns = @JoinColumn(name = "followerId")
+    )
+    private Set<User> followerUsers;
 }

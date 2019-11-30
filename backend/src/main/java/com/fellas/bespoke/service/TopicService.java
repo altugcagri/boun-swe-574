@@ -16,6 +16,8 @@ public interface TopicService {
 
     ResponseEntity<List<TopicResponse>> getTopicsCreatedBy(String username, UserPrincipal currentUser);
 
+    List<TopicResponse> getPublishedTopicsCreatedBy(Long userId);
+
     ResponseEntity<TopicResponse> getTopicById(Long topicId, UserPrincipal currentUser);
 
     ResponseEntity<TopicResponse> createTopic(UserPrincipal currentUser, TopicRequest topicRequest);

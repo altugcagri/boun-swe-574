@@ -71,15 +71,31 @@ class AnnotationModal extends React.Component {
     render() {
         let vm = this;
         console.log(vm.props);
+
         return (
-            <div className={vm.props.className}>
+            <div className={`${vm.props.className} bespoke-modal-annotation`}>
                 {vm.props.closeBtn}
-                <div className="modal-innercontent">
-                    You are annotating the following text:
-                    <br /> <br />
-                    <strong>
-                        "<em>{vm.props.selectedText}</em>"
-                    </strong>
+                <div className="modal-innercontent bespoke-modal-annotation-content">
+                    {
+                        !vm.props.isImage ? (
+                            <React.Fragment>
+                                You are annotating the following text:
+                            <br /> <br />
+                                <strong>
+                                    "<em>{vm.props.selectedText}</em>"
+                            </strong>
+                            </React.Fragment>
+                        ) : (
+                                <React.Fragment>
+                                    You are annotating the following image ({vm.props.selectedText}):
+                            <br /> <br />
+                                    <strong>
+                                        <img src={vm.props.imgSrc} alt="" width="150" />
+                                    </strong>
+                                </React.Fragment>
+                            )
+                    }
+
                     <hr />
                     <div className={"section loginform "}>
                         <InputForm

@@ -79,98 +79,100 @@ class ContentQuiz extends Component {
                 {loading ? (
                     <Loading />
                 ) : (
-                    <React.Fragment>
-                        <PageHeader
-                            bg={topic.imageUrl}
-                            title="Content Quiz"
-                            intro="Tip: learning is something you do on your own. Do not settle with this material, go ahead and explore it further!"
-                        >
-                            <Link
-                                to={`/topic/view/${content.topicId}`}
-                                className="breadcrumbLink"
+                        <React.Fragment>
+                            <PageHeader
+                                bg={topic.imageUrl}
+                                title="Content Quiz"
+                                intro="Tip: learning is something you do on your own. Do not settle with this material, go ahead and explore it further!"
+                                className="bespoke-quiz-header"
                             >
-                                <span>{content.topicTitle}</span>
-                            </Link>
-                        </PageHeader>
+                                <Link
+                                    to={`/topic/view/${content.topicId}`}
+                                    className="breadcrumbLink bespoke-content-quiz-breadcdumbLink "
+                                >
+                                    <span className="bespoke-content-quiz-breadcdumbLink-span">{content.topicTitle}</span>
+                                </Link>
+                            </PageHeader>
 
-                        {content && (
-                            <div className="sectionPadding text-left">
-                                <div className="container">
-                                    <div className="row">
-                                        <div className="col-md-8">
-                                            <h4 className="mb-4">
-                                                Quiz:{" "}
-                                                <strong>
-                                                    {content.contentTitle}
-                                                </strong>
-                                            </h4>
-                                        </div>
-                                        <div className="col-md-12">
-                                            {content.questions.length > 0 && (
-                                                <React.Fragment>
-                                                    <hr />
-                                                    {content.questions.map(
-                                                        (question, idx) => {
-                                                            return (
-                                                                <Question
-                                                                    key={idx}
-                                                                    order={
-                                                                        idx + 1
-                                                                    }
-                                                                    question={
-                                                                        question
-                                                                    }
-                                                                    editable={
-                                                                        editable
-                                                                    }
-                                                                    answered={
-                                                                        question.userAnswer &&
-                                                                        (question
-                                                                            .userAnswer
-                                                                            .id
-                                                                            ? true
-                                                                            : false)
-                                                                    }
-                                                                />
-                                                            );
-                                                        }
-                                                    )}
-                                                </React.Fragment>
-                                            )}
-                                            {content.nextContentId === null ? (
-                                                <div className="text-right mt-5">
-                                                    <Link
-                                                        className="btn btn-success btn-sm ml-2 inlineBtn"
-                                                        to={`/topic/view/${content.topicId}`}
-                                                    >
-                                                        <FontAwesomeIcon
-                                                            icon={faCheck}
-                                                        />{" "}
-                                                        Finalize
-                                                    </Link>
-                                                </div>
-                                            ) : (
-                                                <div className="text-right mt-5">
-                                                    <Link
-                                                        className="btn btn-success btn-sm ml-2 inlineBtn"
-                                                        to={`/content/view/${content.nextContentId}`}
-                                                    >
-                                                        <FontAwesomeIcon
-                                                            icon={
-                                                                faChevronRight
+                            {content && (
+                                <div className="sectionPadding text-left">
+                                    <div className="container bespoke-quiz-container">
+                                        <div className="row">
+                                            <div className="col-md-8">
+                                                <h4 className="mb-4 bespke-content-quiz-h4">
+                                                    Quiz:{" "}
+                                                    <strong className="bespke-content-quiz-h4-strong">
+                                                        {content.contentTitle}
+                                                    </strong>
+                                                </h4>
+                                            </div>
+                                            <div className="col-md-12">
+                                                {content.questions.length > 0 && (
+                                                    <React.Fragment>
+                                                        <hr />
+                                                        {content.questions.map(
+                                                            (question, idx) => {
+                                                                return (
+                                                                    <Question
+                                                                        key={idx}
+                                                                        className={`bespoke-question-${idx}`}
+                                                                        order={
+                                                                            idx + 1
+                                                                        }
+                                                                        question={
+                                                                            question
+                                                                        }
+                                                                        editable={
+                                                                            editable
+                                                                        }
+                                                                        answered={
+                                                                            question.userAnswer &&
+                                                                            (question
+                                                                                .userAnswer
+                                                                                .id
+                                                                                ? true
+                                                                                : false)
+                                                                        }
+                                                                    />
+                                                                );
                                                             }
-                                                        />{" "}
-                                                        Start Next Content
+                                                        )}
+                                                    </React.Fragment>
+                                                )}
+                                                {content.nextContentId === null ? (
+                                                    <div className="text-right mt-5">
+                                                        <Link
+                                                            className="btn btn-success btn-sm ml-2 inlineBtn bespke-content-quiz-finalize"
+                                                            to={`/topic/view/${content.topicId}`}
+                                                        >
+                                                            <FontAwesomeIcon
+                                                                icon={faCheck}
+                                                            />{" "}
+                                                            Finalize
                                                     </Link>
-                                                </div>
-                                            )}
+                                                    </div>
+                                                ) : (
+                                                        <div className="text-right mt-5">
+                                                            <Link
+                                                                className="btn btn-success btn-sm ml-2 inlineBtn bespke-content-quiz-start-next"
+                                                                to={`/content/view/${content.nextContentId}`}
+                                                            >
+                                                                <FontAwesomeIcon
+                                                                    icon={
+                                                                        faChevronRight
+                                                                    }
+                                                                />{" "}
+                                                                Start Next Content
+                                                    </Link>
+                                                        </div>
+                                                    )}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        )}
-                    </React.Fragment>
-                )}
+                            )}
+                        </React.Fragment>
+                    )}
             </React.Fragment>
         );
     }
