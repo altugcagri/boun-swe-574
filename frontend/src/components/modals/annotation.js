@@ -44,6 +44,7 @@ class AnnotationModal extends React.Component {
             start: vm.props.anchorOffset,
             end: vm.props.focusOffset,
             comment: e.target.elements.comment.value,
+            motivation: e.target.elements.motivation.value,
             createdAt: new Date(),
             author: vm.props.user.username
         };
@@ -120,6 +121,16 @@ class AnnotationModal extends React.Component {
                                 disabled={vm.state.loading}
                                 validation={{
                                     required: "Please enter a comment"
+                                }}
+                                className="form-field"
+                            />
+                            <FormInput
+                                name="motivation"
+                                type="text"
+                                label="Your motivation"
+                                disabled={vm.state.loading}
+                                validation={{
+                                    required: "Please enter your motivation"
                                 }}
                                 className="form-field"
                             />
