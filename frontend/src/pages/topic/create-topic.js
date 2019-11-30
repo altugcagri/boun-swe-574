@@ -184,204 +184,206 @@ class CreateTopic extends Component {
                 {loading ? (
                     <Loading />
                 ) : (
-                    <React.Fragment>
-                        <PageHeader
-                            title="Create a Topic"
-                            bg={page_banner}
-                            intro="Be the mentor you once needed. Share what's on your mind & help others to grow."
-                        >
-                            <Link
-                                to={`/${props.user.username}/topics/created`}
-                                className="breadcrumbLink"
+                        <React.Fragment>
+                            <PageHeader
+                                title="Create a Topic"
+                                bg={page_banner}
+                                intro="Be the mentor you once needed. Share what's on your mind & help others to grow."
+                                className="bespoke-create-topic-header"
                             >
-                                <span>My Topics</span>
-                            </Link>
-                        </PageHeader>
+                                <Link
+                                    to={`/${props.user.username}/topics/created`}
+                                    className="breadcrumbLink"
+                                >
+                                    <span>My Topics</span>
+                                </Link>
+                            </PageHeader>
 
-                        <div className="sectionPadding minHeightContent">
-                            <div className="container w-90">
-                                <div className="row">
-                                    <ThingsToConsider />
-                                    <div className="col-md-10 offset-md-1 mt-5 mb-5">
-                                        <Form onSubmit={this.handleSubmit}>
-                                            <Form.Group className="row">
-                                                <Form.Label column sm="12">
-                                                    Title of your Topic
+                            <div className="sectionPadding minHeightContent">
+                                <div className="container w-90 bespoke-create-topic-container">
+                                    <div className="row">
+                                        <ThingsToConsider />
+                                        <div className="col-md-10 offset-md-1 mt-5 mb-5">
+                                            <Form onSubmit={this.handleSubmit}>
+                                                <Form.Group className="row bespoke-topic-form-title">
+                                                    <Form.Label column sm="12">
+                                                        Title of your Topic
                                                 </Form.Label>
-                                                <Col sm="12">
-                                                    <Form.Control
-                                                        type="text"
-                                                        placeholder="Topic Title"
-                                                        onChange={
-                                                            this
-                                                                .handleTitleChange
-                                                        }
-                                                        required
-                                                    />
-                                                </Col>
-                                            </Form.Group>
-
-                                            <Form.Group className="row">
-                                                <Form.Label column sm="12">
-                                                    Main Image Url
-                                                </Form.Label>
-                                                <Col sm="12">
-                                                    <Form.Control
-                                                        type="text"
-                                                        placeholder="Enter Image URL"
-                                                        onChange={
-                                                            this
-                                                                .handleImageUrlChange
-                                                        }
-                                                        required
-                                                    />
-                                                </Col>
-                                            </Form.Group>
-
-                                            <Form.Group className="row">
-                                                <Form.Label column sm="12">
-                                                    Description
-                                                </Form.Label>
-                                                <Col sm="12">
-                                                    <Form.Control
-                                                        as="textarea"
-                                                        rows="5"
-                                                        placeholder="Short Description"
-                                                        onChange={
-                                                            this
-                                                                .handleDescriptionChange
-                                                        }
-                                                        required
-                                                    />
-                                                </Col>
-                                            </Form.Group>
-
-                                            {selectedWikis.length > 0 && (
-                                                <div>
-                                                    Your Wikis:
-                                                    <ul>
-                                                        {selectedWikis.map(
-                                                            (wiki, idx) => {
-                                                                return (
-                                                                    <li
-                                                                        key={
-                                                                            idx
-                                                                        }
-                                                                    >
-                                                                        {
-                                                                            wiki.label
-                                                                        }{" "}
-                                                                        -{" "}
-                                                                        {
-                                                                            wiki.description
-                                                                        }{" "}
-                                                                        <span
-                                                                            onClick={() =>
-                                                                                this.removeWiki(
-                                                                                    wiki.id
-                                                                                )
-                                                                            }
-                                                                            className="ml-2 removeWikiLabel badge badge-pill badge-danger"
-                                                                        >
-                                                                            Remove
-                                                                        </span>
-                                                                    </li>
-                                                                );
+                                                    <Col sm="12">
+                                                        <Form.Control
+                                                            type="text"
+                                                            placeholder="Topic Title"
+                                                            onChange={
+                                                                this
+                                                                    .handleTitleChange
                                                             }
-                                                        )}
-                                                    </ul>
-                                                </div>
-                                            )}
+                                                            required
+                                                        />
+                                                    </Col>
+                                                </Form.Group>
 
-                                            <Form.Group className="row">
-                                                <Form.Label column sm="12">
-                                                    {loadingWiki ? (
-                                                        <span>
-                                                            <img
-                                                                src={loadingGif}
-                                                                width="30"
-                                                                alt=""
-                                                            />{" "}
-                                                            Searching
-                                                            WikiData...
-                                                        </span>
-                                                    ) : (
-                                                        "WikiData"
-                                                    )}
+                                                <Form.Group className="row bespoke-topic-form-image">
+                                                    <Form.Label column sm="12">
+                                                        Main Image Url
                                                 </Form.Label>
-                                                <Col sm="12">
-                                                    <Form.Control
-                                                        type="text"
-                                                        placeholder="Type keywords"
-                                                        onChange={
-                                                            this
-                                                                .handleKeywordChange
-                                                        }
-                                                    />
-                                                </Col>
-                                            </Form.Group>
+                                                    <Col sm="12">
+                                                        <Form.Control
+                                                            type="text"
+                                                            placeholder="Enter Image URL"
+                                                            onChange={
+                                                                this
+                                                                    .handleImageUrlChange
+                                                            }
+                                                            required
+                                                        />
+                                                    </Col>
+                                                </Form.Group>
 
-                                            {wikiDataSearch.length > 0 &&
-                                                wikiDataSearch.map(
-                                                    (wiki, wikiIndex) => {
-                                                        return (
-                                                            <Row
-                                                                key={wikiIndex}
-                                                                className="border-bottom border-info p-1 m-1"
-                                                            >
-                                                                {wiki.description && (
-                                                                    <React.Fragment>
-                                                                        <Col md="1">
-                                                                            <Form.Check
-                                                                                onChange={() =>
-                                                                                    this.addWiki(
-                                                                                        wiki
-                                                                                    )
-                                                                                }
-                                                                                type="checkbox"
-                                                                                id="default-checkbox"
-                                                                                value={
-                                                                                    wiki
-                                                                                }
-                                                                            />
-                                                                        </Col>
-                                                                        <Col md="9">
+                                                <Form.Group className="row bespoke-topic-form-body">
+                                                    <Form.Label column sm="12">
+                                                        Description
+                                                </Form.Label>
+                                                    <Col sm="12">
+                                                        <Form.Control
+                                                            as="textarea"
+                                                            rows="5"
+                                                            placeholder="Short Description"
+                                                            onChange={
+                                                                this
+                                                                    .handleDescriptionChange
+                                                            }
+                                                            required
+                                                        />
+                                                    </Col>
+                                                </Form.Group>
+
+                                                {selectedWikis.length > 0 && (
+                                                    <div>
+                                                        Your Wikis:
+                                                    <ul>
+                                                            {selectedWikis.map(
+                                                                (wiki, idx) => {
+                                                                    return (
+                                                                        <li
+                                                                            key={
+                                                                                idx
+                                                                            }
+                                                                            className={`bespoke-selected-wiki-${idx}`}
+                                                                        >
+                                                                            {
+                                                                                wiki.label
+                                                                            }{" "}
+                                                                            -{" "}
                                                                             {
                                                                                 wiki.description
-                                                                            }
-                                                                        </Col>
-                                                                        <Col md="2">
-                                                                            <a
-                                                                                href={
-                                                                                    wiki.concepturi
+                                                                            }{" "}
+                                                                            <span
+                                                                                onClick={() =>
+                                                                                    this.removeWiki(
+                                                                                        wiki.id
+                                                                                    )
                                                                                 }
-                                                                                target="_blank"
-                                                                                rel="noopener noreferrer"
+                                                                                className="ml-2 removeWikiLabel badge badge-pill badge-danger"
                                                                             >
-                                                                                Visit
-                                                                            </a>
-                                                                        </Col>
-                                                                    </React.Fragment>
-                                                                )}
-                                                            </Row>
-                                                        );
-                                                    }
+                                                                                Remove
+                                                                        </span>
+                                                                        </li>
+                                                                    );
+                                                                }
+                                                            )}
+                                                        </ul>
+                                                    </div>
                                                 )}
-                                            <Button
-                                                className="mt-4"
-                                                variant="success"
-                                                type="submit"
-                                                block
-                                            >
-                                                Create Topic
+
+                                                <Form.Group className="row bespoke-topic-form-wikis">
+                                                    <Form.Label column sm="12">
+                                                        {loadingWiki ? (
+                                                            <span>
+                                                                <img
+                                                                    src={loadingGif}
+                                                                    width="30"
+                                                                    alt=""
+                                                                />{" "}
+                                                                Searching
+                                                                WikiData...
+                                                        </span>
+                                                        ) : (
+                                                                "WikiData"
+                                                            )}
+                                                    </Form.Label>
+                                                    <Col sm="12">
+                                                        <Form.Control
+                                                            type="text"
+                                                            placeholder="Type keywords"
+                                                            onChange={
+                                                                this
+                                                                    .handleKeywordChange
+                                                            }
+                                                        />
+                                                    </Col>
+                                                </Form.Group>
+
+                                                {wikiDataSearch.length > 0 &&
+                                                    wikiDataSearch.map(
+                                                        (wiki, wikiIndex) => {
+                                                            return (
+                                                                <Row
+                                                                    key={wikiIndex}
+                                                                    className={`border-bottom border-info p-1 m-1 bespoke-wiki-result-${wikiIndex}`}
+                                                                >
+                                                                    {wiki.description && (
+                                                                        <React.Fragment>
+                                                                            <Col md="1">
+                                                                                <Form.Check
+                                                                                    onChange={() =>
+                                                                                        this.addWiki(
+                                                                                            wiki
+                                                                                        )
+                                                                                    }
+                                                                                    type="checkbox"
+                                                                                    id="default-checkbox"
+                                                                                    value={
+                                                                                        wiki
+                                                                                    }
+                                                                                />
+                                                                            </Col>
+                                                                            <Col md="9">
+                                                                                {
+                                                                                    wiki.description
+                                                                                }
+                                                                            </Col>
+                                                                            <Col md="2">
+                                                                                <a
+                                                                                    href={
+                                                                                        wiki.concepturi
+                                                                                    }
+                                                                                    target="_blank"
+                                                                                    rel="noopener noreferrer"
+                                                                                >
+                                                                                    Visit
+                                                                            </a>
+                                                                            </Col>
+                                                                        </React.Fragment>
+                                                                    )}
+                                                                </Row>
+                                                            );
+                                                        }
+                                                    )}
+                                                <Button
+                                                    className="mt-4"
+                                                    variant="success"
+                                                    type="submit"
+                                                    block
+                                                >
+                                                    Create Topic
                                             </Button>
-                                        </Form>
+                                            </Form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </React.Fragment>
-                )}
+                        </React.Fragment>
+                    )}
             </React.Fragment>
         );
     }

@@ -7,7 +7,7 @@
             "annotatedText": "might already have an answer",
             "comment": "Merhaba",
             "page": "http://localhost:3000/faq",
-            "selector": "html > body > div > div.site-content > div.router-wrap > div.pageHeader.text-left > div.container > div.row > div.col-md-6 > p.wow.fadeIn ",
+            "selector": "html > body > div > div.site-content > div.router-wrap > div.pageHeader.text-left > div.container > div.row > div.col-md-6. > p.wow.fadeIn ",
             "author": "Serhat Uzunçavdar",
             "date": "14 Mar 2019"
         },

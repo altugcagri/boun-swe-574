@@ -11,13 +11,15 @@ export default class AnnotationWidget extends React.Component {
             selectedText: this.props.selectedText,
             cssSelector: this.props.cssSelector,
             anchorOffset: this.props.anchorOffset,
-            focusOffset: this.props.focusOffset
+            focusOffset: this.props.focusOffset,
+            isImage: this.props.isImage,
+            imgSrc: this.props.imgSrc
         });
     }
     render() {
         return (
-            <div className="annotation-widget" onClick={this.btnTapped}>
-                Annotate this text
+            <div className="annotation-widget bespoke-annotation-widget" onClick={this.btnTapped}>
+                {this.props.isImage ? `Annotate this image: ${this.props.selectedText}` : 'Annotate this text'}
             </div>
         );
     }

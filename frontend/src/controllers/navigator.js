@@ -80,16 +80,47 @@ class Navigator extends React.Component {
             annotations: false,
             annotationsResolved: false,
             focusOffset: false,
-            anchorOffset: false
+            anchorOffset: false,
+            isImage: false,
+            imgSrc: false
         };
 
         this.getParents = this.getParents.bind(this);
+        this.imageHoverHandler = this.imageHoverHandler.bind(this)
     }
+
+    imageHoverHandler(id, src, title) {
+        let vm = this;
+
+        vm.setState({
+            annotatedText: title,
+            cssSelector: `#${id}`,
+            anchorOffset: 0,
+            focusOffset: 1,
+            isImage: true,
+            imgSrc: src
+        });
+
+        setTimeout(function () {
+            vm.setState({
+                annotatedText: false,
+                cssSelector: false,
+                annotations: false,
+                annotationsResolved: false,
+                focusOffset: false,
+                anchorOffset: false,
+                isImage: false,
+                imgSrc: false
+            });
+        }, 5000);
+    }
+
+
 
     componentDidMount() {
         window.dynamicHistory = history;
 
-        history.listen(function(e) {
+        history.listen(function (e) {
             store.dispatch(setPageNotFound(false));
             /*let route = getRouteFromUrl(e.pathname, false, true);
 			changePage(route[0], route[1]);*/
@@ -97,6 +128,15 @@ class Navigator extends React.Component {
         });
 
         let vm = this;
+
+        setTimeout(function () {
+            var images = document.getElementsByTagName("IMG");
+
+            for (let i = 0; i < images.length; i++) {
+                images[i].addEventListener("mouseover", () => { vm.imageHoverHandler(images[i].id, images[i].src, images[i].alt) });
+            }
+        }, 1000)
+
         // onselectionchange version
         document.onselectionchange = () => {
             let selection = document.getSelection();
@@ -120,7 +160,7 @@ class Navigator extends React.Component {
                 }
 
                 let elem = document.querySelector(selectedTag + classString);
-                setTimeout(function() {
+                setTimeout(function () {
                     vm.setState({
                         annotatedText: selectedText,
                         cssSelector: vm.getParents(elem),
@@ -129,7 +169,7 @@ class Navigator extends React.Component {
                     });
                 }, 500);
             } else {
-                setTimeout(function() {
+                setTimeout(function () {
                     vm.setState({ annotatedText: false });
                 }, 300);
             }
@@ -162,6 +202,9 @@ class Navigator extends React.Component {
                 parents[i].localName + classString + " > " + parentString;
         }
 
+        parentString = parentString.replace(". >", " >")
+        parentString = parentString.replace("..", ".")
+
         // Return css selector string
         return parentString.substring(0, parentString.length - 2);
     }
@@ -170,10 +213,10 @@ class Navigator extends React.Component {
         let routeData = this.props.pageNotFound ? <NotFound /> : renderRoutes();
 
         return (
-            <div className="site-content">
+            <div className="site-content bespoke-content">
                 <ResponsiveWatcher />
                 <Header />
-                <div className="router-wrap">{routeData}</div>
+                <div className="router-wrap bespoke-router-wrap">{routeData}</div>
                 <Footer />
                 <ModalsWrap>
                     <LoginModal />
@@ -186,6 +229,8 @@ class Navigator extends React.Component {
                         cssSelector={this.state.cssSelector}
                         anchorOffset={this.state.anchorOffset}
                         focusOffset={this.state.focusOffset}
+                        isImage={this.state.isImage}
+                        imgSrc={this.state.imgSrc}
                     />
                 )}
             </div>
@@ -198,7 +243,7 @@ export default connect(mapStateToProps)(Navigator);
 export function ListingLink(params) {
     return (
         "/arama/?" +
-        params.map(function(param, nth) {
+        params.map(function (param, nth) {
             return param.key + "=" + param.val;
         })
     );
@@ -374,28 +419,37 @@ export function changeURLParam(
 export function changePage(key = false, group = "pages") {
     let route = key ? routes[group][key] : getRouteFromUrl(false, true, true);
 
-    /* let url = resolveEndpoint("getAnnotations", [
-            { slug1: window.location.href }
-        ]); */
-    let url = "dummy/annotations.json";
+    let url = resolveEndpoint("getAnnotations", [
+        { slug1: window.location.href }
+    ]);
+    /* let url = "dummy/annotations.json"; */
 
     axios.get(url, REQUEST_HEADERS).then(res => {
-        let dummyAnnotation = res.data.annotations;
+        let dummyAnnotation = res.data;
 
-        setTimeout(function() {
-            for (let i = 0; i < dummyAnnotation.length; i++) {
-                let actualText = document.querySelector(
-                    dummyAnnotation[i].selector
-                );
-                let annotatedText = actualText.innerText.substring(
-                    dummyAnnotation[i].start,
-                    dummyAnnotation[i].end
-                );
-                //let annotatedText = dummyAnnotation[i].annotatedText;
-                if (actualText) {
-                    let newHtml = actualText.innerText.replace(
-                        annotatedText,
-                        "<mark class='mark-annotation' data-comment='" +
+        let sameElements = [];
+        for (let i = 0; i < dummyAnnotation.length; i++) {
+            setTimeout(function () {
+                if (dummyAnnotation[i].page === window.location.href) {
+                    let selector = dummyAnnotation[i].selector.replace(". >", " >")
+                    selector = selector.replace("..", ".")
+
+                    var results = [];
+
+                    var toSearch = selector;
+
+                    for (var j = 0; j < sameElements.length; j++) {
+                        for (key in sameElements[j]) {
+                            if (sameElements[j][key].indexOf(toSearch) !== -1) {
+                                results.push(sameElements[j]);
+                            }
+                        }
+                    }
+                    let annotatedText = dummyAnnotation[i].annotatedText;
+                    if (selector.charAt(0) === '#') {
+                        let image = document.getElementById(selector.replace('#', ''));
+                        var newItem = document.createElement("SPAN");       // Create a <li> node
+                        newItem.innerHTML = "<mark class='mark-annotation' data-comment='" +
                             dummyAnnotation[i].comment +
                             "'>" +
                             annotatedText +
@@ -405,12 +459,57 @@ export function changePage(key = false, group = "pages") {
                             dummyAnnotation[i].author +
                             " wrote:</em>" +
                             dummyAnnotation[i].comment +
-                            "</span></mark>"
-                    );
-                    actualText.innerHTML = newHtml;
+                            "</span></mark>";  // Create a text node
+                        // Append the text to <li>
+
+
+                        if (image) { image.parentNode.insertBefore(newItem, image.nextSibling); }
+                    } else {
+                        let actualText = document.querySelector(
+                            selector
+                        );
+                        let actualTextInner;
+
+                        if (results.length > 0) {
+                            actualTextInner = results[0].html
+                        } else {
+                            actualTextInner = actualText.innerText
+                        }
+                        console.log(actualTextInner)
+
+                        /* let annotatedText = actualText.innerText.substring(
+                            dummyAnnotation[i].start,
+                            dummyAnnotation[i].end
+                        ); */
+
+                        if (actualText) {
+                            let newHtml = actualTextInner.replace(
+                                annotatedText,
+                                "<mark class='mark-annotation' data-comment='" +
+                                dummyAnnotation[i].comment +
+                                "'>" +
+                                annotatedText +
+                                "<span><em>At " +
+                                dummyAnnotation[i].date +
+                                " " +
+                                dummyAnnotation[i].author +
+                                " wrote:</em>" +
+                                dummyAnnotation[i].comment +
+                                "</span></mark>"
+                            );
+
+
+                            actualText.innerHTML = newHtml;
+
+                            sameElements.push({ selector: selector, html: actualText.innerHTML })
+                        }
+                    }
+
+
                 }
-            }
-        }, 1000);
+            }, 1000 + i * 100);
+        }
+
     });
 
     if (route) {
@@ -435,7 +534,7 @@ export function changePage(key = false, group = "pages") {
             store.dispatch(setPage(pageData));
 
             if (window.location.hash) {
-                setTimeout(function() {
+                setTimeout(function () {
                     let hashTarget = document.querySelector(
                         window.location.hash
                     );

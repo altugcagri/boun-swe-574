@@ -41,7 +41,7 @@ export default class LoginForm extends React.Component {
             loading: true
         });
 
-        login(e.target, function(payload) {
+        login(e.target, function (payload) {
             if (vm._isMounted) {
                 vm.setState({
                     success: payload.accessToken ? true : false,
@@ -52,7 +52,7 @@ export default class LoginForm extends React.Component {
                 });
 
                 if (payload.accessToken) {
-                    setTimeout(function() {
+                    setTimeout(function () {
                         if (vm._isMounted) {
                             closeModal();
                         }
@@ -66,7 +66,7 @@ export default class LoginForm extends React.Component {
         let vm = this;
 
         return (
-            <div className={"section loginform type-" + vm.props.type}>
+            <div className={"section bespoke-modal-login-form loginform type-" + vm.props.type}>
                 <h2 className="loginform-title">Login to your account</h2>
 
                 <InputForm

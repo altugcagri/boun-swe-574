@@ -11,7 +11,7 @@ class PageHeader extends Component {
         const props = this.props;
         return (
 
-            <div className="pageHeader text-left" style={{ backgroundImage: `url(${props.bg})` }}>
+            <div className={`pageHeader text-left ${props.className}`} style={{ backgroundImage: `url(${props.bg})` }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-md-6 ">
