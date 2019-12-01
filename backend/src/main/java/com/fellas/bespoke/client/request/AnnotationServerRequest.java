@@ -1,13 +1,11 @@
 package com.fellas.bespoke.client.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
 @Setter
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
