@@ -9,5 +9,5 @@ public interface UserService {
     UserSummary getCurrentUser(UserPrincipal currentUser);
     UserIdentityAvailability checkUsernameAvailability(String email);
     UserProfile getUserProfileByUserName(String username);
-    UserProfile getUserProfileByUserId(long userId);
+    UserProfile getUserProfileByUserId(Long userId);
 }

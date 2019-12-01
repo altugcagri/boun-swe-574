@@ -6,6 +6,7 @@ import com.fellas.bespoke.security.UserPrincipal;
 import com.fellas.bespoke.service.ActivityService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,6 +20,10 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public List<Activity> getAllActivities() {
         // toDo - will be filtered according to followedUsers and enrolledTopicList
+        List<Activity> filteredActivities = new ArrayList<>();
+
+
+
         return activityRepository.findAll();
     }
 
