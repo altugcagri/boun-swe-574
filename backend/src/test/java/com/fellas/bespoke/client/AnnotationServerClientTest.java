@@ -15,8 +15,8 @@ import org.springframework.http.*;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 
-import static org.mockito.Mockito.when;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AnnotationServerClientTest {
@@ -45,6 +45,10 @@ public class AnnotationServerClientTest {
 
         //Test
         sut.createAnnotation(annotationServerRequestJson);
+
+        //Verify
+        verify(restTemplate,(times(1))).exchange("http:localhost/annotation/w3c/container-id", HttpMethod.POST,
+                new HttpEntity<>(annotationServerRequestJson,httpHeaders), AnnotationServerCreateResponse.class);
     }
 
     @Test(expected = AnnotationServerException.class)

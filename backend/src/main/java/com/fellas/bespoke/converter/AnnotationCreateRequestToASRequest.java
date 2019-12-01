@@ -14,23 +14,24 @@ public class AnnotationCreateRequestToASRequest implements Converter<Annotation,
     private static final String BODY_TYPE = "TextualBody";
     private static final String TYPE = "Annotation";
     private static final String SELECTOR = "CssSelector";
-    private static final String REFINEDBYTYPE = "TextQuoteSelector";
-    private final TimeZone TIMEZONE = TimeZone.getTimeZone("UTC");
-    private final DateFormat DATEFORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+    private static final String REFINED_BY_TYPE = "TextQuoteSelector";
+
+    private final TimeZone timeZone = TimeZone.getTimeZone("UTC");
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
 
     @Override
     public AnnotationServerRequest convert(Annotation source) {
-        DATEFORMAT.setTimeZone(TIMEZONE);
+        dateFormat.setTimeZone(timeZone);
         return AnnotationServerRequest.builder()
                 .type(TYPE)
-                .created(DATEFORMAT.format(new Date()))
+                .created(dateFormat.format(new Date()))
                 .creator(source.getAuthor())
                 .body(AnnotationBody.builder().type(BODY_TYPE).value(source.getComment()).build())
                 .target(AnnotationTarget.builder().source(source.getPage())
                         .selector(AnnotationSelector.builder().type(SELECTOR).value(source.getSelector())
                                 .refinedBy(AnnotationSelectorRefinedBy.builder()
                                         .exact(source.getAnnotatedText())
-                                        .type(REFINEDBYTYPE)
+                                        .type(REFINED_BY_TYPE)
                                         .build()).build()).build()).build();
     }
 
