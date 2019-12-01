@@ -1,30 +1,48 @@
 package com.fellas.bespoke.service.implementation;
 
+import com.fellas.bespoke.controller.dto.response.UserProfile;
 import com.fellas.bespoke.persistence.ActivityRepository;
 import com.fellas.bespoke.persistence.model.*;
 import com.fellas.bespoke.security.UserPrincipal;
 import com.fellas.bespoke.service.ActivityService;
+import com.fellas.bespoke.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ActivityServiceImpl implements ActivityService {
     private ActivityRepository activityRepository;
+    private UserService userService;
 
-    public ActivityServiceImpl(ActivityRepository activityRepository) {
+    public ActivityServiceImpl(ActivityRepository activityRepository, UserService userService) {
         this.activityRepository = activityRepository;
+        this.userService = userService;
     }
 
     @Override
-    public List<Activity> getAllActivities() {
-        // toDo - will be filtered according to followedUsers and enrolledTopicList
+    public List<Activity> getAllActivities(UserPrincipal currentUser) {
+        UserProfile currentUserProfile = userService.getUserProfileByUserId(currentUser.getId());
+        List<Activity> allActivities = activityRepository.findAll();
+        List<Activity> userActivities = allActivities.stream().filter(activity -> activity.getActivityContentType() == ActivityContentType.USER).collect(Collectors.toList());
+        List<Activity> topicActivities = allActivities.stream().filter(activity -> activity.getActivityContentType() == ActivityContentType.TOPIC).collect(Collectors.toList());
         List<Activity> filteredActivities = new ArrayList<>();
 
+        userActivities.forEach(userActivity -> currentUserProfile.getFollowedUsers().forEach(followedUser -> {
+            if (followedUser.getId().equals(userActivity.getActor_id())){
+                filteredActivities.add(userActivity);
+            }
+        }));
 
+        topicActivities.forEach(topicActivity -> currentUserProfile.getEnrolledTopics().forEach(enrolledTopic -> {
+            if (enrolledTopic.getId().equals(topicActivity.getActor_id())){
+                filteredActivities.add(topicActivity);
+            }
+        }));
 
-        return activityRepository.findAll();
+        return filteredActivities;
     }
 
     @Override

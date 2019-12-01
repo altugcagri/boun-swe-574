@@ -1,6 +1,8 @@
 package com.fellas.bespoke.controller;
 
 import com.fellas.bespoke.persistence.model.Activity;
+import com.fellas.bespoke.security.CurrentUser;
+import com.fellas.bespoke.security.UserPrincipal;
 import com.fellas.bespoke.service.ActivityService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +21,7 @@ public class ActivityController {
     }
 
     @GetMapping({"", "/"})
-    public ResponseEntity<List<Activity>> getAllActivities(){
-        return ResponseEntity.ok(activityService.getAllActivities());
+    public ResponseEntity<List<Activity>> getAllActivities(@CurrentUser UserPrincipal currentUser){
+        return ResponseEntity.ok(activityService.getAllActivities(currentUser));
     }
 }

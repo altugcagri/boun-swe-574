@@ -45,8 +45,24 @@ public class UserServiceImpl implements UserService {
         final User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("UserEntity", "username", username));
 
+        assert user.getFollowedUsers() != null;
+        final List<UserSummary> followedUsers = user.getFollowedUsers().stream().map(followedUser ->
+                UserSummary.builder().name(followedUser.getName()).
+                        username(followedUser.getUsername()).
+                        id(followedUser.getId()).build())
+                .collect(Collectors.toList());
+
+        assert user.getEnrolledTopics() != null;
+        final List<TopicResponse> enrolledTopics = user.getEnrolledTopics().stream().map(enrolledTopic ->
+                TopicResponse.builder()
+                        .id(enrolledTopic.getId())
+                        .title(enrolledTopic.getTitle())
+                        .wikiData(enrolledTopic.getWikiDataSet())
+                        .build())
+                .collect(Collectors.toList());
+
         return new UserProfile(user.getId(), user.getUsername(), user.getName(), user.getCreatedAt(),
-                topicRepository.countByCreatedBy(user.getId()), null, null);
+                topicRepository.countByCreatedBy(user.getId()), followedUsers, enrolledTopics);
     }
 
     @Override
