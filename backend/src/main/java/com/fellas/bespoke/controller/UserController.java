@@ -34,8 +34,7 @@ public class UserController {
     @Transactional
     @GetMapping(value = "/users/{username}")
     public UserProfile getUserProfile(@PathVariable(value = "username") String username) {
-
-        return userService.getUserByUserName(username);
+        return userService.getUserProfileByUserName(username);
     }
 
 }

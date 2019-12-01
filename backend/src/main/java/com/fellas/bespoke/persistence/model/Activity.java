@@ -9,10 +9,9 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "activity_streams")
+@Table(name = "activities")
 @Builder
 public class Activity extends DataBaseEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,9 +19,9 @@ public class Activity extends DataBaseEntity {
     @Enumerated(EnumType.STRING)
     private ActivityContentType activityContentType;
 
-    @Lob
-    private String activityStream;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "activity_stream_id")
+    private ActivityStream activityStream;
 
     private Long actor_id;
-
 }

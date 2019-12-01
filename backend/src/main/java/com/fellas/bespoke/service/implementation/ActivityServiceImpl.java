@@ -6,12 +6,20 @@ import com.fellas.bespoke.security.UserPrincipal;
 import com.fellas.bespoke.service.ActivityService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ActivityServiceImpl implements ActivityService {
     private ActivityRepository activityRepository;
 
     public ActivityServiceImpl(ActivityRepository activityRepository) {
         this.activityRepository = activityRepository;
+    }
+
+    @Override
+    public List<Activity> getAllActivities() {
+        // toDo - will be filtered according to followedUsers and enrolledTopicList
+        return activityRepository.findAll();
     }
 
     @Override
@@ -24,7 +32,7 @@ public class ActivityServiceImpl implements ActivityService {
                 .build();
         Activity activity = Activity.builder()
                 .activityContentType(activityContentType)
-                .activityStream(activityStream.toString())
+                .activityStream(activityStream)
                 .actor_id(currentUser.getId())
                 .build();
         activityRepository.save(activity);
@@ -40,7 +48,7 @@ public class ActivityServiceImpl implements ActivityService {
                 .build();
         Activity activity = Activity.builder()
                 .activityContentType(activityContentType)
-                .activityStream(activityStream.toString())
+                .activityStream(activityStream)
                 .actor_id(topic.getId())
                 .build();
         activityRepository.save(activity);
@@ -56,10 +64,9 @@ public class ActivityServiceImpl implements ActivityService {
                 .build();
         Activity activity = Activity.builder()
                 .activityContentType(activityContentType)
-                .activityStream(activityStream.toString())
+                .activityStream(activityStream)
                 .actor_id(user.getId())
                 .build();
         activityRepository.save(activity);
     }
-
 }
