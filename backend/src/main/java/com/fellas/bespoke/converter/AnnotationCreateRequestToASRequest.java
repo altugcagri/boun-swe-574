@@ -15,15 +15,16 @@ public class AnnotationCreateRequestToASRequest implements Converter<Annotation,
     private static final String TYPE = "Annotation";
     private static final String SELECTOR = "CssSelector";
     private static final String REFINED_BY_TYPE = "TextQuoteSelector";
-    private final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
-    private final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+
+    private final TimeZone timeZone = TimeZone.getTimeZone("UTC");
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
 
     @Override
     public AnnotationServerRequest convert(Annotation source) {
-        DATE_FORMAT.setTimeZone(TIME_ZONE);
+        dateFormat.setTimeZone(timeZone);
         return AnnotationServerRequest.builder()
                 .type(TYPE)
-                .created(DATE_FORMAT.format(new Date()))
+                .created(dateFormat.format(new Date()))
                 .creator(source.getAuthor())
                 .motivation(source.getMotivation())
                 .body(AnnotationBody.builder().type(BODY_TYPE).value(source.getComment()).build())

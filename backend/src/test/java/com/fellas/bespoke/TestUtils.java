@@ -1,23 +1,19 @@
 package com.fellas.bespoke;
 
-import com.fellas.bespoke.controller.dto.request.AnswerRequest;
-import com.fellas.bespoke.controller.dto.request.ChoiceRequest;
-import com.fellas.bespoke.controller.dto.request.ContentRequest;
-import com.fellas.bespoke.controller.dto.request.EnrollmentRequest;
-import com.fellas.bespoke.controller.dto.request.LoginRequest;
-import com.fellas.bespoke.controller.dto.request.PublishRequest;
-import com.fellas.bespoke.controller.dto.request.QuestionRequest;
-import com.fellas.bespoke.controller.dto.request.SignUpRequest;
-import com.fellas.bespoke.controller.dto.request.TopicRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fellas.bespoke.client.request.*;
+import com.fellas.bespoke.client.response.AnnotationCollection;
+import com.fellas.bespoke.client.response.AnnotationServerCreateResponse;
+import com.fellas.bespoke.client.response.AnnotationServerSearchResponse;
+import com.fellas.bespoke.controller.dto.request.*;
 import com.fellas.bespoke.controller.dto.response.ContentResponse;
 import com.fellas.bespoke.controller.dto.response.TopicResponse;
 import com.fellas.bespoke.persistence.model.*;
 import com.fellas.bespoke.security.UserPrincipal;
+import org.springframework.http.HttpHeaders;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class TestUtils {
 
@@ -232,4 +228,70 @@ public class TestUtils {
         return new ActivityStream();
     }
 
+    public static Annotation createDummyAnnotation() {
+        final Annotation annotation = Annotation.builder()
+                .annotatedText("annotated-text")
+                .author("author")
+                .comment("comment")
+                .page("www.target.com")
+                .selector("#elemid > .elemclass + p")
+                .date("2019-11-30T13:08Z")
+                .build();
+        return annotation;
+    }
+
+    public static AnnotationServerRequest createDummyAnnotationServerRequest() {
+        final AnnotationServerRequest annotationServerRequest = AnnotationServerRequest.builder()
+                .type("Annotation")
+                .created("2019-11-30T13:08Z")
+                .creator("author")
+                .body(AnnotationBody.builder().type("TextualBody").value("comment").build())
+                .target(AnnotationTarget.builder().source("www.target.com")
+                        .selector(AnnotationSelector.builder().type("CssSelector").value("#elemid > .elemclass + p")
+                                .refinedBy(AnnotationSelectorRefinedBy.builder().exact("comment").type("TextQuoteSelector").build())
+                                .build())
+                        .build())
+                .build();
+        return annotationServerRequest;
+    }
+
+    public static AnnotationServerSearchResponse createDummyAnnotationServerSearchResponse() {
+        final AnnotationServerSearchResponse annotationServerSearchResponse = AnnotationServerSearchResponse.builder()
+                .id("id")
+                .last("last")
+                .total(1)
+                .type("AnnotationCollection")
+                .first(AnnotationCollection.builder().items(Arrays.asList(createDummyAnnotationServerCreateResponse())).build())
+                .build();
+        return annotationServerSearchResponse;
+    }
+
+    public static AnnotationServerCreateResponse createDummyAnnotationServerCreateResponse() {
+        final AnnotationServerCreateResponse annotationServerCreateResponse = AnnotationServerCreateResponse.builder()
+                .id("id")
+                .created("2019-11-30T13:08Z")
+                .creator("author")
+                .type("Annotation")
+                .body(AnnotationBody.builder().type("TextualBody").value("comment").build())
+                .target(AnnotationTarget.builder().source("www.target.com")
+                        .selector(AnnotationSelector.builder().type("CssSelector").value("#elemid > .elemclass + p")
+                                .refinedBy(AnnotationSelectorRefinedBy.builder().exact("comment").type("TextQuoteSelector").build())
+                                .build())
+                        .build())
+                .build();
+        return annotationServerCreateResponse;
+    }
+
+    public static String createDummyAnnotationServerCreateRequestJson() throws JsonProcessingException {
+        ObjectMapper objectMapper =  new ObjectMapper();
+        return objectMapper.writeValueAsString(createDummyAnnotationServerRequest())
+                .replaceFirst("\\{", "\\{\"@context\": \"http://www.w3.org/ns/anno.jsonld\",");
+    }
+
+    public static HttpHeaders createDummyAnnotationServerHttpHeaders(){
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set(org.springframework.http.HttpHeaders.CONTENT_TYPE, "application/ld+json; profile=\"http://www.w3.org/ns/anno.jsonld\"");
+        httpHeaders.set(org.springframework.http.HttpHeaders.ACCEPT, "application/ld+json; profile=\"http://www.w3.org/ns/anno.jsonld\"");
+        return httpHeaders;
+    }
 }
