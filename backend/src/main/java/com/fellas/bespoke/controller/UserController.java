@@ -1,11 +1,13 @@
 package com.fellas.bespoke.controller;
 
+import com.fellas.bespoke.controller.dto.response.ApiResponse;
 import com.fellas.bespoke.controller.dto.response.UserIdentityAvailability;
 import com.fellas.bespoke.controller.dto.response.UserProfile;
 import com.fellas.bespoke.controller.dto.response.UserSummary;
 import com.fellas.bespoke.security.CurrentUser;
 import com.fellas.bespoke.security.UserPrincipal;
 import com.fellas.bespoke.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +36,15 @@ public class UserController {
     @Transactional
     @GetMapping(value = "/users/{username}")
     public UserProfile getUserProfile(@PathVariable(value = "username") String username) {
+        return userService.getUserProfileByUserName(username);
+    }
 
-        return userService.getUserByUserName(username);
+    @Transactional
+    @PostMapping("/subscribe")
+    public ResponseEntity<ApiResponse> enrollToTopicByUsername(@CurrentUser UserPrincipal currentUser,
+                                                               @RequestParam(value = "userId") Long userId) {
+        userService.subscribeUserProfile(currentUser, userId);
+        return ResponseEntity.ok().body(new ApiResponse(true, "Subscribed to user successfully"));
     }
 
 }

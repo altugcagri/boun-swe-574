@@ -37,7 +37,7 @@ public class UserControllerTest extends AbstractEntityControllerTest {
         //Test
         sut.getUserProfile("username");
         //Verify
-        verify(userService, times(1)).getUserByUserName("username");
+        verify(userService, times(1)).getUserProfileByUserName("username");
     }
 
 }

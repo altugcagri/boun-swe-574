@@ -14,7 +14,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TopicResponse {
-
     private Long id;
     private String title;
     private String description;
@@ -25,5 +24,4 @@ public class TopicResponse {
     private Set<WikiData> wikiData;
     private List<Content> contentList;
     private boolean published;
-
 }

@@ -224,8 +224,8 @@ public class TestUtils {
         return answerRequest;
     }
 
-    public static ActivityStream createDummyActivityStream(){
-        return new ActivityStream();
+    public static Activity createDummyActivityStream(){
+        return new Activity();
     }
 
     public static Annotation createDummyAnnotation() {

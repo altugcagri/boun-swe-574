@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -63,26 +64,26 @@ public class UserServiceTest extends AbstractServiceTest {
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void testGetUserProfile_NotFound() {
+    public void getUserProfileByUserName_NotFound() {
         //Prepare
         when(userRepository.findByUsername("username")).thenReturn(Optional.empty());
         //Test
-        sut.getUserByUserName("username");
+        sut.getUserProfileByUserName("username");
     }
 
     @Test
-    public void testGetUserProfile_Success() {
+    public void getUserProfileByUserName_Success() {
         //Prepare
         final User user = TestUtils.createDummyUser();
+        user.setFollowedUsers(new HashSet<>());
+        user.setEnrolledTopics(new HashSet<>());
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
-        when(topicRepository.countByCreatedBy(user.getId())).thenReturn(1L);
         //Test
-        final UserProfile userprofile =sut.getUserByUserName(user.getUsername());
+        final UserProfile userprofile =sut.getUserProfileByUserName(user.getUsername());
         //Verify
         assertEquals(userprofile.getId(),user.getId());
         assertEquals(userprofile.getName(),user.getName());
         assertEquals(userprofile.getUsername(),user.getUsername());
         assertEquals(userprofile.getJoinedAt(),user.getCreatedAt());
-        assertEquals(userprofile.getTopicCount().longValue(),1L);
     }
 }

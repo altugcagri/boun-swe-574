@@ -1,28 +1,28 @@
 package com.fellas.bespoke.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import javax.persistence.*;
+import java.time.Instant;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "activity_streams")
 @Builder
-public class Activity extends DataBaseEntity {
+public class Activity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @JsonProperty("@content")
+    private final String CONTENT = "https://www.w3.org/ns/activitystreams";
+    private String summary;
+    private ActivityStreamType type;
+    private String actor;
+    private String object;
+    private Instant published ;
 
-    @Enumerated(EnumType.STRING)
-    private ActivityContentType activityContentType;
-
-    @Lob
-    private String activityStream;
-
-    private Long actor_id;
-
+    @JsonProperty("@content")
+    public String getCONTENT() {
+        return CONTENT;
+    }
 }
+

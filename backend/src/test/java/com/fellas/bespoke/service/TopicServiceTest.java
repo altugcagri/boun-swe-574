@@ -115,7 +115,7 @@ public class TopicServiceTest extends AbstractServiceTest {
         final TopicRequest topicRequest = TestUtils.createDummyTopicRequest();
         final Topic topic = TestUtils.createDummyTopic();
         final TopicResponse topicResponse = TestUtils.createDummyTopicResponse();
-        final ActivityStream activityStream = TestUtils.createDummyActivityStream();
+        final Activity activity = TestUtils.createDummyActivityStream();
         when(topicRepository.findById(topicRequest.getId())).thenReturn(Optional.of(topic));
         when(bespokeConversionService.convert(topicRequest, Topic.class)).thenReturn(topic);
         when(topicRepository.save(topic)).thenReturn(topic);
