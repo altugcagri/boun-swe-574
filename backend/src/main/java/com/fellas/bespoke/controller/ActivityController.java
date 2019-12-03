@@ -21,7 +21,7 @@ public class ActivityController {
     }
 
     @GetMapping({"", "/"})
-    public ResponseEntity<List<Activity>> getAllActivities(@CurrentUser UserPrincipal currentUser){
-        return ResponseEntity.ok(activityService.getAllActivities(currentUser));
+    public ResponseEntity<List<Activity>> getActivityStream(@CurrentUser UserPrincipal currentUser){
+        return ResponseEntity.ok(activityService.getActivityStream(currentUser));
     }
 }
