@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @Transactional
-    @PostMapping("/subscribe")
+    @PostMapping("/user/subscribe")
     public ResponseEntity<ApiResponse> enrollToTopicByUsername(@CurrentUser UserPrincipal currentUser,
                                                                @RequestParam(value = "userId") Long userId) {
         userService.subscribeUserProfile(currentUser, userId);
