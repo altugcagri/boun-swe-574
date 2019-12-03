@@ -10,4 +10,5 @@ public interface UserService {
     UserIdentityAvailability checkUsernameAvailability(String email);
     UserProfile getUserProfileByUserName(String username);
     UserProfile getUserProfileByUserId(Long userId);
+    void subscribeUserProfile(UserPrincipal currentUser, Long userId);
 }

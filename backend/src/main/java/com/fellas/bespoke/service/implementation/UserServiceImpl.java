@@ -88,4 +88,15 @@ public class UserServiceImpl implements UserService {
         return new UserProfile(user.getId(), user.getUsername(), user.getName(), user.getCreatedAt(),
                 topicRepository.countByCreatedBy(user.getId()), followedUsers, enrolledTopics);
     }
+
+    @Override
+    public void subscribeUserProfile(UserPrincipal currentUserPrinciple, Long userId) {
+        final User currentUser = userRepository.findById(currentUserPrinciple.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("UserEntity", "userId", Long.toString(currentUserPrinciple.getId())));
+
+        final User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("UserEntity", "userId", Long.toString(userId)));
+
+        currentUser.getFollowedUsers().stream().filter(subscribedUser -> subscribedUser.getId().equals(user.getId())).findAny().ifPresentOrElse((value) -> log.debug("Already exist"), () -> currentUser.getFollowedUsers().add(user));
+    }
 }
