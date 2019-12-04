@@ -81,6 +81,8 @@ public class UserServiceImpl implements UserService {
                 ifPresentOrElse(
                         (value) -> log.debug("User already exists as followed user"),
                         () -> currentUser.getFollowedUsers().add(user));
+
+        userRepository.save(currentUser);
     }
 
     private List<TopicResponse> getEnrolledTopicResponse(User user) {
