@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { REQUEST_HEADERS } from "../constants";
 import axios from "axios";
 import toast from "toasted-notes";
+import { followUser } from "util/APIUtils";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -34,11 +35,29 @@ class Profile extends Component {
             loading: true
         };
         this.loadProfile = this.loadProfile.bind(this);
-        this.followUser = this.followUser.bind(this);
+        this.handleFollowUser = this.handleFollowUser.bind(this);
     }
 
-    followUser() {
-        alert("Request sent to follow this user.");
+    handleFollowUser() {
+        const followData = {
+            title: this.state.title,
+            description: this.state.description,
+            wikiData: this.state.selectedWikis,
+            imageUrl: this.state.imageUrl
+        };
+
+        followUser(followData)
+            .then(response => {
+                toast.notify("You're now following this user", {
+                    position: "top-right"
+                });
+            })
+            .catch(error => {
+                this.setState({ loading: false });
+                toast.notify("Something went wrong!", {
+                    position: "top-right"
+                });
+            });
     }
 
     loadProfile() {
@@ -97,7 +116,7 @@ class Profile extends Component {
                                                                 profile.currentUserIsAlreadyFollowing
                                                                     ? false
                                                                     : this
-                                                                        .followUser
+                                                                        .handleFollowUser
                                                             }
                                                             className="btn btn-success fullWidth"
                                                         >
@@ -111,7 +130,7 @@ class Profile extends Component {
                                                                     Your are
                                                                     following
                                                                     {profile.name}
-                                                            </span>
+                                                                </span>
                                                             ) : (
                                                                     <span className="bespoke-profile-follow-btn">
                                                                         <FontAwesomeIcon
@@ -120,7 +139,7 @@ class Profile extends Component {
                                                                             }
                                                                         />{" "}
                                                                         Follow {profile.name}
-                                                            </span>
+                                                                    </span>
                                                                 )}
                                                         </Button>
                                                     </div>
