@@ -153,6 +153,7 @@ class Topic extends Component {
                                 {editable ? (
                                     <Link
                                         className="breadcrumbLink bespoke-topic-breadcdumbLink"
+                                        to={`/`}
                                     >
                                         <span className="bespoke-topic-breadcdumbLink-span">My Topics</span>
                                     </Link>
@@ -216,7 +217,7 @@ class Topic extends Component {
 
                                             {editable && (
                                                 <Button
-                                                    className="btn ml-2 inlineBtn bespoke-topic-publish-button" 
+                                                    className="btn ml-2 inlineBtn bespoke-topic-publish-button"
                                                     variant={
                                                         topic.published
                                                             ? "danger"
@@ -261,7 +262,7 @@ class Topic extends Component {
                             <div className="sectionPadding minHeightContent bespoke-topic-learning-path">
                                 <div className="container">
                                     <div className="row col-md-12 text-left">
-                                        <h4 class="bespoke-topic-learning-path-title">
+                                        <h4 className="bespoke-topic-learning-path-title">
                                             Learning <strong>Path</strong>
                                             {editable && (
                                                 <Link

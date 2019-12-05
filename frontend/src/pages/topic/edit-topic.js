@@ -259,21 +259,26 @@ class EditTopic extends Component {
 
                                                                 {wikiDataSearch.length > 0 && (
                                                                     wikiDataSearch.map((wiki, wikiIndex) => {
-                                                                        return (
-                                                                            <Row key={wikiIndex} className={`border-bottom border-info p-1 m-1 bespoke-found-wiki-${wikiIndex}`}>
-                                                                                {wiki.description && (
-                                                                                    <React.Fragment>
-                                                                                        <Col md="1">
-                                                                                            <input type="checkbox" onChange={() => this.addWiki(wiki)} value={wiki} />
-                                                                                        </Col>
-                                                                                        <Col md="9">{wiki.description}</Col>
-                                                                                        <Col md="2">
-                                                                                            <a href={wiki.concepturi} target="_blank" rel="noopener noreferrer">Visit</a>
-                                                                                        </Col>
-                                                                                    </React.Fragment>
-                                                                                )}
-                                                                            </Row>
-                                                                        )
+                                                                        if (wiki.description) {
+                                                                            return (
+                                                                                <Row key={wikiIndex} className={`border-bottom border-info p-1 m-1 bespoke-found-wiki-${wikiIndex}`}>
+                                                                                    {wiki.description && (
+                                                                                        <React.Fragment>
+                                                                                            <Col md="1">
+                                                                                                <input type="checkbox" onChange={() => this.addWiki(wiki)} value={wiki} />
+                                                                                            </Col>
+                                                                                            <Col md="9">{wiki.description}</Col>
+                                                                                            <Col md="2">
+                                                                                                <a href={wiki.concepturi} target="_blank" rel="noopener noreferrer">Visit</a>
+                                                                                            </Col>
+                                                                                        </React.Fragment>
+                                                                                    )}
+                                                                                </Row>
+                                                                            )
+                                                                        } else {
+                                                                            return false;
+                                                                        }
+
                                                                     })
                                                                 )}
                                                                 <Button variant="success" type="submit" block disabled={isSubmitting}>Save</Button>
