@@ -164,7 +164,7 @@ class CreateTopic extends Component {
         const { selectedWikis } = this.state;
 
         let filteredWikis = selectedWikis.filter(obj => obj.id !== wikiId);
-
+        document.getElementById(`default-checkbox-wiki${wikiId}`).checked = false;
         this.setState({
             selectedWikis: filteredWikis
         });
@@ -342,7 +342,7 @@ class CreateTopic extends Component {
                                                                                             )
                                                                                         }
                                                                                         type="checkbox"
-                                                                                        id="default-checkbox"
+                                                                                        id={`default-checkbox-wiki${wiki.id}`}
                                                                                         value={
                                                                                             wiki
                                                                                         }

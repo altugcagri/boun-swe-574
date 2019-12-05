@@ -129,6 +129,7 @@ class EditTopic extends Component {
         let filteredWikis = selectedWikis.filter(
             obj => obj.id !== wikiId
         )
+        document.getElementById(`default-checkbox-wiki${wikiId}`).checked = false;
 
         this.setState({
             selectedWikis: filteredWikis
@@ -265,7 +266,7 @@ class EditTopic extends Component {
                                                                                     {wiki.description && (
                                                                                         <React.Fragment>
                                                                                             <Col md="1">
-                                                                                                <input type="checkbox" onChange={() => this.addWiki(wiki)} value={wiki} />
+                                                                                                <input type="checkbox" id={`default-checkbox-wiki${wiki.id}`} onChange={() => this.addWiki(wiki)} value={wiki} />
                                                                                             </Col>
                                                                                             <Col md="9">{wiki.description}</Col>
                                                                                             <Col md="2">
