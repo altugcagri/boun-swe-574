@@ -41,7 +41,7 @@ public class UserController {
 
     @Transactional
     @PostMapping("/user/subscribe")
-    public ResponseEntity<ApiResponse> enrollToTopicByUsername(@CurrentUser UserPrincipal currentUser,
+    public ResponseEntity<ApiResponse> subscribeUserProfile(@CurrentUser UserPrincipal currentUser,
                                                                @RequestParam(value = "userId") Long userId) {
         userService.subscribeUserProfile(currentUser, userId);
         return ResponseEntity.ok().body(new ApiResponse(true, "Subscribed to user successfully"));
