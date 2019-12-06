@@ -12,6 +12,7 @@ import { resolveEndpoint } from "../../util/Helpers";
 import ThingsToConsider from '../../components/partials/ThingsToConsider';
 import Loading from '../../components/loading';
 import loadingGif from '../../img/loading.gif'
+import { changePage } from "controllers/navigator"
 // Deps
 import { connect } from "react-redux";
 
@@ -90,7 +91,11 @@ class EditTopic extends Component {
     }
 
     componentDidMount() {
-        this.loadTopicById();
+        let vm = this;
+        vm.loadTopicById();
+        setTimeout(function () {
+            changePage(false, "pages", vm.props.user);
+        }, 300)
     }
 
     addWiki(wiki) {

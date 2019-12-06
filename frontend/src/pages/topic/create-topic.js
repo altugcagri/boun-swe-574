@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import ThingsToConsider from "components/partials/ThingsToConsider";
 import loadingGif from "assets/images/loading.gif";
 import page_banner from "assets/images/kitchen.jpeg";
+import { changePage } from "controllers/navigator"
 
 const mapStateToProps = state => {
     return {
@@ -85,7 +86,11 @@ class CreateTopic extends Component {
     }
 
     componentDidMount() {
-        this.setState({ loading: false });
+        let vm = this;
+        vm.setState({ loading: false });
+        setTimeout(function () {
+            changePage(false, "pages", vm.props.user);
+        }, 300)
     }
 
     handleTitleChange(event) {

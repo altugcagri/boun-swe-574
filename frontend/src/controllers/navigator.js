@@ -87,7 +87,8 @@ class Navigator extends React.Component {
             focusOffset: false,
             anchorOffset: false,
             isImage: false,
-            imgSrc: false
+            imgSrc: false,
+            currentPageKey: false,
         };
 
         this.getParents = this.getParents.bind(this);
@@ -120,8 +121,6 @@ class Navigator extends React.Component {
         }, 5000);
     }
 
-
-
     componentDidMount() {
         window.dynamicHistory = history;
         let vm = this;
@@ -129,7 +128,6 @@ class Navigator extends React.Component {
             store.dispatch(setPageNotFound(false));
             /*let route = getRouteFromUrl(e.pathname, false, true);
             changePage(route[0], route[1]);*/
-
         });
 
         setTimeout(function () {
@@ -159,7 +157,6 @@ class Navigator extends React.Component {
                             classString = "";
                         }
 
-                        console.log(classString)
 
                         let elem = document.querySelector(selectedTag + classString);
                         setTimeout(function () {
@@ -448,8 +445,6 @@ export function changePage(key = false, group = "pages", user = false) {
 
             let sameElements = [];
             for (let i = 0; i < dummyAnnotation.length; i++) {
-
-
 
                 setTimeout(function () {
                     if (dummyAnnotation[i].page === window.location.href) {

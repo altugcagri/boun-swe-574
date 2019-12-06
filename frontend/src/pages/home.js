@@ -9,6 +9,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
 import axios from "axios";
 import toast from "toasted-notes";
+import { changePage } from "controllers/navigator"
 
 const mapStateToProps = state => {
     return {
@@ -56,7 +57,11 @@ class Home extends React.Component {
     }
 
     componentDidMount() {
+        let vm = this;
         this.loadHomepage();
+        setTimeout(function () {
+            changePage(false, "pages", vm.props.user);
+        }, 300)
         /* activityStream.object()
 			.name('baz')
 			.content(activityStream.langmap().set('en', 'bar').set('fr', 'foo'))
@@ -115,7 +120,7 @@ class Home extends React.Component {
                 >
                     <div className="container">
                         <div className="row">
-                            <div className="col-md-12 serif">
+                            <div className="col-md-6 serif">
                                 <h2
                                     className="serif wow fadeIn bespoke-header-h2"
                                     data-wow-delay="0.2s"
@@ -124,7 +129,7 @@ class Home extends React.Component {
                                 </h2>
                                 <p className="wow fadeIn bespoke-header-p" data-wow-delay="0.3s">
                                     Bespoke is an open source learning space
-                                    built just for you. <br />
+                                    built just for you.
                                     Here, you can learn from others, and share
                                     what you know.
                                 </p>
@@ -184,13 +189,17 @@ class Home extends React.Component {
                                                                         - by -{" "}
                                                                     </strong>{" "}
                                                                     {
-                                                                        <Link
-                                                                            to={`/profile/${latestTopic.author}`}
-                                                                        >
-                                                                            {
-                                                                                latestTopic.author
-                                                                            }
-                                                                        </Link>
+                                                                        this.props.user ? (
+                                                                            <Link
+                                                                                to={`/profile/${latestTopic.createdBy}`}
+
+                                                                            >
+                                                                                {
+                                                                                    latestTopic.author
+                                                                                }
+                                                                            </Link>
+                                                                        ) : (<React.Fragment>{latestTopic.author}</React.Fragment>)
+
                                                                     }
                                                                 </small>
                                                                 <p className={`bespoke-latest-caption${latestTopic.id}`}>
@@ -268,13 +277,16 @@ class Home extends React.Component {
                                                                         - by -
                                                                     </strong>
                                                                     {
-                                                                        <Link
-                                                                            to={`/profile/${interestTopic.author}`}
-                                                                        >
-                                                                            {
-                                                                                interestTopic.author
-                                                                            }
-                                                                        </Link>
+                                                                        this.props.user ? (
+                                                                            <Link
+                                                                                to={`/profile/${interestTopic.createdBy}`}
+                                                                            >
+                                                                                {
+                                                                                    interestTopic.author
+                                                                                }
+                                                                            </Link>
+                                                                        ) : (<React.Fragment>{interestTopic.author}</React.Fragment>)
+
                                                                     }
                                                                 </small>
                                                                 <p className={`bespoke-interest-caption-${interestTopic.id}`}>

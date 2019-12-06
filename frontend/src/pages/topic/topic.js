@@ -18,6 +18,7 @@ import { resolveEndpoint } from "../../util/Helpers";
 import Loading from "../../components/loading";
 import { WikiLabels } from "../../components/wiki";
 import seperator from "assets/images/seperator.png";
+import { changePage } from "controllers/navigator"
 // Deps
 import { connect } from "react-redux";
 
@@ -131,7 +132,11 @@ class Topic extends Component {
     }
 
     componentDidMount() {
-        this.loadTopicById();
+        let vm = this;
+        vm.loadTopicById();
+        setTimeout(function () {
+            changePage(false, "pages", vm.props.user);
+        }, 300)
     }
 
     render() {
@@ -177,7 +182,7 @@ class Topic extends Component {
                                             {!editable && user && (
                                                 <React.Fragment>
                                                     {achieved ? (
-                                                        <div>
+                                                        <div style={{ display: 'none' }}>
                                                             <span className="badge badge-pill badge-success font-14 bespoke-topic-status">
                                                                 <FontAwesomeIcon
                                                                     icon={faCheck}

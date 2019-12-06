@@ -9,6 +9,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import PageHeader from "../../components/PageHeader";
 import { WikiLabels } from "../../components/wiki";
 import { resolveEndpoint } from "../../util/Helpers";
+import { changePage } from "controllers/navigator"
 // Deps
 import { connect } from "react-redux";
 
@@ -24,6 +25,7 @@ const mapStateToProps = state => {
     };
 };
 
+
 class UserCreatedTopicList extends Component {
     constructor(props) {
         super(props);
@@ -37,24 +39,28 @@ class UserCreatedTopicList extends Component {
     }
 
     loadUserCreatedTopics() {
-        let url = resolveEndpoint("getTopicsByUserId", [
-            { slug1: this.props.user.username }
-        ]);
+        let vm = this;
 
-        axios
-            .get(url, REQUEST_HEADERS)
-            .then(res => {
-                this.setState({
-                    topics: res.data,
-                    loading: false
+        if (vm.props.user) {
+            let url = resolveEndpoint("getTopicsByUserId", [
+                { slug1: vm.props.user.username }
+            ]);
+
+            axios
+                .get(url, REQUEST_HEADERS)
+                .then(res => {
+                    vm.setState({
+                        topics: res.data,
+                        loading: false
+                    });
+                })
+                .catch(err => {
+                    toast.notify("Something went wrong!", {
+                        position: "top-right"
+                    });
+                    console.log(err);
                 });
-            })
-            .catch(err => {
-                toast.notify("Something went wrong!", {
-                    position: "top-right"
-                });
-                console.log(err);
-            });
+        }
     }
 
     handleDeleteTopicById(topicIdToDelete) {
@@ -76,16 +82,20 @@ class UserCreatedTopicList extends Component {
     }
 
     componentDidMount() {
-        if (this.props.user) {
-            this.loadUserCreatedTopics();
-        }
+        let vm = this;
+        vm.loadUserCreatedTopics();
+        setTimeout(function () {
+            changePage(false, "pages", vm.props.user);
+        }, 300)
         const wow = new WOW();
         wow.init();
     }
 
     componentDidUpdate(prevProps) {
+        let vm = this;
         if (prevProps !== this.props && this.props.user) {
-            this.loadUserCreatedTopics();
+            vm.loadUserCreatedTopics();
+
         }
     }
 

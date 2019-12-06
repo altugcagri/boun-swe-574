@@ -10,6 +10,7 @@ import { faPlus, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { resolveEndpoint } from "functions/helpers";
 import PageHeader from "../components/PageHeader";
 import { WikiLabels } from "../components/wiki";
+import { changePage } from "controllers/navigator"
 //import { resolveEndpoint } from "../util/Helpers";
 // Deps
 import { connect } from "react-redux";
@@ -39,14 +40,8 @@ class Profile extends Component {
     }
 
     handleFollowUser() {
-        const followData = {
-            title: this.state.title,
-            description: this.state.description,
-            wikiData: this.state.selectedWikis,
-            imageUrl: this.state.imageUrl
-        };
 
-        followUser(followData)
+        followUser(this.props.match.params.profile)
             .then(response => {
                 toast.notify("You're now following this user", {
                     position: "top-right"
@@ -83,7 +78,11 @@ class Profile extends Component {
     }
 
     componentDidMount() {
-        this.loadProfile();
+        let vm = this;
+        vm.loadProfile();
+        setTimeout(function () {
+            changePage(false, "pages", vm.props.user);
+        }, 300)
         const wow = new WOW();
         wow.init();
     }
@@ -127,7 +126,7 @@ class Profile extends Component {
                                                                             faCheck
                                                                         }
                                                                     />{" "}
-                                                                    Your are
+                                                                    You are
                                                                     following
                                                                     {profile.name}
                                                                 </span>

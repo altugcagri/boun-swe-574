@@ -26,5 +26,5 @@
     "getProfile": "/profile/[slug1]",
     "getAnnotations": "/annotation?page=[slug1]",
     "storeAnnotation": "/annotation",
-    "followUser": "/profile"
+    "followUser": "/user/subscribe?userId=[slug1]"
 }
