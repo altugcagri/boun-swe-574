@@ -22,6 +22,7 @@ public class ASSearchResponseToAnnotationResponse implements Converter<Annotatio
                     .date(annotation.getCreated())
                     .annotatedText(annotation.getTarget().getSelector().getRefinedBy() != null ? annotation.getTarget().getSelector().getRefinedBy().getExact() : "" )
                     .comment(annotation.getBody().getValue())
+                    .motivation(annotation.getMotivation())
                     .page(annotation.getTarget().getSource())
                     .selector(annotation.getTarget().getSelector().getValue())
                     .build();

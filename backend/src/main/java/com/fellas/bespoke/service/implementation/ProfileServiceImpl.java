@@ -30,13 +30,13 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public ProfileResponse getProfile(UserPrincipal currentUser, Long profileId) {
 
-        final UserProfile currentUserProfile = userService.getUserByUserId(currentUser.getId());
+        final UserProfile currentUserProfile = userService.getUserProfileByUserId(currentUser.getId());
 
         if (null == currentUserProfile) {
             throw new ResourceNotFoundException("User", "id", currentUser.getId().toString());
         }
 
-        final UserProfile userProfile = userService.getUserByUserId(profileId);
+        final UserProfile userProfile = userService.getUserProfileByUserId(profileId);
 
         if (null == userProfile) {
             throw new ResourceNotFoundException("User", "id", profileId.toString());
