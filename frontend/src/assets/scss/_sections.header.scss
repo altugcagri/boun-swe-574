@@ -4,7 +4,8 @@
 .dropdown-menu {
     min-width: 6rem;
     left: 0;
-    right: 0;
+    right: auto;
+    min-width: 140px;
 }
 
 .dropdown-item {

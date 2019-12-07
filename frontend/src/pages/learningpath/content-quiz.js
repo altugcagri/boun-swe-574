@@ -8,7 +8,17 @@ import { Question } from "../../components/learning-path";
 import { resolveEndpoint } from "../../util/Helpers";
 import Loading from "../../components/loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronRight, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight, faCheck, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { changePage } from "controllers/navigator"
+import { connect } from "react-redux";
+
+const mapStateToProps = state => {
+    return {
+        currentPage: state.generic.currentPage,
+        user: state.user.user,
+        unreadMessageCount: state.user.unreadMessageCount
+    };
+};
 
 class ContentQuiz extends Component {
     constructor(props) {
@@ -67,7 +77,11 @@ class ContentQuiz extends Component {
     }
 
     componentDidMount() {
-        this.loadContentById();
+        let vm = this;
+        vm.loadContentById();
+        setTimeout(function () {
+            changePage(false, "pages", vm.props.user);
+        }, 300)
     }
 
     render() {
@@ -146,9 +160,9 @@ class ContentQuiz extends Component {
                                                             to={`/topic/view/${content.topicId}`}
                                                         >
                                                             <FontAwesomeIcon
-                                                                icon={faCheck}
+                                                                icon={faArrowLeft}
                                                             />{" "}
-                                                            Finalize
+                                                            Back to Home
                                                     </Link>
                                                     </div>
                                                 ) : (
@@ -178,4 +192,4 @@ class ContentQuiz extends Component {
     }
 }
 
-export default withRouter(ContentQuiz);
+export default connect(mapStateToProps)(withRouter(ContentQuiz))

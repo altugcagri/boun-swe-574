@@ -8,6 +8,7 @@ import { WikiLabels } from "../../components/wiki";
 import { resolveEndpoint } from "../../util/Helpers";
 import Loading from "../../components/loading";
 import page_banner from "../../img/study.jpeg";
+import { changePage } from "controllers/navigator"
 // Deps
 import { connect } from "react-redux";
 
@@ -54,7 +55,7 @@ class UserEnrolledTopicList extends Component {
     componentDidMount() {
         let vm = this;
         setTimeout(function () {
-            vm.loadUserEnrolledTopics();
+            changePage(false, "pages", vm.props.user);
         }, 500);
     }
 

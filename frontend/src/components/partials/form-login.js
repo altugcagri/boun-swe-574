@@ -55,6 +55,7 @@ export default class LoginForm extends React.Component {
                     setTimeout(function () {
                         if (vm._isMounted) {
                             closeModal();
+                            window.location.reload();
                         }
                     }, 500);
                 }

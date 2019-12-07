@@ -12,6 +12,16 @@ import { resolveEndpoint } from "../../util/Helpers";
 import page_banner from "../../img/kitchen.jpeg";
 import ThingsToConsider from "../../components/partials/ThingsToConsider";
 import Loading from "../../components/loading";
+import { changePage } from "controllers/navigator"
+import { connect } from "react-redux";
+
+const mapStateToProps = state => {
+    return {
+        currentPage: state.generic.currentPage,
+        user: state.user.user,
+        unreadMessageCount: state.user.unreadMessageCount
+    };
+};
 
 class EditContent extends Component {
     constructor(props) {
@@ -42,7 +52,11 @@ class EditContent extends Component {
     }
 
     componentDidMount() {
-        this.loadContentById();
+        let vm = this;
+        vm.loadContentById();
+        setTimeout(function () {
+            changePage(false, "pages", vm.props.user);
+        }, 300)
     }
     render() {
         const props = this.props;
@@ -221,4 +235,4 @@ class EditContent extends Component {
     }
 }
 
-export default EditContent;
+export default connect(mapStateToProps)(EditContent);

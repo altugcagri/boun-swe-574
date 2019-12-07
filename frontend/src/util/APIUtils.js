@@ -42,6 +42,14 @@ export function createAnnotation(annotationData) {
     });
 }
 
+export function followUser(userId) {
+    let url = resolveEndpoint('followUser', [{ slug1: userId }]);
+    return request({
+        url: url,
+        method: 'POST'
+    });
+}
+
 export function updateTopic(topicData) {
     let url = resolveEndpoint('updateTopic', []);
     return request({

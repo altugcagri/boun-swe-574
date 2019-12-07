@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { REQUEST_HEADERS } from "../constants";
 import axios from "axios";
 import toast from "toasted-notes";
+import { followUser } from "util/APIUtils";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +10,7 @@ import { faPlus, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { resolveEndpoint } from "functions/helpers";
 import PageHeader from "../components/PageHeader";
 import { WikiLabels } from "../components/wiki";
+import { changePage } from "controllers/navigator"
 //import { resolveEndpoint } from "../util/Helpers";
 // Deps
 import { connect } from "react-redux";
@@ -34,11 +36,23 @@ class Profile extends Component {
             loading: true
         };
         this.loadProfile = this.loadProfile.bind(this);
-        this.followUser = this.followUser.bind(this);
+        this.handleFollowUser = this.handleFollowUser.bind(this);
     }
 
-    followUser() {
-        alert("Request sent to follow this user.");
+    handleFollowUser() {
+
+        followUser(this.props.match.params.profile)
+            .then(response => {
+                toast.notify("You're now following this user", {
+                    position: "top-right"
+                });
+            })
+            .catch(error => {
+                this.setState({ loading: false });
+                toast.notify("Something went wrong!", {
+                    position: "top-right"
+                });
+            });
     }
 
     loadProfile() {
@@ -64,7 +78,11 @@ class Profile extends Component {
     }
 
     componentDidMount() {
-        this.loadProfile();
+        let vm = this;
+        vm.loadProfile();
+        setTimeout(function () {
+            changePage(false, "pages", vm.props.user);
+        }, 300)
         const wow = new WOW();
         wow.init();
     }
@@ -97,7 +115,7 @@ class Profile extends Component {
                                                                 profile.currentUserIsAlreadyFollowing
                                                                     ? false
                                                                     : this
-                                                                        .followUser
+                                                                        .handleFollowUser
                                                             }
                                                             className="btn btn-success fullWidth"
                                                         >
@@ -108,10 +126,10 @@ class Profile extends Component {
                                                                             faCheck
                                                                         }
                                                                     />{" "}
-                                                                    Your are
+                                                                    You are
                                                                     following
                                                                     {profile.name}
-                                                            </span>
+                                                                </span>
                                                             ) : (
                                                                     <span className="bespoke-profile-follow-btn">
                                                                         <FontAwesomeIcon
@@ -120,7 +138,7 @@ class Profile extends Component {
                                                                             }
                                                                         />{" "}
                                                                         Follow {profile.name}
-                                                            </span>
+                                                                    </span>
                                                                 )}
                                                         </Button>
                                                     </div>

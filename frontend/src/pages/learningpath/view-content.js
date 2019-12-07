@@ -8,6 +8,16 @@ import { faChevronRight, faCheck } from "@fortawesome/free-solid-svg-icons";
 import PageHeader from "../../components/PageHeader";
 import { resolveEndpoint } from "../../util/Helpers";
 import Loading from "../../components/loading";
+import { changePage } from "controllers/navigator"
+import { connect } from "react-redux";
+
+const mapStateToProps = state => {
+    return {
+        currentPage: state.generic.currentPage,
+        user: state.user.user,
+        unreadMessageCount: state.user.unreadMessageCount
+    };
+};
 
 class ViewContent extends Component {
     constructor(props) {
@@ -68,7 +78,11 @@ class ViewContent extends Component {
     }
 
     componentDidMount() {
-        this.loadContentById();
+        let vm = this;
+        vm.loadContentById();
+        setTimeout(function () {
+            changePage(false, "pages", vm.props.user);
+        }, 300)
     }
 
     render() {
@@ -170,4 +184,4 @@ class ViewContent extends Component {
     }
 }
 
-export default withRouter(ViewContent);
+export default connect(mapStateToProps)(withRouter(ViewContent));

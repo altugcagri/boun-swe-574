@@ -18,6 +18,7 @@ import { resolveEndpoint } from "../../util/Helpers";
 import Loading from "../../components/loading";
 import { WikiLabels } from "../../components/wiki";
 import seperator from "assets/images/seperator.png";
+import { changePage } from "controllers/navigator"
 // Deps
 import { connect } from "react-redux";
 
@@ -131,7 +132,11 @@ class Topic extends Component {
     }
 
     componentDidMount() {
-        this.loadTopicById();
+        let vm = this;
+        vm.loadTopicById();
+        setTimeout(function () {
+            changePage(false, "pages", vm.props.user);
+        }, 300)
     }
 
     render() {
@@ -153,6 +158,7 @@ class Topic extends Component {
                                 {editable ? (
                                     <Link
                                         className="breadcrumbLink bespoke-topic-breadcdumbLink"
+                                        to={`/`}
                                     >
                                         <span className="bespoke-topic-breadcdumbLink-span">My Topics</span>
                                     </Link>
@@ -176,7 +182,7 @@ class Topic extends Component {
                                             {!editable && user && (
                                                 <React.Fragment>
                                                     {achieved ? (
-                                                        <div>
+                                                        <div style={{ display: 'none' }}>
                                                             <span className="badge badge-pill badge-success font-14 bespoke-topic-status">
                                                                 <FontAwesomeIcon
                                                                     icon={faCheck}
@@ -216,7 +222,7 @@ class Topic extends Component {
 
                                             {editable && (
                                                 <Button
-                                                    className="btn ml-2 inlineBtn bespoke-topic-publish-button" 
+                                                    className="btn ml-2 inlineBtn bespoke-topic-publish-button"
                                                     variant={
                                                         topic.published
                                                             ? "danger"
@@ -261,7 +267,7 @@ class Topic extends Component {
                             <div className="sectionPadding minHeightContent bespoke-topic-learning-path">
                                 <div className="container">
                                     <div className="row col-md-12 text-left">
-                                        <h4 class="bespoke-topic-learning-path-title">
+                                        <h4 className="bespoke-topic-learning-path-title">
                                             Learning <strong>Path</strong>
                                             {editable && (
                                                 <Link
