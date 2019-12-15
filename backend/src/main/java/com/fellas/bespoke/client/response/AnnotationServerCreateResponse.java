@@ -14,6 +14,7 @@ public class AnnotationServerCreateResponse {
     private String id;
     private String type;
     private String creator;
+    private String motivation;
     private String created;
     private AnnotationBody body;
     private AnnotationTarget target;

@@ -131,7 +131,8 @@ class Navigator extends React.Component {
         });
 
         setTimeout(function () {
-            //changePage(false, "pages", vm.props.user)
+            changePage(false, "pages", vm.props.user)
+
             if (vm.props.user) {
                 // onselectionchange version
                 document.onselectionchange = () => {
@@ -194,6 +195,7 @@ class Navigator extends React.Component {
         // Set up a parent array
         var parents = [];
         var parentString = "";
+
 
         // Push each parent element to the array
         for (; elem && elem !== document; elem = elem.parentNode) {
@@ -444,6 +446,7 @@ export function changePage(key = false, group = "pages", user = false) {
         axios.get(url, REQUEST_HEADERS).then(res => {
             let dummyAnnotation = res.data;
 
+
             let sameElements = [];
             for (let i = 0; i < dummyAnnotation.length; i++) {
 
@@ -454,6 +457,7 @@ export function changePage(key = false, group = "pages", user = false) {
 
 
                         var results = [];
+
 
                         var toSearch = selector;
 
@@ -467,12 +471,14 @@ export function changePage(key = false, group = "pages", user = false) {
 
                         let annotatedText = dummyAnnotation[i].annotatedText;
                         if (selector.charAt(0) === '#') {
+
                             //let image = document.getElementById(selector.replace('#', ''));
                             let image = document.querySelector("img[src*='" + selector.replace('#', '') + "']")
                             var newItem = document.createElement("SPAN");
                             newItem.setAttribute('class', 'annotation-span');
                             var wrapper = document.createElement('div');
                             wrapper.style.cssText = "position: relative";
+
                             newItem.innerHTML = "<mark class='mark-annotation' data-comment='" +
                                 dummyAnnotation[i].comment +
                                 "'>" +
@@ -487,8 +493,10 @@ export function changePage(key = false, group = "pages", user = false) {
                             // Append the text to <li>
 
 
+
                             if (image) { image.parentNode.insertBefore(wrapper, image); wrapper.appendChild(image); image.parentNode.insertBefore(newItem, image.nextSibling); }
                         } else {
+
 
                             let actualText = document.querySelector(
                                 selector
@@ -508,6 +516,7 @@ export function changePage(key = false, group = "pages", user = false) {
                                 dummyAnnotation[i].start,
                                 dummyAnnotation[i].end
                             ); */
+
 
                             if (actualText) {
                                 let newHtml = actualTextInner.replace(

@@ -11,12 +11,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserProfile {
-
     private Long id;
     private String username;
     private String name;
     private Instant joinedAt;
     private Long topicCount;
     private List<UserSummary> followedUsers;
-
+    private List<TopicResponse> enrolledTopics;
 }

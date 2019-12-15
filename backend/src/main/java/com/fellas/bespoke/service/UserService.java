@@ -6,12 +6,9 @@ import com.fellas.bespoke.controller.dto.response.UserSummary;
 import com.fellas.bespoke.security.UserPrincipal;
 
 public interface UserService {
-
     UserSummary getCurrentUser(UserPrincipal currentUser);
-
     UserIdentityAvailability checkUsernameAvailability(String email);
-
-    UserProfile getUserByUserName(String username);
-
-    UserProfile getUserByUserId(long userId);
+    UserProfile getUserProfileByUserName(String username);
+    UserProfile getUserProfileByUserId(Long userId);
+    void subscribeUserProfile(UserPrincipal currentUser, Long userId);
 }

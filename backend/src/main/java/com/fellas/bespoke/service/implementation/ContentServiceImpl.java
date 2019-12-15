@@ -6,7 +6,10 @@ import com.fellas.bespoke.controller.dto.response.ContentResponse;
 import com.fellas.bespoke.exception.ResourceNotFoundException;
 import com.fellas.bespoke.persistence.ContentRepository;
 import com.fellas.bespoke.persistence.TopicRepository;
-import com.fellas.bespoke.persistence.model.*;
+import com.fellas.bespoke.persistence.model.ActivityContentType;
+import com.fellas.bespoke.persistence.model.ActivityStreamType;
+import com.fellas.bespoke.persistence.model.Content;
+import com.fellas.bespoke.persistence.model.Topic;
 import com.fellas.bespoke.security.UserPrincipal;
 import com.fellas.bespoke.service.ActivityService;
 import com.fellas.bespoke.service.ContentService;
@@ -55,12 +58,14 @@ public class ContentServiceImpl implements ContentService {
         BespokeUtilities.checkCreatedBy(TOPIC, currentUser.getId(), topic.getCreatedBy());
 
         final Content content = bespokeConversionService.convert(contentRequest, Content.class);
+
+        assert content != null;
         content.setTopic(topic);
         contentRepository.save(content);
 
         if (topic.isPublished()){
             activityService.createTopicActivityByUser(currentUser, topic, ActivityContentType.USER, ActivityStreamType.Add, "added a new content to");
-            activityService.createTopicActivityByTopic(topic, ActivityContentType.TOPIC, ActivityStreamType.Update, " 's content is updated. Check out out!");
+            activityService.createTopicActivityByTopic(topic, ActivityContentType.TOPIC, ActivityStreamType.Update, " 's content is updated. Check it out!");
         }
 
         return ResponseEntity.ok().body(new ApiResponse(true, "Content created successfully"));
@@ -76,6 +81,7 @@ public class ContentServiceImpl implements ContentService {
 
         final AtomicLong nextContentId = new AtomicLong(0L);
 
+        assert content.getTopic().getContentList() != null;
         content.getTopic().getContentList().stream()
                 .map(Content::getId).collect(Collectors.toList()).stream().filter(id -> id > contentId).min(
                 Comparator.comparing(Long::valueOf)).ifPresent(nextContentId::set);

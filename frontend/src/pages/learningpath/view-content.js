@@ -81,6 +81,7 @@ class ViewContent extends Component {
         let vm = this;
         vm.loadContentById();
 
+
         setTimeout(function () {
             changePage(false, "pages", vm.props.user);
         }, 300)
@@ -90,6 +91,7 @@ class ViewContent extends Component {
                 freeText[i].setAttribute('class', 'paragraph-' + i);
             }
         }, 1000)
+
     }
 
     render() {
