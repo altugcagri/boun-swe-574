@@ -11,6 +11,7 @@ import page_banner from "assets/images/handcrafted.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import WOW from "wow.js";
+import { changePage } from "controllers/navigator"
 // Deps
 import { connect } from "react-redux";
 
@@ -71,8 +72,12 @@ class Glossary extends Component {
 
     componentDidMount() {
         const wow = new WOW();
+        let vm = this;
         wow.init();
-        this.loadTopicList();
+        setTimeout(function () {
+            changePage(false, "pages", vm.props.user);
+        }, 300)
+        vm.loadTopicList();
     }
 
     render() {
@@ -167,9 +172,19 @@ class Glossary extends Component {
                                                                                 by{" "}
                                                                             </strong>{" "}
                                                                             @
-                                                                        {
-                                                                                topic.createdByName
-                                                                            }{" "}
+                                                                            {
+                                                                                this.props.user ? (
+                                                                                    <Link
+                                                                                        to={`/profile/${topic.createdBy}`}
+                                                                                    >
+                                                                                        {
+                                                                                            topic.createdByName
+                                                                                        }{" "}
+                                                                                    </Link>
+                                                                                ) : (<React.Fragment>{topic.createdByName}</React.Fragment>)
+                                                                            }
+
+
                                                                         </small>
                                                                         <hr />
                                                                         <p className="card-text text-justify bespoke-topic-description">

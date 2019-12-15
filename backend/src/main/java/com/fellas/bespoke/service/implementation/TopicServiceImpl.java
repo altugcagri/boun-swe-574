@@ -131,6 +131,7 @@ public class TopicServiceImpl implements TopicService {
 
         if(publishRequest.isPublish()){
             activityService.createTopicActivityByUser(currentUser, topic, ActivityContentType.USER, ActivityStreamType.Create, "created a new topic:");
+            activityService.createTopicActivityByTopic(topic, ActivityContentType.TOPIC, ActivityStreamType.Create, "is published.");
         }
 
         return ResponseEntity.ok().body(new ApiResponse(true, "Topic is published successfully"));
@@ -155,6 +156,8 @@ public class TopicServiceImpl implements TopicService {
                         enrollmentRequest.getTopicId().toString()));
         final User user = userRepository.findByUsername(enrollmentRequest.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", enrollmentRequest.getUsername()));
+
+        assert topic.getEnrolledUsers() != null;
         topic.getEnrolledUsers().add(user);
         topicRepository.save(topic);
         return ResponseEntity.ok().body(new ApiResponse(true, "Enrolled to topic successfully"));

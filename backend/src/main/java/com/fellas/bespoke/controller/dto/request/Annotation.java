@@ -13,6 +13,8 @@ public class Annotation {
 
     private String annotatedText;
 
+    private String motivation;
+
     @NotEmpty
     private String comment;
 

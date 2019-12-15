@@ -9,6 +9,17 @@ import ThingsToConsider from "../../components/partials/ThingsToConsider";
 import page_banner from "../../img/kitchen.jpeg";
 import PageHeader from "../../components/PageHeader";
 import { Link, withRouter } from "react-router-dom";
+import { changePage } from "controllers/navigator"
+import { connect } from "react-redux";
+
+const mapStateToProps = state => {
+    return {
+        currentPage: state.generic.currentPage,
+        user: state.user.user,
+        unreadMessageCount: state.user.unreadMessageCount
+    };
+};
+
 
 class AddContent extends Component {
     constructor(props) {
@@ -19,7 +30,11 @@ class AddContent extends Component {
     }
 
     componentDidMount() {
-        this.setState({ loading: false });
+        let vm = this;
+        vm.setState({ loading: false });
+        setTimeout(function () {
+            changePage(false, "pages", vm.props.user);
+        }, 300)
     }
 
     render() {
@@ -191,4 +206,4 @@ class AddContent extends Component {
     }
 }
 
-export default withRouter(AddContent);
+export default connect(mapStateToProps)(withRouter(AddContent));

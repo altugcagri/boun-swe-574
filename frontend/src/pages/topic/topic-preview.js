@@ -12,6 +12,7 @@ import { resolveEndpoint } from "../../util/Helpers";
 import Loading from "../../components/loading";
 import { WikiLabels } from "../../components/wiki";
 import seperator from "../../img/seperator.png";
+import { changePage } from "controllers/navigator"
 // Deps
 import { connect } from "react-redux";
 
@@ -140,10 +141,11 @@ class TopicPreview extends Component {
     }
 
     componentDidMount() {
-        this._isMounted = true;
         let vm = this;
+        vm._isMounted = true;
         setTimeout(function () {
             vm.loadTopicById();
+            changePage(false, "pages", vm.props.user);
         }, 500);
     }
 

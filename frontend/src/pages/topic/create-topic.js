@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import ThingsToConsider from "components/partials/ThingsToConsider";
 import loadingGif from "assets/images/loading.gif";
 import page_banner from "assets/images/kitchen.jpeg";
+import { changePage } from "controllers/navigator"
 
 const mapStateToProps = state => {
     return {
@@ -85,7 +86,11 @@ class CreateTopic extends Component {
     }
 
     componentDidMount() {
-        this.setState({ loading: false });
+        let vm = this;
+        vm.setState({ loading: false });
+        setTimeout(function () {
+            changePage(false, "pages", vm.props.user);
+        }, 300)
     }
 
     handleTitleChange(event) {
@@ -164,7 +169,7 @@ class CreateTopic extends Component {
         const { selectedWikis } = this.state;
 
         let filteredWikis = selectedWikis.filter(obj => obj.id !== wikiId);
-
+        document.getElementById(`default-checkbox-wiki${wikiId}`).checked = false;
         this.setState({
             selectedWikis: filteredWikis
         });
@@ -326,47 +331,49 @@ class CreateTopic extends Component {
                                                 {wikiDataSearch.length > 0 &&
                                                     wikiDataSearch.map(
                                                         (wiki, wikiIndex) => {
-                                                            return (
-                                                                <Row
-                                                                    key={wikiIndex}
-                                                                    className={`border-bottom border-info p-1 m-1 bespoke-wiki-result-${wikiIndex}`}
-                                                                >
-                                                                    {wiki.description && (
-                                                                        <React.Fragment>
-                                                                            <Col md="1">
-                                                                                <Form.Check
-                                                                                    onChange={() =>
-                                                                                        this.addWiki(
+                                                            if (wiki.description) {
+                                                                return (
+                                                                    <Row
+                                                                        key={wikiIndex}
+                                                                        className={`border-bottom border-info p-1 m-1 bespoke-wiki-result-${wikiIndex}`}
+                                                                    >
+                                                                        {wiki.description && (
+                                                                            <React.Fragment>
+                                                                                <Col md="1">
+                                                                                    <Form.Check
+                                                                                        onChange={() =>
+                                                                                            this.addWiki(
+                                                                                                wiki
+                                                                                            )
+                                                                                        }
+                                                                                        type="checkbox"
+                                                                                        id={`default-checkbox-wiki${wiki.id}`}
+                                                                                        value={
                                                                                             wiki
-                                                                                        )
+                                                                                        }
+                                                                                    />
+                                                                                </Col>
+                                                                                <Col md="9">
+                                                                                    {
+                                                                                        wiki.description
                                                                                     }
-                                                                                    type="checkbox"
-                                                                                    id="default-checkbox"
-                                                                                    value={
-                                                                                        wiki
-                                                                                    }
-                                                                                />
-                                                                            </Col>
-                                                                            <Col md="9">
-                                                                                {
-                                                                                    wiki.description
-                                                                                }
-                                                                            </Col>
-                                                                            <Col md="2">
-                                                                                <a
-                                                                                    href={
-                                                                                        wiki.concepturi
-                                                                                    }
-                                                                                    target="_blank"
-                                                                                    rel="noopener noreferrer"
-                                                                                >
-                                                                                    Visit
+                                                                                </Col>
+                                                                                <Col md="2">
+                                                                                    <a
+                                                                                        href={
+                                                                                            wiki.concepturi
+                                                                                        }
+                                                                                        target="_blank"
+                                                                                        rel="noopener noreferrer"
+                                                                                    >
+                                                                                        Visit
                                                                             </a>
-                                                                            </Col>
-                                                                        </React.Fragment>
-                                                                    )}
-                                                                </Row>
-                                                            );
+                                                                                </Col>
+                                                                            </React.Fragment>
+                                                                        )}
+                                                                    </Row>
+                                                                );
+                                                            }
                                                         }
                                                     )}
                                                 <Button

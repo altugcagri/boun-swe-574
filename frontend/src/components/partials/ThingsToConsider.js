@@ -4,7 +4,9 @@ export default class WikiLabel extends Component {
     render() {
         return (
             <div className="col-md-8 offset-2 text-center bespoke-things-to-consider">
+
                 <h4 className="serif bespoke-things-to-consider-h2" style={{ fontSize: '22px' }}>Things to Consider</h4>
+
                 <hr />
                 <p className="bespoke-things-to-consider-p" style={{ fontSize: '14px', textAlign: 'center' }}>
                     You are now about to create a topic for others. Be specific as you can, but not too much.

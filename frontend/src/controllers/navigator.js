@@ -44,6 +44,8 @@ import Profile from "pages/profile";
 import Faq from "pages/faq";
 import NotFound from "pages/notfound";
 
+
+
 const pageRegistry = {
     Home: Home,
     NotFound: NotFound,
@@ -64,7 +66,10 @@ const pageRegistry = {
 
 const mapStateToProps = state => {
     return {
-        pageNotFound: state.generic.pageNotFound
+        pageNotFound: state.generic.pageNotFound,
+        currentPage: state.generic.currentPage,
+        user: state.user.user,
+        unreadMessageCount: state.user.unreadMessageCount
     };
 };
 
@@ -82,7 +87,8 @@ class Navigator extends React.Component {
             focusOffset: false,
             anchorOffset: false,
             isImage: false,
-            imgSrc: false
+            imgSrc: false,
+            currentPageKey: false,
         };
 
         this.getParents = this.getParents.bind(this);
@@ -115,69 +121,74 @@ class Navigator extends React.Component {
         }, 5000);
     }
 
-
-
     componentDidMount() {
         window.dynamicHistory = history;
-
+        let vm = this;
         history.listen(function (e) {
             store.dispatch(setPageNotFound(false));
             /*let route = getRouteFromUrl(e.pathname, false, true);
-			changePage(route[0], route[1]);*/
-            changePage();
+            changePage(route[0], route[1]);*/
         });
 
-        let vm = this;
+        setTimeout(function () {
+            changePage(false, "pages", vm.props.user)
+
+            if (vm.props.user) {
+                // onselectionchange version
+                document.onselectionchange = () => {
+                    let selection = document.getSelection();
+
+                    if (selection.focusNode && selection.focusNode.data) {
+                        let selectedText = selection.focusNode.data.substring(
+                            selection.anchorOffset,
+                            selection.focusOffset
+                        );
+
+                        let selectedTag = selection.focusNode.parentNode.localName;
+                        let classList = selection.focusNode.parentNode.className.split(
+                            " "
+                        );
+                        let classString = "";
+                        if (classList.length) {
+                            for (let i = 0; i < classList.length; i++) {
+                                classString = classString + "." + classList[i];
+                            }
+                        }
+                        if (classString === ".") {
+                            classString = "";
+                        }
+
+
+                        let elem = document.querySelector(selectedTag + classString);
+
+                        setTimeout(function () {
+                            vm.setState({
+                                annotatedText: selectedText,
+                                cssSelector: vm.getParents(elem),
+                                anchorOffset: selection.anchorOffset,
+                                focusOffset: selection.focusOffset
+                            });
+                        }, 500);
+                    } else {
+                        setTimeout(function () {
+                            vm.setState({ annotatedText: false });
+                        }, 300);
+                    }
+                };
+            }
+        }, 500)
+
+
 
         setTimeout(function () {
             var images = document.getElementsByTagName("IMG");
 
             for (let i = 0; i < images.length; i++) {
-                images[i].addEventListener("mouseover", () => { vm.imageHoverHandler(images[i].id, images[i].src, images[i].alt) });
+                images[i].addEventListener("mouseover", () => { vm.imageHoverHandler(images[i].src, images[i].src, images[i].alt ? images[i].alt : 'Unknown image') });
             }
         }, 1000)
 
-        // onselectionchange version
-        document.onselectionchange = () => {
-            let selection = document.getSelection();
-            
-            if (selection.focusNode && selection.focusNode.data) {
-                let selectedText = selection.focusNode.data.substring(
-                    selection.anchorOffset,
-                    selection.focusOffset
-                );
-                
-                let selectedTag = selection.focusNode.parentNode.localName;
-                let classList = selection.focusNode.parentNode.className.split(
-                    " "
-                );
-                let classString = "";
-                if (classList.length) {
-                    for (let i = 0; i < classList.length; i++) {
-                        classString = classString + "." + classList[i];
-                    }
-                }
-                if (classString === ".") {
-                    classString = "";
-                }
 
-                console.log(classString)
-
-                let elem = document.querySelector(selectedTag + classString);
-                setTimeout(function () {
-                    vm.setState({
-                        annotatedText: selectedText,
-                        cssSelector: vm.getParents(elem),
-                        anchorOffset: selection.anchorOffset,
-                        focusOffset: selection.focusOffset
-                    });
-                }, 500);
-            } else {
-                setTimeout(function () {
-                    vm.setState({ annotatedText: false });
-                }, 300);
-            }
-        };
     }
 
     getParents(elem) {
@@ -188,10 +199,9 @@ class Navigator extends React.Component {
 
         // Push each parent element to the array
         for (; elem && elem !== document; elem = elem.parentNode) {
-            
             parents.push(elem);
         }
-    
+
         for (let i = 0; i < parents.length; i++) {
             let classList = parents[i].className.split(" ");
             let classString = "";
@@ -210,6 +220,8 @@ class Navigator extends React.Component {
 
         parentString = parentString.replace(". >", " >")
         parentString = parentString.replace("..", ".")
+
+
 
         // Return css selector string
         return parentString.substring(0, parentString.length - 2);
@@ -301,7 +313,6 @@ export function redirect(opts, params = false, getParams = false) {
                 history.push(route);
                 break;
         }
-        changePage();
         return true;
     } else {
         return false;
@@ -422,7 +433,7 @@ export function changeURLParam(
     return data;
 }
 
-export function changePage(key = false, group = "pages") {
+export function changePage(key = false, group = "pages", user = false) {
     let route = key ? routes[group][key] : getRouteFromUrl(false, true, true);
 
     let url = resolveEndpoint("getAnnotations", [
@@ -430,55 +441,113 @@ export function changePage(key = false, group = "pages") {
     ]);
     /* let url = "dummy/annotations.json"; */
 
-    axios.get(url, REQUEST_HEADERS).then(res => {
-        let dummyAnnotation = res.data;
+    if (user) {
+        axios.get(url, REQUEST_HEADERS).then(res => {
+            let dummyAnnotation = res.data;
 
 
-        for (let i = 0; i < dummyAnnotation.length; i++) {
+            let sameElements = [];
+            for (let i = 0; i < dummyAnnotation.length; i++) {
 
-            setTimeout(function () {
-                if (dummyAnnotation[i].page === window.location.href) {
-                    let selector = dummyAnnotation[i].selector.replace(". >", " >")
-                    selector = selector.replace("..", ".")
-                    let actualText;
+                setTimeout(function () {
+                    if (dummyAnnotation[i].page === window.location.href) {
+                        let selector = dummyAnnotation[i].selector.replace(". >", " >")
+                        selector = selector.replace("..", ".")
 
-                    if(selector.charAt(0) === '#'){
-                        actualText = document.getElementById(selector);
-                    }else{
-                        actualText = document.querySelector(
-                            selector
-                        );
+
+                        var results = [];
+
+
+                        var toSearch = selector;
+
+                        for (var j = 0; j < sameElements.length; j++) {
+                            for (key in sameElements[j]) {
+                                if (sameElements[j][key].indexOf(toSearch) !== -1) {
+                                    results.push(sameElements[j]);
+                                }
+                            }
+                        }
+
+                        let annotatedText = dummyAnnotation[i].annotatedText;
+                        if (selector.charAt(0) === '#') {
+
+                            //let image = document.getElementById(selector.replace('#', ''));
+                            let image = document.querySelector("img[src*='" + selector.replace('#', '') + "']")
+                            var newItem = document.createElement("SPAN");
+                            newItem.setAttribute('class', 'annotation-span');
+                            var wrapper = document.createElement('div');
+                            wrapper.style.cssText = "position: relative";
+
+                            newItem.innerHTML = "<mark class='mark-annotation' data-comment='" +
+                                dummyAnnotation[i].comment +
+                                "'>" +
+                                annotatedText +
+                                "<span><em>At " +
+                                dummyAnnotation[i].date +
+                                " " +
+                                dummyAnnotation[i].author +
+                                " wrote:</em>" +
+                                dummyAnnotation[i].comment +
+                                "</span></mark>";  // Create a text node
+                            // Append the text to <li>
+
+
+
+                            if (image) { image.parentNode.insertBefore(wrapper, image); wrapper.appendChild(image); image.parentNode.insertBefore(newItem, image.nextSibling); }
+                        } else {
+
+
+                            let actualText = document.querySelector(
+                                selector
+                            );
+                            let actualTextInner;
+
+                            if (results.length > 0) {
+                                actualTextInner = results[0].html
+                            } else {
+                                if (actualText) {
+                                    actualTextInner = actualText.innerText
+                                }
+                            }
+
+
+                            /* let annotatedText = actualText.innerText.substring(
+                                dummyAnnotation[i].start,
+                                dummyAnnotation[i].end
+                            ); */
+
+
+                            if (actualText) {
+                                let newHtml = actualTextInner.replace(
+                                    annotatedText,
+                                    "<mark class='mark-annotation' data-comment='" +
+                                    dummyAnnotation[i].comment +
+                                    "'>" +
+                                    annotatedText +
+                                    "<span><em>At " +
+                                    dummyAnnotation[i].date +
+                                    " " +
+                                    dummyAnnotation[i].author +
+                                    " wrote:</em>" +
+                                    dummyAnnotation[i].comment +
+                                    "</span></mark>"
+                                );
+
+
+                                actualText.innerHTML = newHtml;
+
+                                sameElements.push({ selector: selector, html: actualText.innerHTML })
+                            }
+                        }
+
+
                     }
+                }, 1000 + i * 100);
+            }
 
 
-                    /* let annotatedText = actualText.innerText.substring(
-                        dummyAnnotation[i].start,
-                        dummyAnnotation[i].end
-                    ); */
-                    let annotatedText = dummyAnnotation[i].annotatedText;
-                    if (actualText) {
-                        let newHtml = actualText.innerText.replace(
-                            annotatedText,
-                            "<mark class='mark-annotation' data-comment='" +
-                            dummyAnnotation[i].comment +
-                            "'>" +
-                            annotatedText +
-                            "<span><em>At " +
-                            dummyAnnotation[i].date +
-                            " " +
-                            dummyAnnotation[i].author +
-                            " wrote:</em>" +
-                            dummyAnnotation[i].comment +
-                            "</span></mark>"
-                        );
-                        actualText.innerHTML = newHtml;
-                    }
-                }
-            }, 1000 + i * 100);
-        }
-
-
-    });
+        });
+    }
 
     if (route) {
         if (route.key) {

@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ProfileServiceTest extends AbstractServiceTest {
 
@@ -36,7 +37,7 @@ public class ProfileServiceTest extends AbstractServiceTest {
     public void testGetProfile_UserNotFound() {
         //Prepare
         final UserProfile currentUserProfile = mock(UserProfile.class);
-        when(userService.getUserByUserId(0L)).thenReturn(currentUserProfile).thenReturn(null);
+        when(userService.getUserProfileByUserId(0L)).thenReturn(currentUserProfile).thenReturn(null);
         //Test
         sut.getProfile(currentUser, 0L);
     }
@@ -50,7 +51,7 @@ public class ProfileServiceTest extends AbstractServiceTest {
         userProfiles.add(userSummary);
         final UserProfile currentUserProfile = UserProfile.builder().id(1L).name("Cihangir Ozmus").username("cihangir")
                 .followedUsers(userProfiles).build();
-        when(userService.getUserByUserId(0L)).thenReturn(currentUserProfile).thenReturn(userProfile);
+        when(userService.getUserProfileByUserId(0L)).thenReturn(currentUserProfile).thenReturn(userProfile);
         //Test
         ProfileResponse response = sut.getProfile(currentUser, 0L);
         //Verify
