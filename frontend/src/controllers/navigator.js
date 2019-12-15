@@ -132,6 +132,7 @@ class Navigator extends React.Component {
 
         setTimeout(function () {
             changePage(false, "pages", vm.props.user)
+
             if (vm.props.user) {
                 // onselectionchange version
                 document.onselectionchange = () => {
@@ -159,6 +160,7 @@ class Navigator extends React.Component {
 
 
                         let elem = document.querySelector(selectedTag + classString);
+
                         setTimeout(function () {
                             vm.setState({
                                 annotatedText: selectedText,
@@ -182,7 +184,7 @@ class Navigator extends React.Component {
             var images = document.getElementsByTagName("IMG");
 
             for (let i = 0; i < images.length; i++) {
-                images[i].addEventListener("mouseover", () => { vm.imageHoverHandler(images[i].id, images[i].src, images[i].alt) });
+                images[i].addEventListener("mouseover", () => { vm.imageHoverHandler(images[i].src, images[i].src, images[i].alt ? images[i].alt : 'Unknown image') });
             }
         }, 1000)
 
@@ -219,6 +221,8 @@ class Navigator extends React.Component {
 
         parentString = parentString.replace(". >", " >")
         parentString = parentString.replace("..", ".")
+
+
 
         // Return css selector string
         return parentString.substring(0, parentString.length - 2);
@@ -454,6 +458,7 @@ export function changePage(key = false, group = "pages", user = false) {
 
                         var results = [];
 
+
                         var toSearch = selector;
 
                         for (var j = 0; j < sameElements.length; j++) {
@@ -466,8 +471,14 @@ export function changePage(key = false, group = "pages", user = false) {
 
                         let annotatedText = dummyAnnotation[i].annotatedText;
                         if (selector.charAt(0) === '#') {
-                            let image = document.getElementById(selector.replace('#', ''));
-                            var newItem = document.createElement("SPAN");       // Create a <li> node
+
+                            //let image = document.getElementById(selector.replace('#', ''));
+                            let image = document.querySelector("img[src*='" + selector.replace('#', '') + "']")
+                            var newItem = document.createElement("SPAN");
+                            newItem.setAttribute('class', 'annotation-span');
+                            var wrapper = document.createElement('div');
+                            wrapper.style.cssText = "position: relative";
+
                             newItem.innerHTML = "<mark class='mark-annotation' data-comment='" +
                                 dummyAnnotation[i].comment +
                                 "'>" +
@@ -482,8 +493,11 @@ export function changePage(key = false, group = "pages", user = false) {
                             // Append the text to <li>
 
 
-                            if (image) { image.parentNode.insertBefore(newItem, image.nextSibling); }
+
+                            if (image) { image.parentNode.insertBefore(wrapper, image); wrapper.appendChild(image); image.parentNode.insertBefore(newItem, image.nextSibling); }
                         } else {
+
+
                             let actualText = document.querySelector(
                                 selector
                             );
@@ -502,6 +516,7 @@ export function changePage(key = false, group = "pages", user = false) {
                                 dummyAnnotation[i].start,
                                 dummyAnnotation[i].end
                             ); */
+
 
                             if (actualText) {
                                 let newHtml = actualTextInner.replace(
