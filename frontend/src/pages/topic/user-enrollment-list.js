@@ -54,6 +54,8 @@ class UserEnrolledTopicList extends Component {
 
     componentDidMount() {
         let vm = this;
+        this.loadUserEnrolledTopics();
+
         setTimeout(function () {
             changePage(false, "pages", vm.props.user);
         }, 500);
