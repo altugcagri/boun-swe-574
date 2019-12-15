@@ -445,82 +445,40 @@ export function changePage(key = false, group = "pages", user = false) {
         axios.get(url, REQUEST_HEADERS).then(res => {
             let dummyAnnotation = res.data;
 
+            if (dummyAnnotation.length > 0) {
+                let sameElements = [];
+                for (let i = 0; i < dummyAnnotation.length; i++) {
 
-            let sameElements = [];
-            for (let i = 0; i < dummyAnnotation.length; i++) {
-
-                setTimeout(function () {
-                    if (dummyAnnotation[i].page === window.location.href) {
-                        let selector = dummyAnnotation[i].selector.replace(". >", " >")
-                        selector = selector.replace("..", ".")
-
-
-                        var results = [];
+                    setTimeout(function () {
+                        if (dummyAnnotation[i].page === window.location.href) {
+                            let selector = dummyAnnotation[i].selector.replace(". >", " >")
+                            selector = selector.replace("..", ".")
 
 
-                        var toSearch = selector;
-
-                        for (var j = 0; j < sameElements.length; j++) {
-                            for (key in sameElements[j]) {
-                                if (sameElements[j][key].indexOf(toSearch) !== -1) {
-                                    results.push(sameElements[j]);
-                                }
-                            }
-                        }
-
-                        let annotatedText = dummyAnnotation[i].annotatedText;
-                        if (selector.charAt(0) === '#') {
-
-                            //let image = document.getElementById(selector.replace('#', ''));
-                            let image = document.querySelector("img[src*='" + selector.replace('#', '') + "']")
-                            var newItem = document.createElement("SPAN");
-                            newItem.setAttribute('class', 'annotation-span');
-                            var wrapper = document.createElement('div');
-                            wrapper.style.cssText = "position: relative";
-
-                            newItem.innerHTML = "<mark class='mark-annotation' data-comment='" +
-                                dummyAnnotation[i].comment +
-                                "'>" +
-                                annotatedText +
-                                "<span><em>At " +
-                                dummyAnnotation[i].date +
-                                " " +
-                                dummyAnnotation[i].author +
-                                " wrote:</em>" +
-                                dummyAnnotation[i].comment +
-                                "</span></mark>";  // Create a text node
-                            // Append the text to <li>
+                            var results = [];
 
 
+                            var toSearch = selector;
 
-                            if (image) { image.parentNode.insertBefore(wrapper, image); wrapper.appendChild(image); image.parentNode.insertBefore(newItem, image.nextSibling); }
-                        } else {
-
-
-                            let actualText = document.querySelector(
-                                selector
-                            );
-                            let actualTextInner;
-
-                            if (results.length > 0) {
-                                actualTextInner = results[0].html
-                            } else {
-                                if (actualText) {
-                                    actualTextInner = actualText.innerText
+                            for (var j = 0; j < sameElements.length; j++) {
+                                for (key in sameElements[j]) {
+                                    if (sameElements[j][key].indexOf(toSearch) !== -1) {
+                                        results.push(sameElements[j]);
+                                    }
                                 }
                             }
 
+                            let annotatedText = dummyAnnotation[i].annotatedText;
+                            if (selector.charAt(0) === '#') {
 
-                            /* let annotatedText = actualText.innerText.substring(
-                                dummyAnnotation[i].start,
-                                dummyAnnotation[i].end
-                            ); */
+                                //let image = document.getElementById(selector.replace('#', ''));
+                                let image = document.querySelector("img[src*='" + selector.replace('#', '') + "']")
+                                var newItem = document.createElement("SPAN");
+                                newItem.setAttribute('class', 'annotation-span');
+                                var wrapper = document.createElement('div');
+                                wrapper.style.cssText = "position: relative";
 
-
-                            if (actualText) {
-                                let newHtml = actualTextInner.replace(
-                                    annotatedText,
-                                    "<mark class='mark-annotation' data-comment='" +
+                                newItem.innerHTML = "<mark class='mark-annotation' data-comment='" +
                                     dummyAnnotation[i].comment +
                                     "'>" +
                                     annotatedText +
@@ -530,20 +488,64 @@ export function changePage(key = false, group = "pages", user = false) {
                                     dummyAnnotation[i].author +
                                     " wrote:</em>" +
                                     dummyAnnotation[i].comment +
-                                    "</span></mark>"
+                                    "</span></mark>";  // Create a text node
+                                // Append the text to <li>
+
+
+
+                                if (image) { image.parentNode.insertBefore(wrapper, image); wrapper.appendChild(image); image.parentNode.insertBefore(newItem, image.nextSibling); }
+                            } else {
+
+
+                                let actualText = document.querySelector(
+                                    selector
                                 );
+                                let actualTextInner;
+
+                                if (results.length > 0) {
+                                    actualTextInner = results[0].html
+                                } else {
+                                    if (actualText) {
+                                        actualTextInner = actualText.innerText
+                                    }
+                                }
 
 
-                                actualText.innerHTML = newHtml;
+                                /* let annotatedText = actualText.innerText.substring(
+                                    dummyAnnotation[i].start,
+                                    dummyAnnotation[i].end
+                                ); */
 
-                                sameElements.push({ selector: selector, html: actualText.innerHTML })
+
+                                if (actualText) {
+                                    let newHtml = actualTextInner.replace(
+                                        annotatedText,
+                                        "<mark class='mark-annotation' data-comment='" +
+                                        dummyAnnotation[i].comment +
+                                        "'>" +
+                                        annotatedText +
+                                        "<span><em>At " +
+                                        dummyAnnotation[i].date +
+                                        " " +
+                                        dummyAnnotation[i].author +
+                                        " wrote:</em>" +
+                                        dummyAnnotation[i].comment +
+                                        "</span></mark>"
+                                    );
+
+
+                                    actualText.innerHTML = newHtml;
+
+                                    sameElements.push({ selector: selector, html: actualText.innerHTML })
+                                }
                             }
+
+
                         }
-
-
-                    }
-                }, 1000 + i * 100);
+                    }, 1000 + i * 100);
+                }
             }
+
 
 
         });
