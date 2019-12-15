@@ -1,6 +1,7 @@
 package com.fellas.bespoke.converter;
 
 import com.fellas.bespoke.client.response.AnnotationCollection;
+import com.fellas.bespoke.client.response.AnnotationServerCreateResponse;
 import com.fellas.bespoke.client.response.AnnotationServerSearchResponse;
 import com.fellas.bespoke.controller.dto.request.Annotation;
 import org.springframework.core.convert.converter.Converter;
@@ -13,22 +14,22 @@ public class ASSearchResponseToAnnotationResponse implements Converter<Annotatio
 
     @Override
     public List<Annotation> convert(AnnotationServerSearchResponse searchResponse) {
-        List<Annotation> annotations = new ArrayList<>();
-        AnnotationCollection annotationCollection = Optional.ofNullable(searchResponse.getFirst()).orElse(new AnnotationCollection());
+        final List<Annotation> annotations = new ArrayList<>();
+        final AnnotationCollection annotationCollection = Optional.ofNullable(searchResponse.getFirst()).orElse(new AnnotationCollection());
+        final List<AnnotationServerCreateResponse> items = annotationCollection.getItems();
 
-        annotationCollection.getItems().stream().forEach(annotation -> {
-            Annotation retrievedAnnotation = Annotation.builder()
+        if (items != null) {
+            items.stream().map(annotation -> Annotation.builder()
                     .author(annotation.getCreator())
                     .date(annotation.getCreated())
-                    .annotatedText(annotation.getTarget().getSelector().getRefinedBy() != null ? annotation.getTarget().getSelector().getRefinedBy().getExact() : "" )
+                    .annotatedText(annotation.getTarget().getSelector().getRefinedBy() != null ?
+                            annotation.getTarget().getSelector().getRefinedBy().getExact() : "")
                     .comment(annotation.getBody().getValue())
                     .motivation(annotation.getMotivation())
                     .page(annotation.getTarget().getSource())
                     .selector(annotation.getTarget().getSelector().getValue())
-                    .build();
-
-            annotations.add(retrievedAnnotation);
-        });
+                    .build()).forEach(annotations::add);
+        }
 
         return annotations;
     }
