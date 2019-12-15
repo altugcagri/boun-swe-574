@@ -80,9 +80,16 @@ class ViewContent extends Component {
     componentDidMount() {
         let vm = this;
         vm.loadContentById();
+
         setTimeout(function () {
             changePage(false, "pages", vm.props.user);
         }, 300)
+        setTimeout(function () {
+            let freeText = document.getElementById('bespoke-content-actual-text').getElementsByTagName('p');
+            for (let i = 0; i < freeText.length; i++) {
+                freeText[i].setAttribute('class', 'paragraph-' + i);
+            }
+        }, 1000)
     }
 
     render() {
@@ -118,6 +125,7 @@ class ViewContent extends Component {
                                                 </h4>
                                                 <div
                                                     className="text-left"
+                                                    id="bespoke-content-actual-text"
                                                     dangerouslySetInnerHTML={{
                                                         __html: content.text
                                                     }}

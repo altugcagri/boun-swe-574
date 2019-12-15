@@ -20,6 +20,9 @@ img+span{
         padding: 0.2rem;
     }
 }
+.annotation-span{
+    z-index: 9999999;
+}
 .mark-annotation {
     position: relative;
     cursor: pointer;
@@ -42,10 +45,10 @@ img+span{
         font-weight: 400;
         transition: all 0.3s ease-in-out;
         opacity: 0;
-        position: absolute;
-        top: 100%;
-        right: auto;
-        left: 0;
+        position: fixed;
+        top: 15%;
+        right: 0;
+        left: auto;
         width: 200px;
         background: white;
         color: black;
