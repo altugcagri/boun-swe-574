@@ -183,7 +183,7 @@ class Navigator extends React.Component {
             var images = document.getElementsByTagName("IMG");
 
             for (let i = 0; i < images.length; i++) {
-                images[i].addEventListener("mouseover", () => { vm.imageHoverHandler(images[i].src, images[i].src, images[i].alt ? images[i].alt : 'Unknown image') });
+                images[i].addEventListener("mouseover", () => { vm.imageHoverHandler(images[i].src, images[i].src, images[i].alt ? images[i].alt : '') });
             }
         }, 1000)
 
