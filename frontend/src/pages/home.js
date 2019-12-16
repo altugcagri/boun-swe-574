@@ -336,7 +336,7 @@ class Home extends React.Component {
                                                                                             className={`bespoke-home-activity-link-${idx}`}
                                                                                         >
                                                                                             {
-                                                                                                activity.text
+                                                                                                activity.summary
                                                                                             }
                                                                                         </Link>
                                                                                     </li>
