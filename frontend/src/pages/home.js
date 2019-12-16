@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Row } from "react-bootstrap";
 import { WikiLabels } from "components/wiki";
 import page_banner from "assets/images/banner_1.jpg";
-import activityStream from "activitystrea.ms";
+import Loading from "../components/loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
@@ -62,9 +62,10 @@ class Home extends React.Component {
 
     componentDidMount() {
         let vm = this;
-        this.loadHomepage();
+
         setTimeout(function () {
             changePage(false, "pages", vm.props.user);
+            vm.loadHomepage();
         }, 300)
     }
     render() {
@@ -72,7 +73,8 @@ class Home extends React.Component {
             activities,
             latestTopics,
             interestTopics,
-            continueTopic
+            continueTopic,
+            loading
         } = this.state;
         let user = this.props.user;
         return (
@@ -103,250 +105,255 @@ class Home extends React.Component {
                 {
                     user && (
                         <div className="container bespoke-home-container">
-                            <Row>
-                                <div className="col-md-8 mt-5 mb-5">
-                                    <h2 className="serif font-30 besoke-latest-header">Latest.</h2>
-                                    <hr />
-                                    {latestTopics &&
-                                        latestTopics.map((latestTopic, idx) => {
-                                            return (
-                                                <React.Fragment key={idx}>
-                                                    {" "}
-                                                    <Row>
-                                                        <div
-                                                            className={`mb-1 wow fadeIn bespoke-latest-${latestTopic.id}`}
-                                                            data-wow-delay={`0.1s`}
-                                                            style={{ minWidth: "100%" }}
-                                                        >
-                                                            <div className="row no-gutters ">
-                                                                <div className="col-md-4">
-                                                                    <div className="clear pt-4 pr-4 pl-3">
-                                                                        <img
-                                                                            src={
-                                                                                latestTopic.imageUrl
-                                                                            }
-                                                                            className="img-fluid fullWidth mb-4"
-                                                                            alt={
-                                                                                latestTopic.title
-                                                                            }
-                                                                            id={`${latestTopic.id}-${latestTopic.imageUrl}`}
-                                                                        />
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-md-8">
-                                                                    <div className="card-body text-left">
-                                                                        <h5 className="card-title text-info serif font-24 text-justify mb-1">
-                                                                            <Link
-                                                                                to={`/topic/preview/${latestTopic.id}`}
-                                                                                className={`bespoke-latest-title-${latestTopic.id}`}
-                                                                            >
-                                                                                {
-                                                                                    latestTopic.title
-                                                                                }
-                                                                            </Link>
-                                                                        </h5>
-                                                                        <small className="text-right">
-                                                                            {
-                                                                                latestTopic.creationDateTime
-                                                                            }
-                                                                            <strong>
-                                                                                {" "}
-                                                                                - by -{" "}
-                                                                            </strong>{" "}
-                                                                            {
-                                                                                this.props.user ? (
-                                                                                    <Link
-                                                                                        to={`/profile/${latestTopic.createdBy}`}
-
-                                                                                    >
-                                                                                        {
-                                                                                            latestTopic.createdByName
-                                                                                        }
-                                                                                    </Link>
-                                                                                ) : (<React.Fragment>{latestTopic.createdByName}</React.Fragment>)
-
-                                                                            }
-                                                                        </small>
-                                                                        <p className={`bespoke-latest-caption${latestTopic.id}`}>
-                                                                            {
-                                                                                latestTopic.description
-                                                                            }
-                                                                        </p>
-                                                                        <WikiLabels
-                                                                            wikis={
-                                                                                latestTopic.wikiData
-                                                                            }
-                                                                        />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </Row>
-                                                </React.Fragment>
-                                            );
-                                        })}
-                                    <Link
-                                        className="btn btn-orange fullWidth besoke-home-explore-button"
-                                        to={`/explore`}
-                                    >
-                                        Explore all topics
-                            </Link>
-                                    <div style={{ height: "100px" }}></div>
-                                    <h2 className="serif font-30 besoke-interested-header">
-                                        You might be interested.
-                            </h2>
-                                    <hr />
-                                    {interestTopics &&
-                                        interestTopics.map((interestTopic, idx) => {
-                                            return (
-                                                <React.Fragment key={idx}>
-                                                    {" "}
-                                                    <Row>
-                                                        <div
-                                                            className={`mb-1 wow fadeIn bespoke-interested-${interestTopic.id}`}
-                                                            data-wow-delay={`0.1s`}
-                                                            style={{ minWidth: "100%" }}
-                                                        >
-                                                            <div className="row no-gutters ">
-                                                                <div className="col-md-4">
-                                                                    <div className="clear pt-4 pr-4 pl-3">
-                                                                        <img
-                                                                            src={
-                                                                                interestTopic.imageUrl
-                                                                            }
-                                                                            className="img-fluid fullWidth mb-4"
-                                                                            alt={
-                                                                                interestTopic.title
-                                                                            }
-                                                                            id={`${interestTopic.id}-${interestTopic.imageUrl}`}
-                                                                        />
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-md-8">
-                                                                    <div className="card-body text-left">
-                                                                        <h5 className="card-title text-info serif font-24 text-justify mb-1">
-                                                                            <Link
-                                                                                to={`/topic/preview/${interestTopic.id}`}
-                                                                                className={`bespoke-interest-title-${interestTopic.id}`}
-                                                                            >
-                                                                                {
-                                                                                    interestTopic.title
-                                                                                }
-                                                                            </Link>
-                                                                        </h5>
-                                                                        <small className="text-right">
-                                                                            {
-                                                                                interestTopic.creationDateTime
-                                                                            }
-                                                                            <strong>
-                                                                                - by -
-                                                                    </strong>
-                                                                            {
-                                                                                this.props.user ? (
-                                                                                    <Link
-                                                                                        to={`/profile/${interestTopic.createdBy}`}
-                                                                                    >
-                                                                                        {
-                                                                                            interestTopic.createdByName
-                                                                                        }
-                                                                                    </Link>
-                                                                                ) : (<React.Fragment>{interestTopic.createdByName}</React.Fragment>)
-
-                                                                            }
-                                                                        </small>
-                                                                        <p className={`bespoke-interest-caption-${interestTopic.id}`}>
-                                                                            {
-                                                                                interestTopic.description
-                                                                            }
-                                                                        </p>
-                                                                        <WikiLabels
-                                                                            wikis={
-                                                                                interestTopic.wikiData
-                                                                            }
-                                                                        />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </Row>
-                                                </React.Fragment>
-                                            );
-                                        })}
-                                </div>
-                                <div className="col-md-4 mt-5 mb-5 bespoke-home-continue">
-                                    {user && continueTopic && (
-                                        <React.Fragment>
-                                            <h2 className="serif font-30 bespoke-home-continue-h2">
-                                                Continue learning.
-                                    </h2>
+                            {
+                                loading ? (<Loading />) : (
+                                    <Row>
+                                        <div className="col-md-8 mt-5 mb-5">
+                                            <h2 className="serif font-30 besoke-latest-header">Latest.</h2>
                                             <hr />
-                                            <div className="sidebar clear">
-                                                <img
-                                                    src={continueTopic.imageUrl}
-                                                    className="img-fluid fullWidth mb-4"
-                                                    alt={continueTopic.title}
-                                                    id={`${continueTopic.id}-${continueTopic.imageUrl}`}
-                                                />
-                                                <h5 className="card-title text-info serif font-24 text-justify mb-1">
-                                                    <Link
-                                                        to={`/topic/preview/${continueTopic.id}`}
-                                                        className={`bespoke-home-continue-title${continueTopic.id}`}
-                                                    >
-                                                        {continueTopic.title}{" "}
-                                                    </Link>
-                                                </h5>
-                                                <small className="text-right">
-                                                    {continueTopic.creationDateTime}{" "}
-                                                    <strong>by </strong>{" "}
-                                                    {continueTopic.createdByName}{" "}
-                                                </small>
-                                                <p className={`bespoke-home-continue-caption${continueTopic.id}`}>{continueTopic.description}</p>
-                                                <WikiLabels
-                                                    wikis={continueTopic.wikiData}
-                                                />
-                                            </div>
-                                            <div className="mt-5 bespoke-home-activities">
-                                                <h2 className="serif font-30 bespoke-home-activities-title">
-                                                    From your circle.
-                                        </h2>
-                                                <hr />
-                                                <div className="sidebar clear">
-                                                    <ul>
-                                                        {activities &&
-                                                            activities.map(
-                                                                (activity, idx) => {
-                                                                    return (
-                                                                        <React.Fragment
-                                                                            key={idx}
-                                                                        >
-                                                                            <li className={`bespoke-home-activity-${idx}`}>
-                                                                                <FontAwesomeIcon
-                                                                                    icon={
-                                                                                        faInfoCircle
+                                            {latestTopics &&
+                                                latestTopics.map((latestTopic, idx) => {
+                                                    return (
+                                                        <React.Fragment key={idx}>
+                                                            {" "}
+                                                            <Row>
+                                                                <div
+                                                                    className={`mb-1 wow fadeIn bespoke-latest-${latestTopic.id}`}
+                                                                    data-wow-delay={`0.1s`}
+                                                                    style={{ minWidth: "100%" }}
+                                                                >
+                                                                    <div className="row no-gutters ">
+                                                                        <div className="col-md-4">
+                                                                            <div className="clear pt-4 pr-4 pl-3">
+                                                                                <img
+                                                                                    src={
+                                                                                        latestTopic.imageUrl
                                                                                     }
-                                                                                />{" "}
-                                                                                <Link
-                                                                                    to={
-                                                                                        activity.link
+                                                                                    className="img-fluid fullWidth mb-4"
+                                                                                    alt={
+                                                                                        latestTopic.title
                                                                                     }
-                                                                                    className={`bespoke-home-activity-link-${idx}`}
-                                                                                >
+                                                                                    id={`${latestTopic.id}-${latestTopic.imageUrl}`}
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="col-md-8">
+                                                                            <div className="card-body text-left">
+                                                                                <h5 className="card-title text-info serif font-24 text-justify mb-1">
+                                                                                    <Link
+                                                                                        to={`/topic/preview/${latestTopic.id}`}
+                                                                                        className={`bespoke-latest-title-${latestTopic.id}`}
+                                                                                    >
+                                                                                        {
+                                                                                            latestTopic.title
+                                                                                        }
+                                                                                    </Link>
+                                                                                </h5>
+                                                                                <small className="text-right">
                                                                                     {
-                                                                                        activity.text
+                                                                                        latestTopic.creationDateTime
                                                                                     }
-                                                                                </Link>
-                                                                            </li>
-                                                                        </React.Fragment>
-                                                                    );
-                                                                }
-                                                            )}
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </React.Fragment>
-                                    )}
-                                </div>
-                            </Row>
+                                                                                    <strong>
+                                                                                        {" "}
+                                                                                        - by -{" "}
+                                                                                    </strong>{" "}
+                                                                                    {
+                                                                                        this.props.user ? (
+                                                                                            <Link
+                                                                                                to={`/profile/${latestTopic.createdBy}`}
+
+                                                                                            >
+                                                                                                {
+                                                                                                    latestTopic.createdByName
+                                                                                                }
+                                                                                            </Link>
+                                                                                        ) : (<React.Fragment>{latestTopic.createdByName}</React.Fragment>)
+
+                                                                                    }
+                                                                                </small>
+                                                                                <p className={`bespoke-latest-caption${latestTopic.id}`}>
+                                                                                    {
+                                                                                        latestTopic.description
+                                                                                    }
+                                                                                </p>
+                                                                                <WikiLabels
+                                                                                    wikis={
+                                                                                        latestTopic.wikiData
+                                                                                    }
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </Row>
+                                                        </React.Fragment>
+                                                    );
+                                                })}
+                                            <Link
+                                                className="btn btn-orange fullWidth besoke-home-explore-button"
+                                                to={`/explore`}
+                                            >
+                                                Explore all topics
+                            </Link>
+                                            <div style={{ height: "100px" }}></div>
+                                            <h2 className="serif font-30 besoke-interested-header">
+                                                You might be interested.
+                            </h2>
+                                            <hr />
+                                            {interestTopics &&
+                                                interestTopics.map((interestTopic, idx) => {
+                                                    return (
+                                                        <React.Fragment key={idx}>
+                                                            {" "}
+                                                            <Row>
+                                                                <div
+                                                                    className={`mb-1 wow fadeIn bespoke-interested-${interestTopic.id}`}
+                                                                    data-wow-delay={`0.1s`}
+                                                                    style={{ minWidth: "100%" }}
+                                                                >
+                                                                    <div className="row no-gutters ">
+                                                                        <div className="col-md-4">
+                                                                            <div className="clear pt-4 pr-4 pl-3">
+                                                                                <img
+                                                                                    src={
+                                                                                        interestTopic.imageUrl
+                                                                                    }
+                                                                                    className="img-fluid fullWidth mb-4"
+                                                                                    alt={
+                                                                                        interestTopic.title
+                                                                                    }
+                                                                                    id={`${interestTopic.id}-${interestTopic.imageUrl}`}
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="col-md-8">
+                                                                            <div className="card-body text-left">
+                                                                                <h5 className="card-title text-info serif font-24 text-justify mb-1">
+                                                                                    <Link
+                                                                                        to={`/topic/preview/${interestTopic.id}`}
+                                                                                        className={`bespoke-interest-title-${interestTopic.id}`}
+                                                                                    >
+                                                                                        {
+                                                                                            interestTopic.title
+                                                                                        }
+                                                                                    </Link>
+                                                                                </h5>
+                                                                                <small className="text-right">
+                                                                                    {
+                                                                                        interestTopic.creationDateTime
+                                                                                    }
+                                                                                    <strong>
+                                                                                        - by -
+                                                                    </strong>
+                                                                                    {
+                                                                                        this.props.user ? (
+                                                                                            <Link
+                                                                                                to={`/profile/${interestTopic.createdBy}`}
+                                                                                            >
+                                                                                                {
+                                                                                                    interestTopic.createdByName
+                                                                                                }
+                                                                                            </Link>
+                                                                                        ) : (<React.Fragment>{interestTopic.createdByName}</React.Fragment>)
+
+                                                                                    }
+                                                                                </small>
+                                                                                <p className={`bespoke-interest-caption-${interestTopic.id}`}>
+                                                                                    {
+                                                                                        interestTopic.description
+                                                                                    }
+                                                                                </p>
+                                                                                <WikiLabels
+                                                                                    wikis={
+                                                                                        interestTopic.wikiData
+                                                                                    }
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </Row>
+                                                        </React.Fragment>
+                                                    );
+                                                })}
+                                        </div>
+                                        <div className="col-md-4 mt-5 mb-5 bespoke-home-continue">
+                                            {user && continueTopic && (
+                                                <React.Fragment>
+                                                    <h2 className="serif font-30 bespoke-home-continue-h2">
+                                                        Continue learning.
+                                    </h2>
+                                                    <hr />
+                                                    <div className="sidebar clear">
+                                                        <img
+                                                            src={continueTopic.imageUrl}
+                                                            className="img-fluid fullWidth mb-4"
+                                                            alt={continueTopic.title}
+                                                            id={`${continueTopic.id}-${continueTopic.imageUrl}`}
+                                                        />
+                                                        <h5 className="card-title text-info serif font-24 text-justify mb-1">
+                                                            <Link
+                                                                to={`/topic/preview/${continueTopic.id}`}
+                                                                className={`bespoke-home-continue-title${continueTopic.id}`}
+                                                            >
+                                                                {continueTopic.title}{" "}
+                                                            </Link>
+                                                        </h5>
+                                                        <small className="text-right">
+                                                            {continueTopic.creationDateTime}{" "}
+                                                            <strong>by </strong>{" "}
+                                                            {continueTopic.createdByName}{" "}
+                                                        </small>
+                                                        <p className={`bespoke-home-continue-caption${continueTopic.id}`}>{continueTopic.description}</p>
+                                                        <WikiLabels
+                                                            wikis={continueTopic.wikiData}
+                                                        />
+                                                    </div>
+                                                    <div className="mt-5 bespoke-home-activities">
+                                                        <h2 className="serif font-30 bespoke-home-activities-title">
+                                                            From your circle.
+                                        </h2>
+                                                        <hr />
+                                                        <div className="sidebar clear">
+                                                            <ul>
+                                                                {activities &&
+                                                                    activities.map(
+                                                                        (activity, idx) => {
+                                                                            return (
+                                                                                <React.Fragment
+                                                                                    key={idx}
+                                                                                >
+                                                                                    <li className={`bespoke-home-activity-${idx}`}>
+                                                                                        <FontAwesomeIcon
+                                                                                            icon={
+                                                                                                faInfoCircle
+                                                                                            }
+                                                                                        />{" "}
+                                                                                        <Link
+                                                                                            to={
+                                                                                                activity.link
+                                                                                            }
+                                                                                            className={`bespoke-home-activity-link-${idx}`}
+                                                                                        >
+                                                                                            {
+                                                                                                activity.text
+                                                                                            }
+                                                                                        </Link>
+                                                                                    </li>
+                                                                                </React.Fragment>
+                                                                            );
+                                                                        }
+                                                                    )}
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </React.Fragment>
+                                            )}
+                                        </div>
+                                    </Row>
+                                )
+                            }
+
                         </div>
                     )
                 }
