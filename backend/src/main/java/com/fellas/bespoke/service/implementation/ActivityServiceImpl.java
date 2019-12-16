@@ -44,11 +44,9 @@ public class ActivityServiceImpl implements ActivityService {
 
         final List<Activity> activityStream = new ArrayList<>();
 
-        userActivities.forEach(userActivityWrapper -> currentUserProfile.getFollowedUsers()
-                .forEach(followedUser -> activityStream.add(userActivityWrapper.getActivity())));
+        userActivities.forEach(userActivityWrapper -> activityStream.add(userActivityWrapper.getActivity()));
 
-        topicActivities.forEach(topicActivityWrapper -> currentUserProfile.getEnrolledTopics()
-                .forEach(enrolledTopic -> activityStream.add(topicActivityWrapper.getActivity())));
+        topicActivities.forEach(topicActivityWrapper -> activityStream.add(topicActivityWrapper.getActivity()));
 
         return activityStream;
     }
