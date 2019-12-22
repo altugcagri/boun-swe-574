@@ -10,6 +10,8 @@ import LoginModal from "components/modals/login";
 import RegisterModal from "components/modals/register";
 import AnnotationModal from "components/modals/annotation";
 import AnnotationWidget from "components/annotation-widget";
+// Partials
+import AnnotationsSidebar from "components/partials/annotations-sidebar";
 
 // Controllers
 import ResponsiveWatcher from "controllers/responsive-watcher";
@@ -233,6 +235,7 @@ class Navigator extends React.Component {
             <div className="site-content bespoke-content">
                 <ResponsiveWatcher />
                 <Header />
+                <AnnotationsSidebar />
                 <div className="router-wrap bespoke-router-wrap">{routeData}</div>
                 <Footer />
                 <ModalsWrap>
@@ -497,7 +500,7 @@ export function changePage(key = false, group = "pages", user = false) {
                             if (image) { image.parentNode.insertBefore(wrapper, image); wrapper.appendChild(image); image.parentNode.insertBefore(newItem, image.nextSibling); }
                         } else {
 
-                            let actualText = document.querySelector(
+                            /* let actualText = document.querySelector(
                                 selector
                             );
                             let actualTextInner;
@@ -509,13 +512,6 @@ export function changePage(key = false, group = "pages", user = false) {
                                     actualTextInner = actualText.innerText
                                 }
                             }
-
-
-                            /* let annotatedText = actualText.innerText.substring(
-                                dummyAnnotation[i].start,
-                                dummyAnnotation[i].end
-                            ); */
-
 
                             if (actualText) {
                                 let newHtml = actualTextInner.replace(
@@ -537,17 +533,13 @@ export function changePage(key = false, group = "pages", user = false) {
                                 actualText.innerHTML = newHtml;
 
                                 sameElements.push({ selector: selector, html: actualText.innerHTML })
-                            }
+                            } */
                         }
 
 
                     }
                 }, 1000 + i * 100);
             }
-
-
-
-
         });
     }
 
