@@ -125,7 +125,13 @@ class AnnotationsSidebar extends React.Component {
                             </div>
                         </React.Fragment>
                     ) : (
-                            <button id="show-annotations-btn" onClick={() => { this.loadAnnotations() }}>Show Annotations</button>
+                            <React.Fragment>
+                                {
+                                    this.props.user && (
+                                        <button id="show-annotations-btn" onClick={() => { this.loadAnnotations() }}>Show Annotations</button>
+                                    )
+                                }
+                            </React.Fragment>
                         )
                 }
 
