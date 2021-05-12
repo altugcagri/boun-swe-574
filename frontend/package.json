@@ -37,7 +37,7 @@
     "react-spring": "^8.0.27",
     "redux": "^4.0.1",
     "sitemap": "^3.2.2",
-    "swiper": "^4.5.0",
+    "swiper": "^6.5.1",
     "toasted-notes": "^3.0.0",
     "urijs": "^1.19.1",
     "wikidata-sdk": "^6.4.0",
