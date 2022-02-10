@@ -15,7 +15,7 @@
     "html-react-parser": "^0.7.0",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.15",
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.0",
     "query-string": "^6.5.0",
     "react": "^16.8.6",
     "react-avatar-editor": "^11.0.7",
